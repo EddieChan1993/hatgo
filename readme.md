@@ -7,7 +7,7 @@
 ```
 go get -u github.com/golang/dep/cmd/dep
 ```
-### git项目到本地**$GOPATH/src**
+### git项目到本地 **$GOPATH/src**
 ```
 git clone https://github.com/EddieChan1993/hatGo
 ```
