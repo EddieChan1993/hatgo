@@ -10,6 +10,14 @@
   version = "v1.10.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:0ae01c9e122d522c729f55986d052983d7e813f3e82a32b887374906a286e7de"
+  name = "github.com/fvbock/endless"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "447134032cb6a86814f570257390a379982dfc61"
+
+[[projects]]
   digest = "1:7a6a3023f0d533466ee3c0da5d4dfc2476b44850f64673f90773c848847c3ee2"
   name = "github.com/gin-gonic/gin"
   packages = [
@@ -74,6 +82,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/astaxie/beego/logs",
+    "github.com/fvbock/endless",
     "github.com/gin-gonic/gin",
     "github.com/go-ini/ini",
     "github.com/go-sql-driver/mysql",
