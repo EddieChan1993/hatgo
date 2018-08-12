@@ -33,5 +33,5 @@ func VersionShow(v string)  {
 
 	versionStr:=fmt.Sprintf("[version] %s", v)
 	versionLog.BeeLog.Info(versionStr)
-	log.Println(versionStr)
+	fmt.Println(versionStr)
 }
