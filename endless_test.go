@@ -4,17 +4,18 @@ import (
 	"testing"
 	"log"
 	"syscall"
-	"sdog/models"
-	"sdog/logging"
-	"sdog/pkg/setting"
-	"sdog/routers"
+	"github.com/fvbock/endless"
+	"hatgo/logging"
+	"hatgo/pkg/setting"
+	"hatgo/routers"
+	"hatgo/pkg/link"
 )
 
 var _version_ ="none setting"
 
 func testEndLess(T *testing.T) {
 	defer func() {
-		models.Engine.Close()
+		link.Db.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()
@@ -39,7 +40,7 @@ func testEndLess(T *testing.T) {
 
 func testNoEndless(T testing.T)  {
 	defer func() {
-		models.Engine.Close()
+		link.Db.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()

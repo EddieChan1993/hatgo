@@ -2,16 +2,16 @@ package main
 
 import (
 	"log"
-	"hatgo/models"
 	"hatgo/logging"
 	"hatgo/routers"
 	"hatgo/pkg/setting"
+	"hatgo/pkg/link"
 )
 var _version_ ="none setting"
 
 func main() {
 	defer func() {
-		models.Engine.Close()
+		link.Db.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()

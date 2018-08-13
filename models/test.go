@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"hatgo/pkg/link"
 )
 
 type Test struct {
@@ -15,7 +16,7 @@ type Test struct {
 
 func AllTest() []Test {
 	var test []Test
-	err := Engine.Find(&test)
+	err := link.Db.Find(&test)
 	if err != nil {
 		log.Println(err)
 		return nil
