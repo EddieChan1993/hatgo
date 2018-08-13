@@ -6,6 +6,7 @@ import (
 	"time"
 	"log"
 	"github.com/gin-gonic/gin"
+	"github.com/go-ini/ini"
 )
 
 const DEBUG = gin.DebugMode //调试模式
@@ -13,7 +14,10 @@ const DEBUG = gin.DebugMode //调试模式
 var RunMode    = DEBUG //运行模式
 
 func LoadServer() {
-
+	Cfg, err = ini.Load("conf/app.ini", "conf/app.dev.ini")
+	if err != nil {
+		log.Fatalf("Fail to parse 'conf/app.ini':%v", err)
+	}
 	sec, err := Cfg.GetSection("server")
 	if err != nil {
 		log.Fatalf("Fail to get section 'server':%v", err)

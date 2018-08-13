@@ -13,6 +13,10 @@ const RELEASE = gin.ReleaseMode //生产模式
 var RunMode    = RELEASE //运行模式
 
 func LoadServer() {
+	Cfg, err = ini.Load("conf/app.ini", "conf/app.prod.ini")
+	if err != nil {
+		log.Fatalf("Fail to parse 'conf/app.ini':%v", err)
+	}
 	sec, err := Cfg.GetSection("server")
 	if err != nil {
 		log.Fatalf("Fail to get section 'server':%v", err)
