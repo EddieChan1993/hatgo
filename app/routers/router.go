@@ -3,8 +3,8 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"hatgo/pkg/setting"
-	"hatgo/middleware"
-	"hatgo/routers/api/v1"
+	"hatgo/app/middleware"
+	"hatgo/app/routers/api/v1"
 )
 
 func InitRouter() *gin.Engine {

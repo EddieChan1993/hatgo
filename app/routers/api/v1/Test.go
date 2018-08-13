@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"hatgo/pkg/e"
-	"hatgo/service"
+	"hatgo/app/service"
 )
 
 func GetTest(c *gin.Context) {

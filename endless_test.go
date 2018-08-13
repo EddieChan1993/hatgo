@@ -7,7 +7,7 @@ import (
 	"github.com/fvbock/endless"
 	"hatgo/logging"
 	"hatgo/pkg/setting"
-	"hatgo/routers"
+	"hatgo/app/routers"
 	"hatgo/pkg/link"
 )
 

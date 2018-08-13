@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/gin-gonic/gin"
 	"errors"
-	"hatgo/models"
+	"hatgo/app/models"
 	"hatgo/logging"
 )
 
