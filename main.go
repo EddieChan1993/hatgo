@@ -12,6 +12,7 @@ var _version_ ="none setting"
 func main() {
 	defer func() {
 		link.Db.Close()
+		link.Rd.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()

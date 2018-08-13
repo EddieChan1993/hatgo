@@ -32,3 +32,11 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "github.com/garyburd/redigo"
+  version = "1.6.0"
+
+[[constraint]]
+  name = "github.com/go-redis/redis"
+  version = "6.13.2"
