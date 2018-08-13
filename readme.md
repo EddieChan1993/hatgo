@@ -8,10 +8,7 @@
 go get -u github.com/golang/dep/cmd/dep
 ```
 ### 下载本地
-选择需要的版本,将其部署到**$GOPATH/src**
-```
-https://github.com/EddieChan1993/hatgo/releases
-```
+选择需要的[版本](https://github.com/EddieChan1993/hatgo/releases),将其部署到 **$GOPATH/src**
 ## 日志
 采用**beego日志模块**，具有文件大小及其个数配置，同时**sql日志**和**请求日志**分开存储，高并发下，
 不会乱序，其次具有自定义日志功能，可以独立的记录其他内容
