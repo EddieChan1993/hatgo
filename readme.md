@@ -7,9 +7,10 @@
 ```
 go get -u github.com/golang/dep/cmd/dep
 ```
-### git项目到本地 **$GOPATH/src**
+### 下载本地
+选择需要的版本,将其部署到**$GOPATH/src**
 ```
-git clone https://github.com/EddieChan1993/hatgo
+https://github.com/EddieChan1993/hatgo/releases
 ```
 ## 日志
 采用**beego日志模块**，具有文件大小及其个数配置，同时**sql日志**和**请求日志**分开存储，高并发下，
