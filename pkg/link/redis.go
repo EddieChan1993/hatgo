@@ -30,7 +30,11 @@ func rd() {
 	})
 
 	_, err = Rd.Ping().Result()
+	fmt.Println("[go-redis][info] ping redis")
 	if err != nil {
-		fmt.Println(fmt.Sprintf("[go-redis] %s",err))
+		fmt.Println(fmt.Sprintf("[go-redis][warning] %s",err))
+	}else{
+		fmt.Println("[go-redis][info] redis's connecting is ok")
 	}
+	fmt.Println("----------------------------------")
 }

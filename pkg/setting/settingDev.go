@@ -9,9 +9,7 @@ import (
 	"github.com/go-ini/ini"
 )
 
-const DEBUG = gin.DebugMode //调试模式
-
-var RunMode    = DEBUG //运行模式
+const RunMode = gin.DebugMode //调试模式
 
 func LoadServer() {
 	Cfg, err = ini.Load("conf/app.ini", "conf/app.dev.ini")

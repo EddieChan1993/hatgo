@@ -43,9 +43,12 @@ func db() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("----------------------------------")
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal(err)
+	}else{
+		fmt.Println("[xorm][info] mysql's connecting is ok")
 	}
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)

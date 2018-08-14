@@ -8,12 +8,12 @@ import (
 )
 
 func InitRouter() *gin.Engine {
-	//gin.DefaultWriter=io.MultiWriter(logging2.Logs,os.Stdout)
 	gin.SetMode(setting.RunMode)
-
-	r := gin.Default()
-	r.Use(middleware.Core)
-	r.Use(middleware.TouchBody)
+	r:=gin.New()
+	if setting.RunMode == gin.DebugMode {
+		r.Use(gin.Recovery())
+	}
+	r.Use(gin.Recovery(),middleware.Core,middleware.TouchBody)
 
 	r.POST("/login",v1.Login)
 

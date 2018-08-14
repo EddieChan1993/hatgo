@@ -6,11 +6,10 @@ import (
 	"time"
 	"log"
 	"github.com/gin-gonic/gin"
+	"github.com/go-ini/ini"
 )
 
-const RELEASE = gin.ReleaseMode //生产模式
-
-var RunMode    = RELEASE //运行模式
+const RunMode    = gin.ReleaseMode //生产模式
 
 func LoadServer() {
 	Cfg, err = ini.Load("conf/app.ini", "conf/app.prod.ini")

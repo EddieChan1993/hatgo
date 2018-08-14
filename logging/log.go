@@ -13,8 +13,9 @@ type logConfT struct {
 }
 
 var (
-	Logs    *logs.BeeLogger //请求日志
-	SqlLogs *logs.BeeLogger //sql日志
+	filePath, filePathSql string
+	Logs                  *logs.BeeLogger //请求日志
+	SqlLogs               *logs.BeeLogger //sql日志
 )
 
 type selfLog struct {
@@ -22,11 +23,10 @@ type selfLog struct {
 	File   *os.File
 }
 
-
 func init() {
 	//请求日志
 	Logs = logs.NewLogger()
-	filePath, _ := getLogFilePullPath("req", "app")
+	filePath, _ = getLogFilePullPath("req", "app")
 
 	logConf := logConfT{
 		Filename: filePath,
@@ -41,7 +41,7 @@ func init() {
 
 	//sql日志
 	SqlLogs = logs.NewLogger()
-	filePathSql, _ := getLogFilePullPath("sql", "app")
+	filePathSql, _ = getLogFilePullPath("sql", "app")
 
 	logConfSql := logConfT{
 		Filename: filePathSql,
@@ -54,6 +54,7 @@ func init() {
 	//SqlLogs.SetLogger(logs.AdapterConsole)
 	SqlLogs.Async()
 }
+
 //自定义日志文件
 func NewSelfLog(logPathName, logFileName string) *selfLog {
 	//sql日志
