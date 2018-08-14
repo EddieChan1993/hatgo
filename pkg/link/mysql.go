@@ -9,6 +9,8 @@ import (
 	"hatgo/pkg/setting"
 	"hatgo/logging"
 )
+const mysqlLogIH = "[xorm] [info]"
+
 
 var Db *xorm.Engine
 
@@ -43,12 +45,12 @@ func db() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("----------------------------------")
+	fmt.Println("--------------------------------------------------------------")
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}else{
-		fmt.Println("[xorm][info] mysql's connecting is ok")
+		fmt.Println(fmt.Sprintf("%s %s",mysqlLogIH,"mysql's connecting is ok"))
 	}
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)

@@ -7,6 +7,11 @@ import (
 	"fmt"
 )
 
+const (
+	redisLogIH = "[go-redis] [info]"
+	redisLogWH = "[go-redis] [warning]"
+)
+
 var Rd *redis.Client
 
 func init() {
@@ -22,19 +27,19 @@ func rd() {
 	if err != nil {
 		log.Fatal(2, "Fail to get section 'redis':%v", err)
 	}
-	host = sec.Key("HOST").String()
-	pass = sec.Key("PASSWORD").String()
+	host = sec.Key("HOST").MustString("127.0.0.1:6379")
+	pass = sec.Key("PASSWORD").MustString("")
 	Rd := redis.NewClient(&redis.Options{
 		Addr:     host,
 		Password: pass,
 	})
 
 	_, err = Rd.Ping().Result()
-	fmt.Println("[go-redis][info] ping redis")
+	fmt.Println(fmt.Sprintf("%s %s", redisLogIH, "ping redis"))
 	if err != nil {
-		fmt.Println(fmt.Sprintf("[go-redis][warning] %s",err))
-	}else{
-		fmt.Println("[go-redis][info] redis's connecting is ok")
+		fmt.Println(fmt.Sprintf("%s %s", redisLogWH, err))
+	} else {
+		fmt.Println(fmt.Sprintf("%s %s", redisLogIH, "redis's connecting is ok"))
 	}
-	fmt.Println("----------------------------------")
+	fmt.Println("--------------------------------------------------------------")
 }

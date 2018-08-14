@@ -10,10 +10,11 @@ import (
 func InitRouter() *gin.Engine {
 	gin.SetMode(setting.RunMode)
 	r:=gin.New()
+	r.Use(gin.Recovery())
 	if setting.RunMode == gin.DebugMode {
-		r.Use(gin.Recovery())
+		r.Use(gin.Logger())
 	}
-	r.Use(gin.Recovery(),middleware.Core,middleware.TouchBody)
+	r.Use(middleware.Core,middleware.TouchBody)
 
 	r.POST("/login",v1.Login)
 
