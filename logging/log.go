@@ -65,14 +65,14 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 	newLogs := logs.NewLogger()
 	filePathSql, file := getLogFilePullPath(logPathName, logFileName)
 
-	logConfSql := logConfT{
+	logConf := logConfT{
 		Filename: filePathSql,
 		Maxdays:  5,
 		Maxsize:  5 * mb,
 	}
-	bSql, _ := json.Marshal(logConfSql)
+	b, _ := json.Marshal(logConf)
 	newLogs.EnableFuncCallDepth(true) //每行的位置
-	newLogs.SetLogger(logs.AdapterFile, string(bSql))
+	newLogs.SetLogger(logs.AdapterFile, string(b))
 	newLogs.Async()
 
 	selfLog := &selfLog{
