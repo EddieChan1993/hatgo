@@ -7,6 +7,7 @@ import (
 	"log"
 	"github.com/gin-gonic/gin"
 	"github.com/go-ini/ini"
+	"fmt"
 )
 
 const RunMode = gin.DebugMode //调试模式
@@ -24,5 +25,5 @@ func LoadServer() {
 	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
 	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
 
-	log.Println("server is running in 【开发模式】")
+	fmt.Println("server is running in 【开发模式】")
 }

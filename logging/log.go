@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
 	"os"
+	"log"
 )
 
 type logConfT struct {
@@ -24,6 +25,9 @@ type selfLog struct {
 }
 
 func init() {
+	//所有log的打印操作均显示行号
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+
 	//请求日志
 	Logs = logs.NewLogger()
 	filePath, _ = getLogFilePullPath("req", "app")
