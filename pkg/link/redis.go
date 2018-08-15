@@ -35,11 +35,11 @@ func rd() {
 	})
 
 	_, err = Rd.Ping().Result()
-	fmt.Println(fmt.Sprintf("%s %s", redisLogIH, "ping redis"))
+	fmt.Printf("%s %s\n", redisLogIH, "ping redis")
 	if err != nil {
-		fmt.Println(fmt.Sprintf("%s %s", redisLogWH, err))
+		fmt.Printf("%s %s\n", redisLogWH, err)
 	} else {
-		fmt.Println(fmt.Sprintf("%s %s", redisLogIH, "redis's connecting is ok"))
+		fmt.Printf("%s %s\n", redisLogIH, "redis's connecting is ok")
 	}
 	fmt.Println("--------------------------------------------------------------")
 }

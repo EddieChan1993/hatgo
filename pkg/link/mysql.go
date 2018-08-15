@@ -50,7 +50,7 @@ func db() {
 	if err != nil {
 		log.Fatal(err)
 	}else{
-		fmt.Println(fmt.Sprintf("%s %s",mysqlLogIH,"mysql's connecting is ok"))
+		fmt.Printf("%s %s\n",mysqlLogIH,"mysql's connecting is ok")
 	}
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)

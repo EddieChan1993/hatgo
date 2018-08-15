@@ -32,3 +32,22 @@ go get -u github.com/golang/dep/cmd/dep
 ```
 ### 通过辅助工具hat部署
 [hat工具](https://github.com/EddieChan1993/hat)
+```
+$ hat
+Usage:
+
+        hat [arguments] command
+
+The commands are:
+
+        -v [version_code] -n [app_name|main] dev                create dev's program
+        -v [version_code] -n [app_name|main] prod               create prod's program
+        -n [app_name|main] start                                start program
+        -n [app_name|main] restart                              restart program
+        -n [app_name|main] stop                                 stop program
+        -n [app_name|main] status                               status program
+        help                                                    look up help
+        ver_dev                                                 look up dev's version log
+        ver_prod                                                look up prod's version log
+
+```
