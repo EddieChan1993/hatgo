@@ -30,6 +30,7 @@ go get -u github.com/golang/dep/cmd/dep
 #获取程序执行状态(仅linux)
 ./app.sh status
 ```
+
 ### 通过辅助工具hat部署
 [hat工具](https://github.com/EddieChan1993/hat)
 ```
