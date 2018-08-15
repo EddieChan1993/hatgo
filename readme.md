@@ -30,5 +30,25 @@ go get -u github.com/golang/dep/cmd/dep
 #获取程序执行状态(仅linux)
 ./app.sh status
 ```
+
 ### 通过辅助工具hat部署
 [hat工具](https://github.com/EddieChan1993/hat)
+```
+$ hat
+Usage:
+
+        hat [arguments] command
+
+The commands are:
+
+        -v [version_code] -n [app_name|main] dev                create dev's programe
+        -v [version_code] -n [app_name|main] prod               create prod's programe
+        -n [app_name|main] start                                start programe
+        -n [app_name|main] restart                              restart programe
+        -n [app_name|main] stop                                 stop programe
+        -n [app_name|main] status                               status programe
+        help                                                    look up help
+        ver_dev                                                 look up dev's version log
+        ver_prod                                                look up prod's version log
+
+```
