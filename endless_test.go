@@ -5,7 +5,7 @@ import (
 	"log"
 	"syscall"
 	"github.com/fvbock/endless"
-	"hatgo/logging"
+	"hatgo/pkg/logging"
 	"hatgo/pkg/setting"
 	"hatgo/app/routers"
 	"hatgo/pkg/link"

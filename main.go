@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"hatgo/logging"
+	"hatgo/pkg/logging"
 	"hatgo/app/routers"
 	"hatgo/pkg/setting"
 	"hatgo/pkg/link"

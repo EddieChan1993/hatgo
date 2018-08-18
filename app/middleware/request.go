@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"net/url"
 	"fmt"
-	"hatgo/logging"
+	"hatgo/pkg/logging"
 )
 
 func Core(c *gin.Context) {

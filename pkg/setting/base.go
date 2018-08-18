@@ -4,7 +4,7 @@ import (
 	"time"
 	"github.com/go-ini/ini"
 	"fmt"
-	"hatgo/logging"
+	"hatgo/pkg/logging"
 )
 
 var (

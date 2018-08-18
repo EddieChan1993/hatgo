@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"errors"
 	"hatgo/app/models"
-	"hatgo/logging"
+	"hatgo/pkg/logging"
 )
 
 func GetTestT(c *gin.Context) error {
