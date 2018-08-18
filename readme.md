@@ -43,7 +43,7 @@ The commands are:
 
         -v [version_code] -n [app_name] dev                create dev's program and eg version_code=1.0
         -v [version_code] -n [app_name] prod               create prod's program and eg version_code=1.0
-        -n [app_name] start                                start program and app_name=basename $PWD,next eq
+        -n [app_name] start                                start program and default app_name=basename $PWD,next eq
         -n [app_name] restart                              restart program
         -n [app_name] stop                                 stop program
         -n [app_name] status                               status program
