@@ -41,14 +41,14 @@ Usage:
 
 The commands are:
 
-        -v [version_code] -n [app_name|main] dev                create dev's program
-        -v [version_code] -n [app_name|main] prod               create prod's program
-        -n [app_name|main] start                                start program
-        -n [app_name|main] restart                              restart program
-        -n [app_name|main] stop                                 stop program
-        -n [app_name|main] status                               status program
-        help                                                    look up help
-        ver_dev                                                 look up dev's version log
-        ver_prod                                                look up prod's version log
+        -v [version_code] -n [app_name] dev                create dev's program and eg version_code=1.0
+        -v [version_code] -n [app_name] prod               create prod's program and eg version_code=1.0
+        -n [app_name] start                                start program and app_name=basename $PWD,next eq
+        -n [app_name] restart                              restart program
+        -n [app_name] stop                                 stop program
+        -n [app_name] status                               status program
+        help                                               look up help
+        ver_dev                                            look up dev's version log
+        ver_prod                                           look up prod's version log
 
 ```
