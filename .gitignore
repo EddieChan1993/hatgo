@@ -1,4 +1,4 @@
 .idea
-.exe
+*.exe
 /runtime
 main
