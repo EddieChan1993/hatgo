@@ -3,12 +3,11 @@ package service
 import (
 	"github.com/gin-gonic/gin"
 	"errors"
-	"hatgo/app/models"
 	"hatgo/pkg/logging"
 )
 
 func GetTestT(c *gin.Context) error {
-	models.AllTest()
+	//models.AllTest()
 	if 1 == 1 {
 		selfLog := logging.NewSelfLog("test", "cf")
 		defer func() {

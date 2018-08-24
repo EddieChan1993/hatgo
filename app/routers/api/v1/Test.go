@@ -8,7 +8,6 @@ import (
 )
 
 func GetTest(c *gin.Context) {
-	panic("asdf")
 	err := service.GetTestT(c)
 	c.JSON(http.StatusOK, e.ResWarning(err.Error()))
 }
