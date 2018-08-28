@@ -2,3 +2,5 @@
 *.exe
 /runtime
 main
+/vendor/*
+!/vendor/vendor.json

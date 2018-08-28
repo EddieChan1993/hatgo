@@ -3,10 +3,26 @@
 > **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**
 
 ## 使用
-### 安装Golang官方依赖管理工具：dep
+### 安装Golang官方依赖管理工具：
+**dep**,无奈速度太慢
 ```
 go get -u github.com/golang/dep/cmd/dep
 ```
+**govendor**
+```
+go get -u github.com/kardianos/govendor
+#初始化
+govendor init
+#从本地添加项目所需依赖到vendor
+govendor add +e
+#同步vendor.json
+govendor sync
+#删除依赖
+govendor remove xx
+#添加依赖
+governdor add xx
+```
+
 ### 下载本地
 选择需要的[版本](https://github.com/EddieChan1993/hatgo/releases),将其部署到 **$GOPATH/src**
 ## 日志
