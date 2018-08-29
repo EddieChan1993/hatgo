@@ -15,11 +15,11 @@ go get -u github.com/kardianos/govendor
 govendor init
 #从本地添加项目所需依赖到vendor
 govendor add +e
-#同步vendor.json
+#同步vendor.json，本地没有可以自动线上拉去
 govendor sync
 #删除依赖
 govendor remove xx
-#添加依赖
+#添加依赖，前提本地先存在
 governdor add xx
 ```
 

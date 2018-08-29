@@ -1,27 +1,53 @@
 package e
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
-func ResSuccess(data interface{}) map[string]interface{} {
+const (
+	NO_ERROR  = 0
+	HAS_ERROR = 1
+)
+
+func resSuccess(data interface{}) map[string]interface{} {
 	return gin.H{
-		"code": SUCCESS,
-		"msg":  GetMsg(SUCCESS),
-		"data": data,
+		"code":  http.StatusOK,
+		"error": NO_ERROR,
+		"msg":   http.StatusText(http.StatusOK),
+		"data":  data,
 	}
 }
 
-func ResWarning(data interface{}) map[string]interface{} {
+func resWarning(data interface{}) map[string]interface{} {
 	return gin.H{
-		"code": WARNING,
-		"msg":  GetMsg(WARNING),
-		"data": data,
+		"code":  http.StatusOK,
+		"error": HAS_ERROR,
+		"msg":   http.StatusText(http.StatusOK),
+		"data":  data,
 	}
 }
 
-func ResOutput(code int, data interface{}) map[string]interface{} {
+func resOutput(code int, data interface{}) map[string]interface{} {
 	return gin.H{
-		"code": code,
-		"msg":  GetMsg(code),
-		"data": data,
+		"code":  code,
+		"error": HAS_ERROR,
+		"msg":   GetMsg(code),
+		"data":  data,
 	}
+}
+
+//成功输出
+func Success(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, resSuccess(data))
+}
+
+//警告输出
+func Waring(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, resWarning(data))
+}
+
+//自定义输出
+func Output(c *gin.Context, code int, data interface{}) {
+	c.JSON(code, resOutput(code, data))
 }

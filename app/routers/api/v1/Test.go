@@ -2,14 +2,13 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"hatgo/pkg/e"
 	"hatgo/app/service"
 )
 
 func GetTest(c *gin.Context) {
 	err := service.GetTestT(c)
-	c.JSON(http.StatusOK, e.ResWarning(err.Error()))
+	e.Waring(c,err.Error())
 }
 
 func AddTest(c *gin.Context) {

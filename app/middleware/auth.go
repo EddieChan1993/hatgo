@@ -3,18 +3,26 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"hatgo/pkg/e"
+	"channel/pkg/e"
 )
 
+var Channels = make(map[string]int)
+
 func Auth(c *gin.Context) {
-	if cookie,err:=c.Request.Cookie("app-token");err== nil {
-		value:=cookie.Value
-		if value=="value-01" {
+	login := c.PostForm("login")
+	pass := c.PostForm("pass")
+
+	if login == "" && pass == "" {
+		authCode := http.StatusUnauthorized
+		e.Output(c, authCode, http.StatusText(authCode))
+		c.Abort()
+	}
+
+	if cookie, err := c.Request.Cookie("app-token"); err == nil {
+		value := cookie.Value
+		if value == "value-01" {
 			c.Next()
 			return
 		}
 	}
-	authCode:=http.StatusUnauthorized
-	c.JSON(authCode,e.ResOutput(authCode,http.StatusText(authCode)))
-	c.Abort()
 }
