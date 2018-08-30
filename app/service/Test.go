@@ -9,6 +9,7 @@ import (
 func GetTestT(c *gin.Context) error {
 	//models.AllTest()
 	if 1 == 1 {
+		c.Get("uid")
 		selfLog := logging.NewSelfLog("test", "cf")
 		defer func() {
 			 selfLog.File.Close()
