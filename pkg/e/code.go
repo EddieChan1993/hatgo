@@ -12,9 +12,5 @@ var msgFlags = map[int]string{
 }
 
 func GetMsg(code int) string {
-	msg, ok := msgFlags[code]
-	if ok {
-		return msg
-	}
 	return msgFlags[code]
 }

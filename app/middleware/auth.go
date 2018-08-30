@@ -3,7 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"channel/pkg/e"
+	"hatgo/pkg/e"
 )
 
 var Channels = make(map[string]int)

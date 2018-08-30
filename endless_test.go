@@ -16,6 +16,7 @@ var _version_ ="none setting"
 func testEndLess(T *testing.T) {
 	defer func() {
 		link.Db.Close()
+		link.Rd.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()
@@ -41,6 +42,7 @@ func testEndLess(T *testing.T) {
 func testNoEndless(T testing.T)  {
 	defer func() {
 		link.Db.Close()
+		link.Rd.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
 	}()
