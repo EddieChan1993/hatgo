@@ -41,5 +41,4 @@ func rd() {
 	} else {
 		fmt.Printf("%s %s\n", redisLogIH, "redis's connecting is ok")
 	}
-	fmt.Println("--------------------------------------------------------------")
 }

@@ -24,6 +24,5 @@ func LoadServer() {
 	HTTPPort = sec.Key("HTTP_PORT").MustString(":8000")
 	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
 	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
-
 	fmt.Println("server is running in 【开发模式】")
 }

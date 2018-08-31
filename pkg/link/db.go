@@ -45,7 +45,6 @@ func db() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("--------------------------------------------------------------")
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal(err)
