@@ -7,8 +7,10 @@ import (
 	"hatgo/pkg/logging"
 )
 
+const HOST = "127.0.0.1"
+
 var (
-	err error
+	err          error
 	Cfg          *ini.File
 	HTTPPort     string
 	ReadTimeout  time.Duration

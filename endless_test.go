@@ -9,9 +9,10 @@ import (
 	"hatgo/pkg/setting"
 	"hatgo/app/routers"
 	"hatgo/pkg/link"
+	"fmt"
 )
 
-var _version_ ="none setting"
+var _version_ = "none setting"
 
 func testEndLess(T *testing.T) {
 	defer func() {
@@ -25,7 +26,7 @@ func testEndLess(T *testing.T) {
 	endless.DefaultWriteTimeOut = setting.WriteTimeout
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
-	server := endless.NewServer(setting.HTTPPort, routers.InitRouter())
+	server := endless.NewServer(fmt.Sprintf("%s%s", setting.HOST, setting.HTTPPort), routers.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Println("server is running in", setting.RunMode)
 		log.Println("Listening port", setting.HTTPPort)
@@ -39,7 +40,7 @@ func testEndLess(T *testing.T) {
 	}
 }
 
-func testNoEndless(T testing.T)  {
+func testNoEndless(T testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
@@ -48,7 +49,7 @@ func testNoEndless(T testing.T)  {
 	}()
 	router := routers.InitRouter()
 	setting.VersionShow(_version_)
-	err := router.Run(setting.HTTPPort)
+	err := router.Run(fmt.Sprintf("%s%s", setting.HOST, setting.HTTPPort))
 	if err != nil {
 		log.Fatal(err)
 	}
