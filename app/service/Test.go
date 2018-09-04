@@ -4,10 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"errors"
 	"hatgo/pkg/logging"
+	"hatgo/app/models"
 )
 
 func GetTestT(c *gin.Context) error {
-	//models.AllTest()
+	models.AllTest()
 	if 1 == 1 {
 		c.Get("uid")
 		selfLog := logging.NewSelfLog("test", "cf")

@@ -3,6 +3,7 @@ package models
 import (
 	"log"
 	"hatgo/pkg/link"
+	"github.com/davecgh/go-spew/spew"
 )
 
 type Test struct {
@@ -21,6 +22,7 @@ func AllTest() []Test {
 		log.Println(err)
 		return nil
 	}
-
+	//更直观的打印切片和结构体
+	spew.Dump(test)
 	return test
 }

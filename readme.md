@@ -20,7 +20,7 @@ govendor sync
 #删除依赖
 govendor remove xx
 #添加依赖，前提本地先存在
-governdor add xx
+govendor add xx
 ```
 
 ### 下载本地
