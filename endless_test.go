@@ -20,6 +20,7 @@ func testEndLess(T *testing.T) {
 		link.Rd.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
+		logging.ErrLogs.Close()
 	}()
 
 	endless.DefaultReadTimeOut = setting.ReadTimeout
@@ -46,6 +47,7 @@ func testNoEndless(T testing.T) {
 		link.Rd.Close()
 		logging.Logs.Close()
 		logging.SqlLogs.Close()
+		logging.ErrLogs.Close()
 	}()
 	router := routers.InitRouter()
 	setting.VersionShow(_version_)

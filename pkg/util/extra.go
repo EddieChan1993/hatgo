@@ -1,4 +1,4 @@
-package edd_fun
+package util
 
 import (
 	"github.com/gin-gonic/gin"

@@ -7,7 +7,7 @@ import (
 	"hatgo/pkg/logging"
 )
 
-const HOST = "127.0.0.1"
+const HOST = "127.0.0.1" //为空则默认0.0.0.0
 
 var (
 	err          error

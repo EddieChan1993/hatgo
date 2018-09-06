@@ -1,7 +1,7 @@
 /**
 	常用函数
  */
-package edd_fun
+package util
 
 import (
 	"log"

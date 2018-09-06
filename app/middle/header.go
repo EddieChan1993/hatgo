@@ -1,4 +1,4 @@
-package middleware
+package middle
 
 import (
 	"github.com/gin-gonic/gin"
@@ -28,23 +28,13 @@ func TouchBody(c *gin.Context) {
 		path = path + "?" + raw
 	}
 	requestInfo += fmt.Sprintf("%3d | %13v |%-7s %s\n", statusCode, clientIP, method, path)
-
 	if c.Request.Method == "POST" {
 		var headerInfo string
-
-		//get header
-		h := c.Request.Header
 		//get body
 		b, _ := ioutil.ReadAll(c.Request.Body)
 		s, _ := url.PathUnescape(string(b))
-
-		if contentType, has := h["Content-Type"];has {
-			headerInfo += fmt.Sprintf("%s\n", contentType[0])
-		}
-
-		if cookie, has := h["Cookie"];has {
-			headerInfo += fmt.Sprintf("%s\n", cookie[0])
-		}
+		headerInfo += fmt.Sprintf("%s\n", c.GetHeader("Content-Type"))
+		headerInfo += fmt.Sprintf("%s\n", c.GetHeader("Cookie"))
 		c.Request.Body = ioutil.NopCloser(bytes.NewReader(b))
 		requestInfo += fmt.Sprintf("%s%s\n", headerInfo, s)
 	}
@@ -52,3 +42,4 @@ func TouchBody(c *gin.Context) {
 	logging.Logs.Info(requestInfo)
 	c.Next()
 }
+

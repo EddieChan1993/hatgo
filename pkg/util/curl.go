@@ -1,4 +1,4 @@
-package edd_curl
+package util
 import (
 	"net/url"
 	"net/http"

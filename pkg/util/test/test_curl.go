@@ -1,4 +1,4 @@
-package edd_curl
+package test
 
 import (
 	"testing"

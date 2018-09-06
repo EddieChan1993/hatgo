@@ -4,17 +4,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"errors"
 	"hatgo/pkg/logging"
-	"hatgo/app/models"
 )
 
+type TestR struct {
+	One string `json:"one"`
+}
+
 func GetTestT(c *gin.Context) error {
-	models.AllTest()
 	if 1 == 1 {
 		c.Get("uid")
 		selfLog := logging.NewSelfLog("test", "cf")
 		defer func() {
-			 selfLog.File.Close()
-			 selfLog.BeeLog.Close()
+			selfLog.File.Close()
+			selfLog.BeeLog.Close()
 		}()
 		selfLog.BeeLog.Info("what")
 		selfLog.BeeLog.Error("what")
@@ -22,4 +24,9 @@ func GetTestT(c *gin.Context) error {
 		return errors.New("hello")
 	}
 	return nil
+}
+
+func AddTest(c *gin.Context) {
+	t := new(TestR)
+	c.ShouldBind(t)
 }

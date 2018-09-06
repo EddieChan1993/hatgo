@@ -6,7 +6,7 @@ import (
 	"hatgo/app/service"
 )
 
-func GetTest(c *gin.Context) {
+func GetTestR(c *gin.Context) {
 	err := service.GetTestT(c)
 	e.Waring(c,err.Error())
 }
