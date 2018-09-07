@@ -43,8 +43,8 @@ func Success(c *gin.Context, data interface{}) {
 }
 
 //警告输出
-func Waring(c *gin.Context, data interface{}) {
-	c.JSON(http.StatusOK, resWarning(data))
+func Waring(c *gin.Context, err error) {
+	c.JSON(http.StatusOK, resWarning(err.Error()))
 }
 
 //自定义输出

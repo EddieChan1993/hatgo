@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/go-xorm/core"
-	"hatgo/pkg/setting"
-	"hatgo/pkg/logging"
+	"channel/pkg/setting"
+	"channel/pkg/logger"
 )
-const mysqlLogIH = "[xorm] [info]"
 
+const mysqlLogIH = "[xorm] [info]"
 
 var Db *xorm.Engine
 
@@ -35,7 +35,7 @@ func db() {
 	host = sec.Key("HOST").String()
 	tablePrefix = sec.Key("TABLE_PREFIX").MustString("")
 
-	connectStr := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8",
+	connectStr := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=true&loc=Local",
 		user,
 		pass,
 		host,
@@ -45,6 +45,7 @@ func db() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--------------------------------------------------------------")
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal(err)
@@ -54,7 +55,6 @@ func db() {
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)
 	Db.SetTableMapper(tbMapper)
-
 	logger :=xorm.NewSimpleLogger(logging.SqlLogs)
 	Db.ShowSQL(true)
 	Db.SetLogger(logger)

@@ -4,13 +4,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"errors"
 	"hatgo/pkg/logging"
+	"hatgo/app/models"
 )
 
-type TestR struct {
+type ReqTest struct {
 	One string `json:"one"`
 }
 
-func GetTestT(c *gin.Context) error {
+
+func SGetTestT(c *gin.Context) error {
 	if 1 == 1 {
 		c.Get("uid")
 		selfLog := logging.NewSelfLog("test", "cf")
@@ -26,7 +28,7 @@ func GetTestT(c *gin.Context) error {
 	return nil
 }
 
-func AddTest(c *gin.Context) {
-	t := new(TestR)
+func FAddTest(c *gin.Context) {
+	t := new(models.Test)
 	c.ShouldBind(t)
 }

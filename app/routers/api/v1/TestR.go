@@ -6,19 +6,19 @@ import (
 	"hatgo/app/service"
 )
 
-func GetTestR(c *gin.Context) {
-	err := service.GetTestT(c)
-	e.Waring(c,err.Error())
+func RGetTest(c *gin.Context) {
+	err := service.SGetTestT(c)
+	e.Waring(c, err)
 }
 
-func AddTest(c *gin.Context) {
-
-}
-
-func EditTest(c *gin.Context) {
+func RAddTest(c *gin.Context) {
 
 }
 
-func DelTest(c *gin.Context) {
+func REditTest(c *gin.Context) {
+
+}
+
+func RDelTest(c *gin.Context) {
 
 }

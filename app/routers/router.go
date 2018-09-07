@@ -16,14 +16,14 @@ func InitRouter() *gin.Engine {
 	}
 	r.Use(middle.Core, middle.TouchBody)
 
-	r.POST("/login",v1.LoginR)
+	r.POST("/login",v1.RLogin)
 
 	apiv1 := r.Group("api/v1")
 	{
-		apiv1.GET("/get-test", v1.GetTestR)
-		apiv1.POST("/add-test", v1.AddTest)
-		apiv1.PUT("/test/:id", v1.EditTest)
-		apiv1.DELETE("/test/:id", v1.DelTest)
+		apiv1.GET("/get-test", v1.RGetTest)
+		apiv1.POST("/add-test", v1.RAddTest)
+		apiv1.PUT("/test/:id", v1.REditTest)
+		apiv1.DELETE("/test/:id", v1.RDelTest)
 	}
 	return r
 }
