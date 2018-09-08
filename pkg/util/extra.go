@@ -10,7 +10,7 @@ import (
 )
 
 func GetIp(c *gin.Context) string {
-	//ip :=c.Request.RemoteAddr
+	//ip :=c.request.RemoteAddr
 	//return fmt.Sprintf(ip[0:strings.LastIndex(ip,":")])
 
 	//X-Real_IP是根据nginx的配置的header来的，用于获取客户端的真实信息

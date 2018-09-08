@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-type Request struct {
+type request struct {
 	url    string //url地址
 	req    *http.Request //请求实例
 	cli    *url.Values
@@ -19,27 +19,27 @@ type Request struct {
 }
 
 //构造request实例对象
-func NewRequst(url string)*Request  {
+func httpCurl(url string)*request {
 	if url=="" {
 		log.Fatalln("Lack of request url")
 	}
-	return &Request{
+	return &request{
 		url:url,
 	}
 }
 //传入header
-func (this *Request) SetHeader(headers map[string]string)*Request{
+func (this *request) SetHeader(headers map[string]string)*request {
 	this.header =headers
 	return this
 }
 //传入请求参数，POST/GET
-func (this *Request) SetParms(postData map[string]string)*Request{
+func (this *request) SetParms(postData map[string]string)*request {
 	this.param =postData
 	return this
 }
 
 //将参数加入请求中
-func (this *Request) initParams() *strings.Reader {
+func (this *request) initParams() *strings.Reader {
 	for k,v:=range this.param {
 		this.cli.Add(k,v)
 	}
@@ -48,24 +48,24 @@ func (this *Request) initParams() *strings.Reader {
 }
 
 //post请求
-func (this *Request)Post()([]byte,error)  {
+func (this *request)Post()([]byte,error)  {
 	return this.send(http.MethodPost)
 }
 
 //get请求
-func (this *Request)Get()([]byte,error)  {
+func (this *request)Get()([]byte,error)  {
 	return this.send(http.MethodGet)
 }
 
 //将用户自定义请求头添加到http.Request实例
-func (this *Request) initHeaders(){
+func (this *request) initHeaders(){
 	for k, v := range this.header {
 		this.req.Header.Set(k,v)
 	}
 }
 
 //发送请求
-func (this *Request)send(method string) ([]byte,error){
+func (this *request)send(method string) ([]byte,error){
 	this.Lock()
 	defer this.Unlock()
 
