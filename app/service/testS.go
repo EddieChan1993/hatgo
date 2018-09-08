@@ -36,16 +36,16 @@ func SGetTestT(c *gin.Context) error {
 }
 
 func FAddTest(c *gin.Context) error {
-	valid := validation.Validation{}
+	v:=new(validation.Validation)
 	req := new(ReqTest2)
 	c.ShouldBind(req)
-	valid.Required(req.Name, "名字").Message("不能为空")
-	valid.Range(req.Age, 18, 25, "年龄").Message("不在指定范围")
-	valid.Email(req.Email, "邮箱").Message("不合法")
-	valid.Mobile(req.Mobile,"电话").Message("不合法")
-	valid.IP(req.IP, "IP地址").Message("不合法")
-	if valid.HasErrors() {
-		for _, err := range valid.Errors {
+	v.Required(req.Name, "名字")
+	v.Range(req.Age, 18, 25, "年龄")
+	v.Email(req.Email, "")
+	v.Mobile(req.Mobile,"")
+	v.IP(req.IP, "")
+	if v.HasErrors() {
+		for _, err := range v.Errors {
 			return fmt.Errorf("%s%s", err.Key, err.Message)
 		}
 	}

@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
+	"hatgo/pkg/setting"
 	"hatgo/pkg/logging"
 	"hatgo/app/routers"
-	"hatgo/pkg/setting"
 	"hatgo/pkg/link"
 	"fmt"
 )
@@ -23,7 +23,7 @@ func main() {
 
 	router := routers.InitRouter()
 	setting.VersionShow(_version_)
-	err := router.Run(fmt.Sprintf("%s%s", setting.HOST, setting.HTTPPort))
+	err := router.Run(fmt.Sprintf("%s%s", setting.HTTPAdd, setting.HTTPPort))
 	if err != nil {
 		log.Fatal(err)
 	}

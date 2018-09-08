@@ -8,13 +8,13 @@ import (
 
 func RGetTest(c *gin.Context) {
 	err := service.SGetTestT(c)
-	e.Waring(c, err)
+	e.Warning(c, err)
 }
 
 func RAddTest(c *gin.Context) {
 	err:=service.FAddTest(c)
 	if err != nil {
-		e.Waring(c,err)
+		e.Warning(c,err)
 	}else {
 		e.Success(c,"ok")
 	}

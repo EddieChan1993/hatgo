@@ -12,7 +12,7 @@ import (
 
 const RunMode    = gin.ReleaseMode //生产模式
 
-func LoadServer() {
+func loadServer() {
 	Cfg, err = ini.Load("conf/app.ini", "conf/app.prod.ini")
 	if err != nil {
 		log.Fatalf("Fail to parse 'conf/app.ini':%v", err)
@@ -21,6 +21,7 @@ func LoadServer() {
 	if err != nil {
 		log.Fatalf("Fail to get section 'server':%v", err)
 	}
+	HTTPAdd = sec.Key("HTTP_ADDR").MustString("")
 	HTTPPort = sec.Key("HTTP_PORT").MustString(":8000")
 	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
 	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
