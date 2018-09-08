@@ -12,7 +12,12 @@ func RGetTest(c *gin.Context) {
 }
 
 func RAddTest(c *gin.Context) {
-
+	err:=service.FAddTest(c)
+	if err != nil {
+		e.Waring(c,err)
+	}else {
+		e.Success(c,"ok")
+	}
 }
 
 func REditTest(c *gin.Context) {

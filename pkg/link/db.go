@@ -7,7 +7,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/go-xorm/core"
 	"channel/pkg/setting"
-	"channel/pkg/logger"
+	"hatgo/pkg/logging"
 )
 
 const mysqlLogIH = "[xorm] [info]"

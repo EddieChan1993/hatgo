@@ -20,7 +20,7 @@ func InitRouter() *gin.Engine {
 
 	apiv1 := r.Group("api/v1")
 	{
-		apiv1.GET("/get-test", v1.RGetTest)
+		apiv1.POST("/get-test", v1.RGetTest)
 		apiv1.POST("/add-test", v1.RAddTest)
 		apiv1.PUT("/test/:id", v1.REditTest)
 		apiv1.DELETE("/test/:id", v1.RDelTest)

@@ -1,6 +1,6 @@
 # hatGo
 
-> **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**
+> **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**,[请求验证](beego/validate**https://beego.me/docs/mvc/controller/validation.md)
 
 ## 使用
 ### 安装Golang官方依赖管理工具：
