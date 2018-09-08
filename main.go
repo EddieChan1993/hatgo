@@ -1,12 +1,12 @@
 package main
 
 import (
-	"log"
-	"hatgo/pkg/setting"
-	"hatgo/pkg/logging"
-	"hatgo/app/routers"
 	"hatgo/pkg/link"
 	"fmt"
+	"hatgo/pkg/setting"
+	"log"
+	"hatgo/pkg/logging"
+	"hatgo/app/routers"
 )
 
 var _version_ = "none setting"

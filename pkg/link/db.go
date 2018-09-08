@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/go-xorm/core"
-	"channel/pkg/setting"
 	"hatgo/pkg/logging"
+	"hatgo/pkg/setting"
 )
 
 const mysqlLogIH = "[xorm] [info]"
@@ -45,7 +45,6 @@ func db() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("--------------------------------------------------------------")
 	err = Db.Ping()
 	if err != nil {
 		log.Fatal(err)
