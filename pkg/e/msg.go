@@ -14,7 +14,6 @@ func resSuccess(data interface{}) map[string]interface{} {
 	return gin.H{
 		"code":  http.StatusOK,
 		"error": NO_ERROR,
-		"msg":   http.StatusText(http.StatusOK),
 		"data":  data,
 	}
 }
@@ -23,7 +22,6 @@ func resWarning(data interface{}) map[string]interface{} {
 	return gin.H{
 		"code":  http.StatusOK,
 		"error": HAS_ERROR,
-		"msg":   http.StatusText(http.StatusOK),
 		"data":  data,
 	}
 }
@@ -32,7 +30,6 @@ func resOutput(code int, data interface{}) map[string]interface{} {
 	return gin.H{
 		"code":  code,
 		"error": HAS_ERROR,
-		"msg":   GetMsg(code),
 		"data":  data,
 	}
 }
