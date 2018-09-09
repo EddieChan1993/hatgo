@@ -59,14 +59,14 @@ func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 		return "", err
 	}
 	//存储后的新地址
-	key := fmt.Sprintf("/%s/%v%s", setting.Folder, time.Now().UnixNano(), filepath.Ext(file.Filename))
+	key := fmt.Sprintf("%s/%v%s", setting.Folder, time.Now().UnixNano(), filepath.Ext(file.Filename))
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
 		logging.ErrLogs.Error("%v", err)
 		return "", err
 	}
-	return fmt.Sprintf("http://%s%s", setting.Host, key), nil
+	return fmt.Sprintf("http://%s/%s", setting.Host, key), nil
 }
 
 func fileInfo(key string) {
