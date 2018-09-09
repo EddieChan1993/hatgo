@@ -31,11 +31,11 @@ func StampToFormat(format string, timeFormat string) int64 {
 }
 
 //获取当前时间
-func GetDateNow(timeFormat string) string {
+func DateNow(timeFormat string) string {
 	return time.Now().Format(timeFormat)
 }
 
 //获取当前时间戳
-func GetTimeStamp() int64 {
+func TimeStamp() int64 {
 	return time.Now().Unix()
 }

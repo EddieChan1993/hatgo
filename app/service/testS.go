@@ -5,6 +5,7 @@ import (
 	"hatgo/pkg/logging"
 	"fmt"
 	"github.com/astaxie/beego/validation"
+	"hatgo/ext"
 )
 
 type ReqTest struct {
@@ -35,14 +36,14 @@ func SGetTestT(c *gin.Context) error {
 	return nil
 }
 
-func FAddTest(c *gin.Context) error {
-	v:=new(validation.Validation)
+func SAddTest(c *gin.Context) error {
+	v := new(validation.Validation)
 	req := new(ReqTest2)
 	c.ShouldBind(req)
 	v.Required(req.Name, "名字")
 	v.Range(req.Age, 18, 25, "年龄")
 	v.Email(req.Email, "")
-	v.Mobile(req.Mobile,"")
+	v.Mobile(req.Mobile, "")
 	v.IP(req.IP, "")
 	if v.HasErrors() {
 		for _, err := range v.Errors {
@@ -50,4 +51,14 @@ func FAddTest(c *gin.Context) error {
 		}
 	}
 	return nil
+}
+
+//表单提交
+func SUpload(c *gin.Context) (path string, err error) {
+	file, _ := c.FormFile("file")
+	path, err = ext.QiniuUpload(file)
+	if err != nil {
+		return "", err
+	}
+	return path, nil
 }

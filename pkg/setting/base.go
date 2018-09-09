@@ -16,10 +16,21 @@ var (
 	WriteTimeout time.Duration
 )
 
+//七牛
+var (
+	Folder     string
+	Host       string
+	AccessKey  string
+	SecretKey  string
+	Bucket     string
+	IsUseHttps bool
+	ZoneKey string
+)
+
 func init() {
 	fmt.Println("--------------------------------------------------------------")
-	loadServer()
-	initValidate()
+	load()
+	validate()
 }
 
 func VersionShow(v string) {

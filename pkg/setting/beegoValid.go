@@ -26,6 +26,6 @@ var messageTmpls = map[string]string{
 	"ZipCode":      "Must be valid zipcode",
 }
 
-func initValidate() {
+func validate() {
 	validation.SetDefaultMessage(messageTmpls)
 }
