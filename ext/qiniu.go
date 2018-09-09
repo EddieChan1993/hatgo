@@ -47,6 +47,7 @@ func init() {
 //数据流上传
 func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 	f, err := file.Open()
+	defer f.Close()
 	if err != nil {
 		logging.ErrLogs.Error("%v", err)
 		return "", err
