@@ -1,6 +1,9 @@
 package setting
 
-import "github.com/astaxie/beego/validation"
+import (
+	"github.com/astaxie/beego/validation"
+	"fmt"
+)
 
 // messageTmpls store commond validate template
 var messageTmpls = map[string]string{
@@ -26,6 +29,16 @@ var messageTmpls = map[string]string{
 	"ZipCode":      "Must be valid zipcode",
 }
 
+//验证提示语重载
 func validate() {
 	validation.SetDefaultMessage(messageTmpls)
+}
+
+
+//验证失败提示输出
+func ValidError(errs []*validation.Error) error {
+	for _, err := range errs {
+		return fmt.Errorf("%s%s", err.Key, err.Message)
+	}
+	return nil
 }

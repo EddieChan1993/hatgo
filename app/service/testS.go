@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego/validation"
 	"hatgo/ext"
+	"hatgo/pkg/setting"
 )
 
 type ReqTest struct {
@@ -46,9 +47,7 @@ func SAddTest(c *gin.Context) error {
 	v.Mobile(req.Mobile, "")
 	v.IP(req.IP, "")
 	if v.HasErrors() {
-		for _, err := range v.Errors {
-			return fmt.Errorf("%s%s", err.Key, err.Message)
-		}
+		return setting.ValidError(v.Errors)
 	}
 	return nil
 }

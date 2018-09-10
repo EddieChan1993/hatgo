@@ -1,6 +1,6 @@
 # hatGo
 
-> **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**,[请求验证](beego/validate**https://beego.me/docs/mvc/controller/validation.md)
+> **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**
 
 ## 使用
 ### 安装Golang官方依赖管理工具：
@@ -15,12 +15,12 @@ go get -u github.com/kardianos/govendor
 govendor init
 #从本地添加项目所需依赖到vendor
 govendor add +e
-#同步vendor.json，本地没有可以自动线上拉去
+#同步vendor.json
 govendor sync
-#删除依赖
-govendor remove xx
-#添加依赖，前提本地先存在
-govendor add xx
+#删除不用的包
+govendor remove +u
+#添加依赖，前提时本地已经存在
+governdor add xx
 ```
 
 ### 下载本地
