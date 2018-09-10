@@ -2,5 +2,6 @@
 *.exe
 /runtime
 main
-#/vendor/*
+/vendor/*
 !/vendor/vendor.json
+!/vendor/golang.org/
