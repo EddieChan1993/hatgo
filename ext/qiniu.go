@@ -16,7 +16,7 @@ import (
 
 var (
 	cfg       *storage.Config
-	putPolicy storage.PutPolicy
+	putPolicy *storage.PutPolicy
 	putExtra  *storage.PutExtra
 	mac       *qbox.Mac
 	ret       *storage.PutRet
@@ -30,7 +30,7 @@ var (
 )
 
 func init() {
-	putPolicy = storage.PutPolicy{
+	putPolicy = &storage.PutPolicy{
 		Scope: setting.Bucket,
 	}
 	mac = qbox.NewMac(setting.AccessKey, setting.SecretKey)
@@ -49,13 +49,13 @@ func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 	f, err := file.Open()
 	defer f.Close()
 	if err != nil {
-		logging.ErrLogs.Error("%v", err)
+		logging.LogsErr.Error("%v", err)
 		return "", err
 	}
 
 	bf, err := ioutil.ReadAll(f)
 	if err != nil {
-		logging.ErrLogs.Error("%v", err)
+		logging.LogsErr.Error("%v", err)
 		return "", err
 	}
 	//存储后的新地址
@@ -63,7 +63,7 @@ func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
-		logging.ErrLogs.Error("%v", err)
+		logging.LogsErr.Error("%v", err)
 		return "", err
 	}
 	return fmt.Sprintf("http://%s/%s", setting.Host, key), nil

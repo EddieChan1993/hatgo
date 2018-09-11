@@ -18,9 +18,9 @@ func testEndLess(T *testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.Logs.Close()
-		logging.SqlLogs.Close()
-		logging.ErrLogs.Close()
+		logging.LogsReq.Close()
+		logging.LogsSql.Close()
+		logging.LogsErr.Close()
 	}()
 
 	endless.DefaultReadTimeOut = setting.ReadTimeout
@@ -37,7 +37,7 @@ func testEndLess(T *testing.T) {
 	err := server.ListenAndServe()
 
 	if err != nil {
-		log.Fatal("Server err:%v", err)
+		log.Fatal(err)
 	}
 }
 
@@ -45,9 +45,9 @@ func testNoEndless(T testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.Logs.Close()
-		logging.SqlLogs.Close()
-		logging.ErrLogs.Close()
+		logging.LogsReq.Close()
+		logging.LogsSql.Close()
+		logging.LogsErr.Close()
 	}()
 	router := routers.InitRouter()
 	setting.VersionShow(_version_)

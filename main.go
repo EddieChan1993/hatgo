@@ -16,9 +16,9 @@ func main() {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.Logs.Close()
-		logging.SqlLogs.Close()
-		logging.ErrLogs.Close()
+		logging.LogsReq.Close()
+		logging.LogsSql.Close()
+		logging.LogsErr.Close()
 	}()
 
 	router := routers.InitRouter()

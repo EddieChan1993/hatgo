@@ -15,9 +15,9 @@ type LogConfT struct {
 
 var (
 	filePath, filePathSql, filePathErr string
-	Logs                               *logs.BeeLogger //请求日志
-	SqlLogs                            *logs.BeeLogger //sql日志
-	ErrLogs                            *logs.BeeLogger //err日志
+	LogsReq                            *logs.BeeLogger //请求日志
+	LogsSql                            *logs.BeeLogger //sql日志
+	LogsErr                            *logs.BeeLogger //err日志
 )
 
 type selfLog struct {
@@ -33,7 +33,7 @@ func init() {
 
 //请求日志
 func reqLog() {
-	Logs = logs.NewLogger()
+	LogsReq = logs.NewLogger()
 	filePath, _ = getLogFilePullPath("req", "req")
 
 	logConf := LogConfT{
@@ -43,12 +43,12 @@ func reqLog() {
 		Level:6,
 	}
 	b, _ := json.Marshal(logConf)
-	Logs.SetLogger(logs.AdapterFile, string(b))
-	Logs.Async()
+	LogsReq.SetLogger(logs.AdapterFile, string(b))
+	LogsReq.Async()
 }
 //sql日志
 func sqlLog() {
-	SqlLogs = logs.NewLogger()
+	LogsSql = logs.NewLogger()
 	filePathSql, _ = getLogFilePullPath("sql", "sql")
 
 	logConfSql := LogConfT{
@@ -58,13 +58,13 @@ func sqlLog() {
 		Level:6,
 	}
 	bSql, _ := json.Marshal(logConfSql)
-	SqlLogs.SetLogger(logs.AdapterFile, string(bSql))
-	SqlLogs.Async()
+	LogsSql.SetLogger(logs.AdapterFile, string(bSql))
+	LogsSql.Async()
 }
 
 //err日志
 func errLog()  {
-	ErrLogs = logs.NewLogger()
+	LogsErr = logs.NewLogger()
 	filePathErr, _ = getLogFilePullPath("err", "err")
 	logConfErr := LogConfT{
 		Filename: filePathErr,
@@ -77,9 +77,9 @@ func errLog()  {
 	}
 	bErr, _ := json.Marshal(logConfErr)
 	bErrC, _ := json.Marshal(logConfErrConsole)
-	ErrLogs.EnableFuncCallDepth(true) //每行的位置
-	ErrLogs.SetLogger(logs.AdapterConsole, string(bErrC))
-	ErrLogs.SetLogger(logs.AdapterFile, string(bErr))
+	LogsErr.EnableFuncCallDepth(true) //每行的位置
+	LogsErr.SetLogger(logs.AdapterConsole, string(bErrC))
+	LogsErr.SetLogger(logs.AdapterFile, string(bErr))
 }
 /**
  	log.Emergency("Emergency")

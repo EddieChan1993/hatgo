@@ -39,7 +39,7 @@ func TouchBody(c *gin.Context) {
 		requestInfo += fmt.Sprintf("%s%s\n", headerInfo, s)
 	}
 	requestInfo += fmt.Sprintf("-----------------------------------------------------------------------------")
-	logging.Logs.Info(requestInfo)
+	logging.LogsReq.Info(requestInfo)
 	c.Next()
 }
 
