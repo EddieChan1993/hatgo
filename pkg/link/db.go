@@ -47,7 +47,7 @@ func db() {
 
 	err = Db.Ping()
 	if err != nil {
-		log.Printf("%v\n", err)
+		fmt.Printf("%s %v\n", mysqlLogIH, err)
 	} else {
 		log.Printf("%s %s\n", mysqlLogIH, "mysql's connecting is ok")
 	}
