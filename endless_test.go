@@ -10,6 +10,7 @@ import (
 	"hatgo/app/routers"
 	"hatgo/pkg/link"
 	"fmt"
+	"os"
 )
 
 var _version_ = "none setting"
@@ -29,15 +30,16 @@ func testEndLess(T *testing.T) {
 
 	server := endless.NewServer(fmt.Sprintf("%s%s", setting.Serverer.HTTPPort, setting.Serverer.HTTPPort), routers.InitRouter())
 	server.BeforeBegin = func(add string) {
-		log.Println("server is running in", setting.RunMode)
-		log.Println("Listening port", setting.Serverer.HTTPPort)
-		log.Println("Actual pid is", syscall.Getpid())
+		log.Printf("server is running in %s", setting.RunMode)
+		log.Printf("Listening port %s", setting.Serverer.HTTPPort)
+		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
 	setting.VersionShow(_version_)
 	err := server.ListenAndServe()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v\n", err)
+		os.Exit(1)
 	}
 }
 
@@ -53,6 +55,7 @@ func testNoEndless(T testing.T) {
 	setting.VersionShow(_version_)
 	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v\n", err)
+		os.Exit(1)
 	}
 }

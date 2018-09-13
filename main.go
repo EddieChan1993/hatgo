@@ -7,6 +7,7 @@ import (
 	"log"
 	"hatgo/pkg/logging"
 	"hatgo/app/routers"
+	"os"
 )
 
 var _version_ = "none setting"
@@ -25,6 +26,7 @@ func main() {
 	setting.VersionShow(_version_)
 	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v\n", err)
+		os.Exit(1)
 	}
 }

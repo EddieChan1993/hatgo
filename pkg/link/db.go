@@ -42,14 +42,14 @@ func db() {
 		dbName)
 	Db, err = xorm.NewEngine(dbType, connectStr)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v\n", err)
 	}
 
 	err = Db.Ping()
 	if err != nil {
-		fmt.Printf("%v\n", err)
+		log.Printf("%v\n", err)
 	} else {
-		fmt.Printf("%s %s\n", mysqlLogIH, "mysql's connecting is ok")
+		log.Printf("%s %s\n", mysqlLogIH, "mysql's connecting is ok")
 	}
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)
