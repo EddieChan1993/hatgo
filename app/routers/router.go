@@ -18,7 +18,7 @@ func InitRouter() *gin.Engine {
 
 	r.POST("/login", v1.RLogin)
 
-	apiv1 := r.Group("api/v1")
+	apiv1 := r.Group("api")
 	{
 		apiv1.POST("/get-test", v1.RGetTest)
 		apiv1.POST("/add-test", v1.RAddTest)

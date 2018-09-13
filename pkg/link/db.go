@@ -47,15 +47,14 @@ func db() {
 
 	err = Db.Ping()
 	if err != nil {
-		log.Fatal(err)
-	}else{
-		fmt.Printf("%s %s\n",mysqlLogIH,"mysql's connecting is ok")
+		fmt.Printf("%v\n", err)
+	} else {
+		fmt.Printf("%s %s\n", mysqlLogIH, "mysql's connecting is ok")
 	}
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)
 	Db.SetTableMapper(tbMapper)
-	logger :=xorm.NewSimpleLogger(logging.LogsSql)
+	logger := xorm.NewSimpleLogger(logging.LogsSql)
 	Db.ShowSQL(true)
 	Db.SetLogger(logger)
 }
-

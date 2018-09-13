@@ -8,23 +8,30 @@ import (
 )
 
 var (
-	err          error
-	Cfg          *ini.File
+	err error
+	Cfg *ini.File
+)
+
+type Server struct {
 	HTTPAdd      string
 	HTTPPort     string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
-)
+}
 
-//七牛
-var (
+type QiNiu struct {
 	Folder     string
 	Host       string
 	AccessKey  string
 	SecretKey  string
 	Bucket     string
 	IsUseHttps bool
-	ZoneKey string
+	ZoneKey    string
+}
+
+var (
+	QiNiuer  *QiNiu
+	Serverer *Server
 )
 
 func init() {

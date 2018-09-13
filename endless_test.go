@@ -23,14 +23,14 @@ func testEndLess(T *testing.T) {
 		logging.LogsErr.Close()
 	}()
 
-	endless.DefaultReadTimeOut = setting.ReadTimeout
-	endless.DefaultWriteTimeOut = setting.WriteTimeout
+	endless.DefaultReadTimeOut = setting.Serverer.ReadTimeout
+	endless.DefaultWriteTimeOut = setting.Serverer.WriteTimeout
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
-	server := endless.NewServer(fmt.Sprintf("%s%s", setting.HTTPPort, setting.HTTPPort), routers.InitRouter())
+	server := endless.NewServer(fmt.Sprintf("%s%s", setting.Serverer.HTTPPort, setting.Serverer.HTTPPort), routers.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Println("server is running in", setting.RunMode)
-		log.Println("Listening port", setting.HTTPPort)
+		log.Println("Listening port", setting.Serverer.HTTPPort)
 		log.Println("Actual pid is", syscall.Getpid())
 	}
 	setting.VersionShow(_version_)
@@ -51,7 +51,7 @@ func testNoEndless(T testing.T) {
 	}()
 	router := routers.InitRouter()
 	setting.VersionShow(_version_)
-	err := router.Run(fmt.Sprintf("%s%s", setting.HTTPAdd, setting.HTTPPort))
+	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatal(err)
 	}

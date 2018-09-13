@@ -20,26 +20,29 @@ func load() {
 	loadQiniu()
 }
 func loadServer() {
+	Serverer = new(Server)
 	sec, err := Cfg.GetSection("server")
 	if err != nil {
 		log.Fatalf("Fail to get section 'server':%v", err)
 	}
-	HTTPAdd = sec.Key("HTTP_ADDR").MustString("")
-	HTTPPort = sec.Key("HTTP_PORT").MustString(":8000")
-	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
-	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
+	Serverer.HTTPAdd = sec.Key("HTTP_ADDR").MustString("")
+	Serverer.HTTPPort = sec.Key("HTTP_PORT").MustString(":8000")
+	Serverer.ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
+	Serverer.WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
 	fmt.Println("server is running in 【生产模式】")
 }
 
 func loadQiniu() {
+	QiNiuer = new(QiNiu)
 	sec, err := Cfg.GetSection("qiniu")
 	if err != nil {
 		log.Fatalf("Fail to get section 'qiniu':%v", err)
 	}
-	Host = sec.Key("host").MustString("")
-	AccessKey = sec.Key("accessKey").MustString("")
-	SecretKey = sec.Key("secretkey").MustString("")
-	Bucket = sec.Key("bucket").MustString("")
-	Folder = sec.Key("folder").MustString("")
-	IsUseHttps = sec.Key("host").MustBool(false)
+	QiNiuer.Host = sec.Key("host").MustString("")
+	QiNiuer.AccessKey = sec.Key("accessKey").MustString("")
+	QiNiuer.SecretKey = sec.Key("secretKey").MustString("")
+	QiNiuer.Bucket = sec.Key("bucket").MustString("")
+	QiNiuer.Folder = sec.Key("folder").MustString("")
+	QiNiuer.IsUseHttps = sec.Key("host").MustBool(false)
+	QiNiuer.ZoneKey = sec.Key("zone").MustString("")
 }
