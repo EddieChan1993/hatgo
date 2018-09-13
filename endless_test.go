@@ -29,7 +29,7 @@ func testEndLess(T *testing.T) {
 
 	server := endless.NewServer(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort), routers.InitRouter())
 	server.BeforeBegin = func(add string) {
-		log.Printf("server is running in %s", setting.RunMode)
+		log.Printf("HOST is %s", setting.Serverer.HTTPAdd)
 		log.Printf("Listening port %s", setting.Serverer.HTTPPort)
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
