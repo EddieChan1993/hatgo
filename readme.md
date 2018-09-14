@@ -45,6 +45,10 @@ governdor add xx
 ./app.sh stop
 #获取程序执行状态(仅linux)
 ./app.sh status
+#添加或更新包到本地 vendor 目录
+govendor fetch urlpath
+#类似 go get 目录，拉取依赖包到 vendor 目录
+govendor get urlpath
 ```
 
 ### 通过辅助工具hat部署

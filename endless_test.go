@@ -33,7 +33,6 @@ func testEndLess(T *testing.T) {
 		log.Printf("Listening port %s", setting.Serverer.HTTPPort)
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
-	setting.VersionShow(_version_)
 	err := server.ListenAndServe()
 
 	if err != nil {
@@ -50,7 +49,6 @@ func testNoEndless(T testing.T) {
 		logging.LogsErr.Close()
 	}()
 	router := routers.InitRouter()
-	setting.VersionShow(_version_)
 	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)

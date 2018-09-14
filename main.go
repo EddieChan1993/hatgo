@@ -22,7 +22,6 @@ func main() {
 	}()
 
 	router := routers.InitRouter()
-	setting.VersionShow(_version_)
 	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
