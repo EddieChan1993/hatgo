@@ -47,7 +47,7 @@ func SAddTest(c *gin.Context) error {
 	v.Mobile(req.Mobile, "")
 	v.IP(req.IP, "")
 	if v.HasErrors() {
-		return setting.ValidError(v.Errors)
+		return setting.ValErr(v.Errors)
 	}
 	return nil
 }

@@ -36,7 +36,7 @@ func validate() {
 
 
 //验证失败提示输出
-func ValidError(errs []*validation.Error) error {
+func ValErr(errs []*validation.Error) error {
 	for _, err := range errs {
 		return fmt.Errorf("%s%s", err.Key, err.Message)
 	}
