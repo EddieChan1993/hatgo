@@ -20,6 +20,7 @@ func InitRouter() *gin.Engine {
 
 	api := r.Group("/")
 	{
+		api.GET("socket",v1.RWebSocket)
 		api.POST("get-test", v1.RGetTest)
 		api.POST("add-test", v1.RAddTest)
 		api.POST("upload", v1.RUpload)

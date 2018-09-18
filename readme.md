@@ -20,7 +20,7 @@ govendor sync
 #删除不用的包
 govendor remove +u
 #添加依赖，前提时本地已经存在
-governdor add xx
+govendor add xx
 ```
 
 ### 下载本地

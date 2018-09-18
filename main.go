@@ -12,7 +12,6 @@ import (
 var _version_ = "none setting"
 
 func main() {
-
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()

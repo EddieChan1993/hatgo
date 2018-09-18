@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket</title>
+</head>
+<body>
+<button onclick="send('all')">全部发</button>
+<button onclick="send('who')">who</button>
+<button onclick="send('group1')">加入一组</button>
+<button onclick="send('group2')">加入二组</button>
+<button onclick="send('send_group1')">发给一组</button>
+<button onclick="send('send_group2')">发给二组</button>
+<div id="result"></div>
+<script  src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    var url = "ws://127.0.0.1:8082/socket";
+    var ws = new WebSocket(url);
+    var name;
+    var msg
+    function send(type) {
+        switch (type) {
+            case "all":
+                msg = JSON.stringify({
+                    name: name,
+                    msg:"大家好",
+                });
+                ws.send(sendMess(msg,type))
+                break;
+            case "who":
+                var uid = "a845e29b8b609ad8366270761d320322";
+                ws.send(sendMess(uid,type))
+                break;
+            case "group1":
+                var content = "group1";
+                ws.send(sendMess(content,"join_group"))
+                break;
+            case "group2":
+                var content = "group2";
+                ws.send(sendMess(content,"join_group"))
+                break;
+            case "send_group1":
+                var content = "group1";
+                ws.send(sendMess(content,"send_group"))
+                break;
+            case "send_group2":
+                var content = "group2";
+                ws.send(sendMess(content,"send_group"))
+                break;
+
+        }
+    }
+
+    if(name=prompt("名字")) {
+        //ws打开时
+        ws.onopen = function() {
+            msg = JSON.stringify({
+                name: name,
+                msg:"进入房间"
+            });
+            ws.send(sendMess(msg,'connect'))
+            console.log("connect ...");
+        };
+    }
+
+    //ws连接关闭时
+    ws.onclose = function() {
+        console.log("close");
+    };
+    //监听服务器推送数据
+    ws.onmessage = function(ev) {
+        var data = jQuery.parseJSON(ev.data);
+        console.log(data);
+    };
+
+
+    function sendMess(content, type) {
+        return JSON.stringify(
+                {
+                    content: content,
+                    type: type
+                }
+        )
+    }
+</script>
+</body>
+</html>
