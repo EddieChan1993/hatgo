@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"hatgo/pkg/logging"
+	"hatgo/pkg/logs"
 	"fmt"
 	"github.com/astaxie/beego/validation"
 	"hatgo/ext"
@@ -24,7 +24,7 @@ type ReqTest2 struct {
 func SGetTestT(c *gin.Context) error {
 	if 1 == 1 {
 		c.Get("uid")
-		selfLog := logging.NewSelfLog("test", "cf")
+		selfLog := logs.NewSelfLog("test", "cf")
 		defer func() {
 			selfLog.File.Close()
 			selfLog.BeeLog.Close()
@@ -54,7 +54,10 @@ func SAddTest(c *gin.Context) error {
 
 //表单提交
 func SUpload(c *gin.Context) (path string, err error) {
-	file, _ := c.FormFile("file")
+	file, err := c.FormFile("file")
+	if err != nil {
+		return "", logs.WriteErr(err)
+	}
 	pathName := "avatar"
 	path, err = ext.QiniuUpload(file, pathName)
 	if err != nil {

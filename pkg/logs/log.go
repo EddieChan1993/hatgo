@@ -1,9 +1,11 @@
-package logging
+package logs
 
 import (
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
 	"os"
+	"runtime"
+	"fmt"
 )
 
 //单个日志文件存储，默认256M
@@ -17,7 +19,7 @@ var (
 	filePath, filePathSql, filePathErr string
 	LogsReq                            *logs.BeeLogger //请求日志
 	LogsSql                            *logs.BeeLogger //sql日志
-	LogsErr                            *logs.BeeLogger //err日志
+	logsErr                            *logs.BeeLogger //err日志
 )
 
 type selfLog struct {
@@ -39,12 +41,13 @@ func reqLog() {
 	logConf := LogConfT{
 		Filename: filePath,
 		Maxdays:  3,
-		Level:6,
+		Level:    6,
 	}
 	b, _ := json.Marshal(logConf)
 	LogsReq.SetLogger(logs.AdapterFile, string(b))
 	LogsReq.Async()
 }
+
 //sql日志
 func sqlLog() {
 	LogsSql = logs.NewLogger()
@@ -53,7 +56,7 @@ func sqlLog() {
 	logConfSql := LogConfT{
 		Filename: filePathSql,
 		Maxdays:  3,
-		Level:6,
+		Level:    6,
 	}
 	bSql, _ := json.Marshal(logConfSql)
 	LogsSql.SetLogger(logs.AdapterFile, string(bSql))
@@ -61,23 +64,32 @@ func sqlLog() {
 }
 
 //err日志
-func errLog()  {
-	LogsErr = logs.NewLogger()
+func errLog() {
+	logsErr = logs.NewLogger()
 	filePathErr, _ = getLogFilePullPath("err", "err")
 	logConfErr := LogConfT{
 		Filename: filePathErr,
 		Maxdays:  3,
-		Level:6,
+		Level:    6,
 	}
 	logConfErrConsole := LogConfT{
 		Level: 7,
 	}
 	bErr, _ := json.Marshal(logConfErr)
 	bErrC, _ := json.Marshal(logConfErrConsole)
-	LogsErr.EnableFuncCallDepth(true) //每行的位置
-	LogsErr.SetLogger(logs.AdapterConsole, string(bErrC))
-	LogsErr.SetLogger(logs.AdapterFile, string(bErr))
+	//logsErr.EnableFuncCallDepth(true) //每行的位置
+	logsErr.SetLogger(logs.AdapterConsole, string(bErrC))
+	logsErr.SetLogger(logs.AdapterFile, string(bErr))
 }
+
+//记录err到日志文件，并打印到控制台
+func WriteErr(err error) error {
+	_, file, line, _ := runtime.Caller(1)
+	fileLine := fmt.Sprintf("%s:%d\n", file, line)
+	logsErr.Error("%s%v", fileLine, err)
+	return err
+}
+
 /**
  	log.Emergency("Emergency")
 	log.Alert("Alert")

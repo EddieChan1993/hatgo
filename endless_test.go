@@ -5,7 +5,7 @@ import (
 	"log"
 	"syscall"
 	"github.com/fvbock/endless"
-	"hatgo/pkg/logging"
+	"hatgo/pkg/logs"
 	"hatgo/pkg/setting"
 	"hatgo/app/routers"
 	"hatgo/pkg/link"
@@ -18,9 +18,8 @@ func testEndLess(T *testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.LogsReq.Close()
-		logging.LogsSql.Close()
-		logging.LogsErr.Close()
+		logs.LogsReq.Close()
+		logs.LogsSql.Close()
 	}()
 
 	endless.DefaultReadTimeOut = setting.Serverer.ReadTimeout
@@ -44,9 +43,8 @@ func testNoEndless(T testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.LogsReq.Close()
-		logging.LogsSql.Close()
-		logging.LogsErr.Close()
+		logs.LogsReq.Close()
+		logs.LogsSql.Close()
 	}()
 	router := routers.InitRouter()
 	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))

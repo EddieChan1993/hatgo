@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"hatgo/pkg/setting"
 	"log"
-	"hatgo/pkg/logging"
+	"hatgo/pkg/logs"
 	"hatgo/app/routers"
 )
 
@@ -16,9 +16,8 @@ func main() {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()
-		logging.LogsReq.Close()
-		logging.LogsSql.Close()
-		logging.LogsErr.Close()
+		logs.LogsReq.Close()
+		logs.LogsSql.Close()
 	}()
 
 	router := routers.InitRouter()

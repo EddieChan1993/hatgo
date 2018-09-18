@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/go-xorm/core"
-	"hatgo/pkg/logging"
+	"hatgo/pkg/logs"
 	"hatgo/pkg/setting"
 )
 
@@ -54,7 +54,7 @@ func db() {
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)
 	Db.SetTableMapper(tbMapper)
-	logger := xorm.NewSimpleLogger(logging.LogsSql)
+	logger := xorm.NewSimpleLogger(logs.LogsSql)
 	Db.ShowSQL(true)
 	Db.SetLogger(logger)
 }

@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"net/url"
 	"fmt"
-	"hatgo/pkg/logging"
+	"hatgo/pkg/logs"
 )
 
 func Core(c *gin.Context) {
@@ -39,7 +39,7 @@ func TouchBody(c *gin.Context) {
 		requestInfo += fmt.Sprintf("%s%s\n", headerInfo, s)
 	}
 	requestInfo += fmt.Sprintf("-----------------------------------------------------------------------------")
-	logging.LogsReq.Info(requestInfo)
+	logs.LogsReq.Info(requestInfo)
 	c.Next()
 }
 
