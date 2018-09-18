@@ -45,7 +45,7 @@ func init() {
 }
 
 //数据流上传
-func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
+func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err error) {
 	f, err := file.Open()
 	defer f.Close()
 	if err != nil {
@@ -59,7 +59,7 @@ func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 		return "", err
 	}
 	//存储后的新地址
-	key := fmt.Sprintf("%s/%v%s", setting.QiNiuer.Folder, time.Now().UnixNano(), filepath.Ext(file.Filename))
+	key := fmt.Sprintf("%s/%s/%v%s", setting.QiNiuer.Folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
@@ -68,7 +68,6 @@ func QiniuUpload(file *multipart.FileHeader) (path string, err error) {
 	}
 	return fmt.Sprintf("http://%s/%s", setting.QiNiuer.Host, key), nil
 }
-
 
 func fileInfo(key string) {
 	mac := qbox.NewMac(setting.QiNiuer.AccessKey, setting.QiNiuer.SecretKey)

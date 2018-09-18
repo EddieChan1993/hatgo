@@ -55,7 +55,8 @@ func SAddTest(c *gin.Context) error {
 //表单提交
 func SUpload(c *gin.Context) (path string, err error) {
 	file, _ := c.FormFile("file")
-	path, err = ext.QiniuUpload(file)
+	pathName := "avatar"
+	path, err = ext.QiniuUpload(file, pathName)
 	if err != nil {
 		return "", err
 	}
