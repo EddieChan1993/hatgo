@@ -1,6 +1,6 @@
 //+build !prod
 
-package setting
+package conf
 
 import (
 	"log"
@@ -39,10 +39,11 @@ func loadQiniu() {
 		log.Fatalf("Fail to get section 'qiniu':%v", err)
 	}
 	QiNiuer.Host = sec.Key("host").MustString("")
+	QiNiuer.HostBase = sec.Key("hostBase").MustString(QiNiuer.Host)
 	QiNiuer.AccessKey = sec.Key("accessKey").MustString("")
 	QiNiuer.SecretKey = sec.Key("secretKey").MustString("")
 	QiNiuer.Bucket = sec.Key("bucket").MustString("")
 	QiNiuer.Folder = sec.Key("folder").MustString("")
 	QiNiuer.IsUseHttps = sec.Key("host").MustBool(false)
-	QiNiuer.ZoneKey = sec.Key("zone").MustString("")
+	QiNiuer.ZoneKey = sec.Key("zone").MustString("huaNan")
 }

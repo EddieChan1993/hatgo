@@ -1,4 +1,4 @@
-package setting
+package conf
 
 import (
 	"time"
@@ -21,6 +21,7 @@ type Server struct {
 type QiNiu struct {
 	Folder     string
 	Host       string
+	HostBase   string
 	AccessKey  string
 	SecretKey  string
 	Bucket     string

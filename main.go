@@ -3,7 +3,7 @@ package main
 import (
 	"hatgo/pkg/link"
 	"fmt"
-	"hatgo/pkg/setting"
+	"hatgo/pkg/conf"
 	"log"
 	"hatgo/pkg/logs"
 	"hatgo/app/routers"
@@ -21,7 +21,7 @@ func main() {
 	}()
 
 	router := routers.InitRouter()
-	err := router.Run(fmt.Sprintf("%s%s", setting.Serverer.HTTPAdd, setting.Serverer.HTTPPort))
+	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
 	}

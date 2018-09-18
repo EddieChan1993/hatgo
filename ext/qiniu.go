@@ -10,7 +10,7 @@ import (
 	"mime/multipart"
 	"time"
 	"path/filepath"
-	"hatgo/pkg/setting"
+	"hatgo/pkg/conf"
 	"hatgo/pkg/logs"
 )
 
@@ -31,14 +31,14 @@ var (
 
 func init() {
 	putPolicy = &storage.PutPolicy{
-		Scope: setting.QiNiuer.Bucket,
+		Scope: conf.QiNiuer.Bucket,
 	}
-	mac = qbox.NewMac(setting.QiNiuer.AccessKey, setting.QiNiuer.SecretKey)
+	mac = qbox.NewMac(conf.QiNiuer.AccessKey, conf.QiNiuer.SecretKey)
 	upToken = putPolicy.UploadToken(mac)
 	cfg = new(storage.Config)
-	cfg.Zone = zone[setting.QiNiuer.ZoneKey]
-	cfg.UseHTTPS = setting.QiNiuer.IsUseHttps
-	cfg.UseCdnDomains = setting.QiNiuer.IsUseHttps
+	cfg.Zone = zone[conf.QiNiuer.ZoneKey]
+	cfg.UseHTTPS = conf.QiNiuer.IsUseHttps
+	cfg.UseCdnDomains = conf.QiNiuer.IsUseHttps
 
 	ret = new(storage.PutRet)
 	putExtra = new(storage.PutExtra)
@@ -51,26 +51,25 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 	if err != nil {
 		return "", logs.WriteErr(err)
 	}
-
 	bf, err := ioutil.ReadAll(f)
 	if err != nil {
 		return "", logs.WriteErr(err)
 	}
 	//存储后的新地址
-	key := fmt.Sprintf("%s/%s/%v%s", setting.QiNiuer.Folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
+	key := fmt.Sprintf("%s/%s/%v%s", conf.QiNiuer.Folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
 		return "", logs.WriteErr(err)
 	}
-	return fmt.Sprintf("http://%s/%s", setting.QiNiuer.Host, key), nil
+	return fmt.Sprintf("http://%s/%s", conf.QiNiuer.HostBase, key), nil
 }
 
 func fileInfo(key string) {
-	mac := qbox.NewMac(setting.QiNiuer.AccessKey, setting.QiNiuer.SecretKey)
+	mac := qbox.NewMac(conf.QiNiuer.AccessKey, conf.QiNiuer.SecretKey)
 	bucketManager := storage.NewBucketManager(mac, cfg)
 
-	fileInfo, sErr := bucketManager.Stat(setting.QiNiuer.Bucket, key)
+	fileInfo, sErr := bucketManager.Stat(conf.QiNiuer.Bucket, key)
 	if sErr != nil {
 		fmt.Println(sErr)
 		return
