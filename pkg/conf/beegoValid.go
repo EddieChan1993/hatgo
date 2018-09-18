@@ -2,7 +2,6 @@ package conf
 
 import (
 	"github.com/astaxie/beego/validation"
-	"fmt"
 )
 
 // messageTmpls store commond validate template
@@ -32,13 +31,4 @@ var messageTmpls = map[string]string{
 //验证提示语重载
 func validate() {
 	validation.SetDefaultMessage(messageTmpls)
-}
-
-
-//验证失败提示输出
-func ValErr(errs []*validation.Error) error {
-	for _, err := range errs {
-		return fmt.Errorf("%s%s", err.Key, err.Message)
-	}
-	return nil
 }

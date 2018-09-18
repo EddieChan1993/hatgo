@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/astaxie/beego/validation"
 	"hatgo/ext"
-	"hatgo/pkg/conf"
 )
 
 type ReqTest struct {
@@ -15,7 +14,7 @@ type ReqTest struct {
 
 type ReqTest2 struct {
 	Name   string `json:"name"`
-	Age    int    `"json:"age"`
+	Age    int    `json:"age"`
 	Email  string `json:"email"`
 	Mobile string `json:"mobile"`
 	IP     string `json:"ip"`
@@ -47,7 +46,7 @@ func SAddTest(c *gin.Context) error {
 	v.Mobile(req.Mobile, "")
 	v.IP(req.IP, "")
 	if v.HasErrors() {
-		return conf.ValErr(v.Errors)
+		return logs.ValidErr(v.Errors)
 	}
 	return nil
 }
@@ -56,7 +55,7 @@ func SAddTest(c *gin.Context) error {
 func SUpload(c *gin.Context) (path string, err error) {
 	file, err := c.FormFile("file")
 	if err != nil {
-		return "", logs.WriteErr(err)
+		return "", logs.SysErr(err)
 	}
 	pathName := "avatar"
 	path, err = ext.QiniuUpload(file, pathName)

@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime"
 	"fmt"
+	"github.com/astaxie/beego/validation"
 )
 
 //单个日志文件存储，默认256M
@@ -82,14 +83,6 @@ func errLog() {
 	logsErr.SetLogger(logs.AdapterFile, string(bErr))
 }
 
-//记录err到日志文件，并打印到控制台
-func WriteErr(err error) error {
-	_, file, line, _ := runtime.Caller(1)
-	fileLine := fmt.Sprintf("%s:%d\n", file, line)
-	logsErr.Error("%s%v", fileLine, err)
-	return err
-}
-
 /**
  	log.Emergency("Emergency")
 	log.Alert("Alert")
@@ -121,4 +114,21 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 		File:   file,
 	}
 	return selfLog
+}
+
+
+//记录err到日志文件，并打印到控制台
+func SysErr(err error) error {
+	_, file, line, _ := runtime.Caller(1)
+	fileLine := fmt.Sprintf("%s:%d\n", file, line)
+	logsErr.Error("%s%v", fileLine, err)
+	return err
+}
+
+//请求验证异常抛出
+func ValidErr(errs []*validation.Error) error {
+	for _, err := range errs {
+		return fmt.Errorf("%s%s", err.Key, err.Message)
+	}
+	return nil
 }

@@ -49,18 +49,18 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 	f, err := file.Open()
 	defer f.Close()
 	if err != nil {
-		return "", logs.WriteErr(err)
+		return "", logs.SysErr(err)
 	}
 	bf, err := ioutil.ReadAll(f)
 	if err != nil {
-		return "", logs.WriteErr(err)
+		return "", logs.SysErr(err)
 	}
 	//存储后的新地址
 	key := fmt.Sprintf("%s/%s/%v%s", conf.QiNiuer.Folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
-		return "", logs.WriteErr(err)
+		return "", logs.SysErr(err)
 	}
 	return fmt.Sprintf("http://%s/%s", conf.QiNiuer.HostBase, key), nil
 }
