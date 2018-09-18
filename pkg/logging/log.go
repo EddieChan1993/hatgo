@@ -6,10 +6,10 @@ import (
 	"os"
 )
 
+//单个日志文件存储，默认256M
 type LogConfT struct {
 	Filename string
 	Maxdays  int
-	Maxsize  int64
 	Level    int
 }
 
@@ -39,7 +39,6 @@ func reqLog() {
 	logConf := LogConfT{
 		Filename: filePath,
 		Maxdays:  3,
-		Maxsize:  5 * mb,
 		Level:6,
 	}
 	b, _ := json.Marshal(logConf)
@@ -54,7 +53,6 @@ func sqlLog() {
 	logConfSql := LogConfT{
 		Filename: filePathSql,
 		Maxdays:  3,
-		Maxsize:  5 * mb,
 		Level:6,
 	}
 	bSql, _ := json.Marshal(logConfSql)
@@ -69,7 +67,6 @@ func errLog()  {
 	logConfErr := LogConfT{
 		Filename: filePathErr,
 		Maxdays:  3,
-		Maxsize:  5 * mb,
 		Level:6,
 	}
 	logConfErrConsole := LogConfT{
@@ -101,7 +98,6 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 	logConf := LogConfT{
 		Filename: filePathSql,
 		Maxdays:  3,
-		Maxsize:  5 * mb,
 	}
 	b, _ := json.Marshal(logConf)
 	newLogs.EnableFuncCallDepth(true) //每行的位置
