@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"fightKun/pkg/util"
-	"fightKun/pkg/e"
-	"fightKun/app/middle"
+	"hatgo/pkg/e"
+	"hatgo/pkg/util"
+	"hatgo/app/middle"
 )
 
 func SHandler(c *gin.Context) {

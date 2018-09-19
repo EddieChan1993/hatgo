@@ -20,6 +20,7 @@ func testEndLess(T *testing.T) {
 		link.Rd.Close()
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
+		logs.LogsWs.Close()
 	}()
 
 	endless.DefaultReadTimeOut = conf.Serverer.ReadTimeout
@@ -45,6 +46,7 @@ func testNoEndless(T testing.T) {
 		link.Rd.Close()
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
+		logs.LogsWs.Close()
 	}()
 	router := routers.InitRouter()
 	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))

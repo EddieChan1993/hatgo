@@ -17,10 +17,11 @@ type LogConfT struct {
 }
 
 var (
-	filePath, filePathSql, filePathErr string
-	LogsReq                            *logs.BeeLogger //请求日志
-	LogsSql                            *logs.BeeLogger //sql日志
-	logsErr                            *logs.BeeLogger //err日志
+	filePath, filePathSql, filePathWs, filePathErr string
+	LogsReq                                        *logs.BeeLogger //请求日志
+	LogsSql                                        *logs.BeeLogger //sql日志
+	LogsWs                                         *logs.BeeLogger //socket日志
+	logsErr                                        *logs.BeeLogger //err日志
 )
 
 type selfLog struct {
@@ -32,6 +33,7 @@ func init() {
 	reqLog()
 	sqlLog()
 	errLog()
+	socketLog()
 }
 
 //请求日志
@@ -62,6 +64,21 @@ func sqlLog() {
 	bSql, _ := json.Marshal(logConfSql)
 	LogsSql.SetLogger(logs.AdapterFile, string(bSql))
 	LogsSql.Async()
+}
+
+//socket日志
+func socketLog() {
+	LogsWs = logs.NewLogger()
+	filePathWs, _ = getLogFilePullPath("socket", "socket")
+
+	logConfWs := LogConfT{
+		Filename: filePathWs,
+		Maxdays:  3,
+		Level:    6,
+	}
+	bWs, _ := json.Marshal(logConfWs)
+	LogsWs.SetLogger(logs.AdapterFile, string(bWs))
+	LogsWs.Async()
 }
 
 //err日志
@@ -115,7 +132,6 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 	}
 	return selfLog
 }
-
 
 //记录err到日志文件，并打印到控制台
 func SysErr(err error) error {

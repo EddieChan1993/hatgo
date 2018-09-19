@@ -5,6 +5,16 @@ import (
 	"net/http"
 	"hatgo/pkg/e"
 )
+
+//Socket验证
+func SocketAuth(openId string) bool {
+	if openId != "hi" {
+		return false
+	}
+	return true
+}
+
+
 func Auth(c *gin.Context) {
 	authCode := http.StatusUnauthorized
 	token := c.GetHeader("token")

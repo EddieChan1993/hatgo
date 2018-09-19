@@ -17,6 +17,7 @@ func main() {
 		link.Rd.Close()
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
+		logs.LogsWs.Close()
 	}()
 
 	router := routers.InitRouter()
