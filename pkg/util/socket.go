@@ -8,8 +8,11 @@ import (
 	"io"
 	"crypto/rand"
 	"encoding/base64"
-	"hatgo/pkg/logs"
+	"fightKun/pkg/logs"
+	"github.com/gin-gonic/gin"
 )
+
+const SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol"
 
 type ws struct {
 	conn *websocket.Conn
@@ -52,8 +55,15 @@ var Wsupgrader = websocket.Upgrader{
 }
 
 //实例化
-func NewWs(wss *websocket.Conn) *ws {
-	return &ws{conn: wss}
+func NewWs(c *gin.Context) *ws {
+	resHeader := http.Header{}
+	token := c.GetHeader(SEC_WEBSOCKET_PROTOCOL)
+	resHeader.Add(SEC_WEBSOCKET_PROTOCOL, token)
+	conn, err := Wsupgrader.Upgrade(c.Writer, c.Request, resHeader)
+	if err != nil {
+		logs.SysErr(err)
+	}
+	return &ws{conn: conn}
 }
 
 //绑定uid和conn
