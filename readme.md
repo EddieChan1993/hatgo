@@ -20,7 +20,11 @@ govendor sync
 #删除不用的包
 govendor remove +u
 #添加依赖，前提时本地已经存在
-govendor add xx
+governdor add xx
+#添加或更新包到本地 vendor 目录
+govendor fetch urlpath
+#类似 go get 目录，拉取依赖包到 vendor 目录
+govendor get urlpath
 ```
 
 ### 下载本地
