@@ -10,6 +10,7 @@ import (
 	"encoding/base64"
 	"hatgo/pkg/logs"
 	"github.com/gin-gonic/gin"
+	"fmt"
 )
 
 const SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol"
@@ -34,6 +35,7 @@ type User struct {
 var (
 	member         = make(map[string]*User)
 	uidMapWs       = make(map[string]*websocket.Conn)
+	wsMapUid       = make(map[*websocket.Conn]string)
 	groupMapMember = make(map[string][]*User)
 )
 
@@ -83,6 +85,7 @@ func (this *Ws) IsOnline(bid string) bool {
 func (this *Ws) CloseBindId(bid string) () {
 	delete(member, bid)
 	delete(uidMapWs, bid)
+	delete(wsMapUid, this.conn)
 	this.conn.Close()
 }
 
@@ -102,6 +105,7 @@ func (this *Ws) SendToAll(msg *Message) {
 				logs.SysErr(err)
 				delete(member, k)
 				delete(uidMapWs, k)
+				delete(wsMapUid, v.conn)
 				continue
 			}
 		}
@@ -186,9 +190,19 @@ func (this *Ws) GetMsg(msg *Message) error {
 	if _, reply, err = this.conn.ReadMessage(); err != nil {
 		return logs.SysErr(err)
 	}
+	this.logReqData(reply)
 	if err = json.Unmarshal(reply, msg); err != nil {
 		return logs.SysErr(err)
 	}
-
 	return nil
+}
+
+//记录请求数据
+func (this *Ws) logReqData(reply []byte) {
+	var logStr string
+	bid := wsMapUid[this.conn]
+	logStr += fmt.Sprintf("Bid:%s\n", bid)
+	logStr += fmt.Sprintf("%s\n", string(reply))
+	logStr += fmt.Sprintf("%s", "------------------------------------")
+	logs.LogsWs.Info("%s", logStr)
 }
