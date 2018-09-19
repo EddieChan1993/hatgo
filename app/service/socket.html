@@ -15,7 +15,7 @@
 <script  src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
     var url = "ws://127.0.0.1:8082/socket";
-    var ws = new WebSocket(url);
+    var ws = new WebSocket(url,["token"]);
     var name;
     var msg
     function send(type) {

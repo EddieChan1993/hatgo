@@ -8,11 +8,7 @@ import (
 )
 
 func SHandler(c *gin.Context) {
-	conn, err := util.Wsupgrader.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		logs.SysErr(err)
-	}
-	wss := util.NewWs(conn)
+	wss := util.NewWs(c)
 	uid := util.CoonId()
 
 	defer func() {
