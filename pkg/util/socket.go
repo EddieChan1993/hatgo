@@ -27,7 +27,7 @@ type Message struct {
 
 //用户体
 type User struct {
-	Uid  string
+	Bid  string
 	conn *websocket.Conn
 }
 
@@ -46,7 +46,7 @@ func CoonId() string {
 	return Md5(base64.URLEncoding.EncodeToString(b))
 }
 
-var Wsupgrader = websocket.Upgrader{
+var wsupgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
@@ -55,34 +55,39 @@ var Wsupgrader = websocket.Upgrader{
 }
 
 //实例化
-func NewWs(c *gin.Context) *ws {
+func NewWs(c *gin.Context) (wss *ws, token string, err error) {
 	resHeader := http.Header{}
-	token := c.GetHeader(SEC_WEBSOCKET_PROTOCOL)
+	token = c.GetHeader(SEC_WEBSOCKET_PROTOCOL)
 	resHeader.Add(SEC_WEBSOCKET_PROTOCOL, token)
-	conn, err := Wsupgrader.Upgrade(c.Writer, c.Request, resHeader)
+	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, resHeader)
 	if err != nil {
-		logs.SysErr(err)
+		return nil, "", logs.SysErr(err)
 	}
-	return &ws{conn: conn}
+	return &ws{conn: conn}, token, nil
 }
 
 //绑定uid和conn
-func (this *ws) BindUid(uid string) {
-	client := User{Uid: uid, conn: this.conn}
-	member[uid] = &client
-	uidMapWs[uid] = this.conn
+func (this *ws) BindCoon(bid string) {
+	client := User{Bid: bid, conn: this.conn}
+	member[bid] = &client
+	uidMapWs[bid] = this.conn
 }
 
 //是否在线
-func (this *ws) IsOnline(uid string) bool {
-	_, exits := member[uid]
+func (this *ws) IsOnline(bid string) bool {
+	_, exits := member[bid]
 	return exits
 }
 
-//断开连接
-func (this *ws) CloseUid(uid string) () {
-	delete(member, uid)
-	delete(uidMapWs, uid)
+//通过Id断开连接
+func (this *ws) CloseBindId(bid string) () {
+	delete(member, bid)
+	delete(uidMapWs, bid)
+	this.conn.Close()
+}
+
+//通过conn断开直接关闭连接
+func (this *ws) CloseCoon() () {
 	this.conn.Close()
 }
 
@@ -114,8 +119,8 @@ func (this *ws) GetClientByGroup(groupName string) []*User {
 }
 
 //加入某个群
-func (this *ws) JoinGroup(groupName, uid string) []*User {
-	groupMapMember[groupName] = append(groupMapMember[groupName], member[uid])
+func (this *ws) JoinGroup(groupName, bid string) []*User {
+	groupMapMember[groupName] = append(groupMapMember[groupName], member[bid])
 	return groupMapMember[groupName]
 }
 
@@ -139,9 +144,9 @@ func (this *ws) SendToGroup(groupName string, msg *Message) {
 }
 
 //离开某个群
-func (this *ws) LeaveGroup(groupName, uid string) {
+func (this *ws) LeaveGroup(groupName, bid string) {
 	for k, v := range groupMapMember[groupName] {
-		if v.Uid == uid {
+		if v.Bid == bid {
 			kk := k + 1
 			groupMapMember[groupName] = append(groupMapMember[groupName][:k], groupMapMember[groupName][kk:] ...)
 			break
@@ -150,16 +155,27 @@ func (this *ws) LeaveGroup(groupName, uid string) {
 }
 
 //发送给指定uid
-func (this *ws) SendToUid(uid string, msg *Message) error {
-	toWsCoon := uidMapWs[uid]
+func (this *ws) SendToUid(bid string, msg *Message) error {
+	toWsCoon := uidMapWs[bid]
 	msg.Time = time.Now().Unix()
 	sendMess, _ := json.Marshal(msg)
 
 	if err := toWsCoon.WriteMessage(1, sendMess); err != nil {
-		delete(member, uid)
+		delete(member, bid)
 		return logs.SysErr(err)
 	}
 
+	return nil
+}
+
+//给当前连接发消息
+func (this *ws) SendSelf(msg *Message) error {
+	msg.Time = time.Now().Unix()
+	sendMess, _ := json.Marshal(msg)
+
+	if err := this.conn.WriteMessage(1, sendMess); err != nil {
+		return logs.SysErr(err)
+	}
 	return nil
 }
 

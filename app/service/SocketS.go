@@ -2,34 +2,50 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"hatgo/pkg/util"
-	"hatgo/pkg/logs"
-	"fmt"
+	"fightKun/pkg/util"
+	"fightKun/pkg/e"
+	"fightKun/app/middle"
 )
 
 func SHandler(c *gin.Context) {
-	wss := util.NewWs(c)
-	uid := util.CoonId()
-
+	wss, token, _ := util.NewWs(c)
 	defer func() {
-		logs.SysErr(fmt.Errorf("%s离开", uid))
-		wss.CloseUid(uid)
+		wss.CloseCoon()
 	}()
-	var msg util.Message
+	b := middle.SocketAuth(token)
+	if !b {
+		resMsg := &util.Message{
+			Content: e.GetMsg(e.CONNECT_FAIL_AUTH),
+			Type:    e.CONNECT_FAIL_AUTH,
+		}
+		wss.SendSelf(resMsg)
+		wss.CloseCoon()
+	}
+	uid := token
+	channel(wss, uid)
+
+}
+
+func channel(wss *util.Ws, token string) {
+	var reqMsg util.Message
 	for {
-		if err := wss.GetMsg(&msg); err != nil {
-			logs.SysErr(err)
+		if err := wss.GetMsg(&reqMsg); err != nil {
 			break
 		}
-		fmt.Println(msg)
-		switch msg.Type {
+		switch reqMsg.Type {
 		case "connect":
-			wss.BindUid(uid)
-			msg = util.Message{
-				Content: "连接成功",
-				Type:    "connect-ok",
+			wss.BindCoon(token)
+			resMsg := &util.Message{
+				Content: e.GetMsg(e.CONNECT_OK),
+				Type:    e.CONNECT_OK,
 			}
-			wss.SendToUid(uid, &msg)
+			wss.SendSelf(resMsg)
+		default:
+			resMsg := &util.Message{
+				Content: "未知操作",
+				Type:    "none",
+			}
+			wss.SendSelf(resMsg)
 		}
 	}
 }
