@@ -7,6 +7,8 @@ import (
 	"runtime"
 	"fmt"
 	"github.com/astaxie/beego/validation"
+	"hatgo/pkg/conf"
+	"github.com/gin-gonic/gin"
 )
 
 //单个日志文件存储，默认256M
@@ -73,14 +75,17 @@ func errLog() {
 		Maxdays:  3,
 		Level:    6,
 	}
-	logConfErrConsole := LogConfT{
-		Level: 7,
-	}
+
 	bErr, _ := json.Marshal(logConfErr)
-	bErrC, _ := json.Marshal(logConfErrConsole)
 	//logsErr.EnableFuncCallDepth(true) //每行的位置
-	logsErr.SetLogger(logs.AdapterConsole, string(bErrC))
 	logsErr.SetLogger(logs.AdapterFile, string(bErr))
+	if conf.RunMode == gin.DebugMode {
+		logConfErrConsole := LogConfT{
+			Level: 7,
+		}
+		bErrC, _ := json.Marshal(logConfErrConsole)
+		logsErr.SetLogger(logs.AdapterConsole, string(bErrC))
+	}
 }
 
 /**
