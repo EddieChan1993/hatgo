@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"hatgo/pkg/e"
 	"hatgo/pkg/util"
-	"hatgo/app/middle"
 )
 
 func SHandler(c *gin.Context) {
@@ -12,18 +11,8 @@ func SHandler(c *gin.Context) {
 	defer func() {
 		wss.CloseCoon()
 	}()
-	b := middle.SocketAuth(token)
-	if !b {
-		resMsg := &util.Message{
-			Content: e.GetMsg(e.CONNECT_FAIL_AUTH),
-			Type:    e.CONNECT_FAIL_AUTH,
-		}
-		wss.SendSelf(resMsg)
-		wss.CloseCoon()
-	}
 	uid := token
 	channel(wss, uid)
-
 }
 
 func channel(wss *util.Ws, token string) {
