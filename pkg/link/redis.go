@@ -29,7 +29,7 @@ func rd() {
 	}
 	host = sec.Key("HOST").MustString("127.0.0.1:6379")
 	pass = sec.Key("PASSWORD").MustString("")
-	Rd := redis.NewClient(&redis.Options{
+	Rd = redis.NewClient(&redis.Options{
 		Addr:     host,
 		Password: pass,
 	})
