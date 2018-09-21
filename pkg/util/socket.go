@@ -2,7 +2,6 @@ package util
 
 import (
 	"github.com/gorilla/websocket"
-	"time"
 	"encoding/json"
 	"net/http"
 	"io"
@@ -13,7 +12,7 @@ import (
 	"fmt"
 )
 
-const SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol"
+const secWebsocketProtocol = "Sec-WebSocket-Protocol"
 
 type Ws struct {
 	conn *websocket.Conn
@@ -23,7 +22,6 @@ type Ws struct {
 type Message struct {
 	Content interface{} `json:"content"`
 	Type    string      `json:"type"`
-	Time    int64       `json:"time"`
 }
 
 //用户体
@@ -59,8 +57,8 @@ var wsupgrader = websocket.Upgrader{
 //实例化
 func NewWs(c *gin.Context) (wss *Ws, token string, err error) {
 	resHeader := http.Header{}
-	token = c.GetHeader(SEC_WEBSOCKET_PROTOCOL)
-	resHeader.Add(SEC_WEBSOCKET_PROTOCOL, token)
+	token = c.GetHeader(secWebsocketProtocol)
+	resHeader.Add(secWebsocketProtocol, token)
 	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, resHeader)
 	if err != nil {
 		return nil, "", logs.SysErr(err)
@@ -73,6 +71,7 @@ func (this *Ws) BindCoon(bid string) {
 	client := User{Bid: bid, conn: this.conn}
 	member[bid] = &client
 	uidMapWs[bid] = this.conn
+	wsMapUid[this.conn] = bid
 }
 
 //是否在线
@@ -95,10 +94,11 @@ func (this *Ws) CloseCoon() () {
 }
 
 //群发消息
-func (this *Ws) SendToAll(msg *Message) {
-	msg.Time = time.Now().Unix()
-	sendMess, _ := json.Marshal(msg)
-
+func (this *Ws) SendToAll(content interface{},t string) {
+	m := new(Message)
+	m.Content = content
+	m.Type = t
+	sendMess, _ := json.Marshal(m)
 	for k, v := range member {
 		if v.conn != this.conn {
 			if err := v.conn.WriteMessage(1, sendMess); err != nil {
@@ -129,9 +129,11 @@ func (this *Ws) JoinGroup(groupName, bid string) []*User {
 }
 
 //给指定群发消息
-func (this *Ws) SendToGroup(groupName string, msg *Message) {
-	msg.Time = time.Now().Unix()
-	sendMess, _ := json.Marshal(msg)
+func (this *Ws) SendToGroup(groupName string, content interface{}, t string) {
+	m := new(Message)
+	m.Content = content
+	m.Type = t
+	sendMess, _ := json.Marshal(content)
 
 	for k, v := range groupMapMember[groupName] {
 		if v.conn != this.conn {
@@ -159,11 +161,12 @@ func (this *Ws) LeaveGroup(groupName, bid string) {
 }
 
 //发送给指定uid
-func (this *Ws) SendToUid(bid string, msg *Message) error {
+func (this *Ws) SendToUid(bid string, content interface{}, t string) error {
 	toWsCoon := uidMapWs[bid]
-	msg.Time = time.Now().Unix()
-	sendMess, _ := json.Marshal(msg)
-
+	m := new(Message)
+	m.Content = content
+	m.Type = t
+	sendMess, _ := json.Marshal(m)
 	if err := toWsCoon.WriteMessage(1, sendMess); err != nil {
 		delete(member, bid)
 		return logs.SysErr(err)
@@ -173,10 +176,11 @@ func (this *Ws) SendToUid(bid string, msg *Message) error {
 }
 
 //给当前连接发消息
-func (this *Ws) SendSelf(msg *Message) error {
-	msg.Time = time.Now().Unix()
-	sendMess, _ := json.Marshal(msg)
-
+func (this *Ws) SendSelf(content interface{}, t string) error {
+	m := new(Message)
+	m.Content = content
+	m.Type = t
+	sendMess, _ := json.Marshal(m)
 	if err := this.conn.WriteMessage(1, sendMess); err != nil {
 		return logs.SysErr(err)
 	}
@@ -201,7 +205,7 @@ func (this *Ws) GetMsg(msg *Message) error {
 func (this *Ws) logReqData(reply []byte) {
 	var logStr string
 	bid := wsMapUid[this.conn]
-	logStr += fmt.Sprintf("Bid:%s\n", bid)
+	logStr += fmt.Sprintf("\nBid:%s\n", bid)
 	logStr += fmt.Sprintf("%s\n", string(reply))
 	logStr += fmt.Sprintf("%s", "------------------------------------")
 	logs.LogsWs.Info("%s", logStr)

@@ -10,11 +10,7 @@ import (
 //Socket验证
 func SocketAuth(wss *util.Ws, openId string){
 	if openId != "hi" {
-		resMsg := &util.Message{
-			Content: e.GetMsg(e.CONNECT_FAIL_AUTH),
-			Type:    e.CONNECT_FAIL_AUTH,
-		}
-		wss.SendSelf(resMsg)
+		wss.SendSelf(e.GetMsg(e.CONNECT_FAIL_AUTH),e.CONNECT_FAIL_AUTH)
 		wss.CloseCoon()
 	}
 }

@@ -24,17 +24,9 @@ func channel(wss *util.Ws, token string) {
 		switch reqMsg.Type {
 		case "connect":
 			wss.BindCoon(token)
-			resMsg := &util.Message{
-				Content: e.GetMsg(e.CONNECT_OK),
-				Type:    e.CONNECT_OK,
-			}
-			wss.SendSelf(resMsg)
+			wss.SendSelf(e.GetMsg(e.CONNECT_OK),e.CONNECT_OK)
 		default:
-			resMsg := &util.Message{
-				Content: "未知操作",
-				Type:    "none",
-			}
-			wss.SendSelf(resMsg)
+			wss.SendSelf("未知操作","none")
 		}
 	}
 }
