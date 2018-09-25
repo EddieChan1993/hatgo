@@ -141,8 +141,8 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 //记录err到日志文件，并打印到控制台
 func SysErr(err error) error {
 	_, file, line, _ := runtime.Caller(1)
-	fileLine := fmt.Sprintf("%s:%d\n", file, line)
-	logsErr.Error("%s%v", fileLine, err)
+	fileLine := fmt.Sprintf("%s:%d", file, line)
+	logsErr.Error("%v\n%s", err, fileLine)
 	return err
 }
 
