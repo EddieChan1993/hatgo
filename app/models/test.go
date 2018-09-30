@@ -6,5 +6,5 @@ type Test struct {
 	Name  string   `json:"name"`
 	CTime int      `json:"c_time" xorm:"created"` //存入当前时间戳
 	UTime int      `json:"u_time" xorm:"updated"`
-	DTime xormDate `json:"d_time"` //存入日期,建议存时间戳，
+	DTime XormDate `json:"d_time"` //存入日期,建议存时间戳，
 }
