@@ -9,6 +9,7 @@ import (
 	"hatgo/app/routers"
 )
 
+const keyVer = "[version]"
 var _version_ = "none setting"
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	}()
 
 	router := routers.InitRouter()
+	log.Printf("%s %s",keyVer,_version_)
 	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
