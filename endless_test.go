@@ -11,7 +11,7 @@ import (
 	"hatgo/pkg/link"
 	"fmt"
 )
-
+const keyVer = "[version]"
 var _version_ = "none setting"
 
 func testEndLess(T *testing.T) {
@@ -26,6 +26,7 @@ func testEndLess(T *testing.T) {
 	endless.DefaultWriteTimeOut = conf.Serverer.WriteTimeout
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
+	log.Printf("%s %s",keyVer,_version_)
 	server := endless.NewServer(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort), routers.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Printf("HOST is %s", conf.Serverer.HTTPAdd)
@@ -46,7 +47,9 @@ func testNoEndless(T testing.T) {
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
 	}()
+
 	router := routers.InitRouter()
+	log.Printf("%s %s",keyVer,_version_)
 	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
