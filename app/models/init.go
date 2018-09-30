@@ -5,9 +5,9 @@ import (
 	"fmt"
 )
 
-type xormDate time.Time
+type XormDate time.Time
 
-func (this xormDate) MarshalJSON() ([]byte, error) {
+func (this XormDate) MarshalJSON() ([]byte, error) {
 	var stamp = fmt.Sprintf("\"%s\"", time.Time(this).Format("2006-01-02 15:04:05"))
 	return []byte(stamp), nil
 }
