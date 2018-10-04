@@ -1,9 +1,9 @@
-package routers
+package router
 
 import (
 	"github.com/gin-gonic/gin"
 	"hatgo/pkg/conf"
-	"hatgo/app/routers/api/v1"
+	"hatgo/app/router/api/v1"
 	"hatgo/app/middle"
 )
 

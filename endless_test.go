@@ -7,7 +7,7 @@ import (
 	"github.com/fvbock/endless"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/conf"
-	"hatgo/app/routers"
+	"hatgo/app/router"
 	"hatgo/pkg/link"
 	"fmt"
 )
@@ -27,7 +27,7 @@ func testEndLess(T *testing.T) {
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
 	log.Printf("%s %s",keyVer,_version_)
-	server := endless.NewServer(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort), routers.InitRouter())
+	server := endless.NewServer(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort), router.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Printf("HOST is %s", conf.Serverer.HTTPAdd)
 		log.Printf("Listening port %s", conf.Serverer.HTTPPort)
@@ -48,7 +48,7 @@ func testNoEndless(T testing.T) {
 		logs.LogsSql.Close()
 	}()
 
-	router := routers.InitRouter()
+	router := router.InitRouter()
 	log.Printf("%s %s",keyVer,_version_)
 	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
