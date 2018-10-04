@@ -6,7 +6,7 @@ import (
 	"hatgo/pkg/conf"
 	"log"
 	"hatgo/pkg/logs"
-	"hatgo/app/routers"
+	"hatgo/app/router"
 )
 
 const keyVer = "[version]"
@@ -21,7 +21,7 @@ func main() {
 		logs.LogsWs.Close()
 	}()
 
-	router := routers.InitRouter()
+	router := router.InitRouter()
 	log.Printf("%s %s",keyVer,_version_)
 	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
