@@ -5,9 +5,12 @@ import (
 	"net/http"
 	"hatgo/pkg/e"
 )
+
+const HTTP_TOKEN = "auth_token"
+
 func Auth(c *gin.Context) {
 	authCode := http.StatusUnauthorized
-	token := c.GetHeader("token")
+	token := c.GetHeader(HTTP_TOKEN)
 	if token == "" {
 		e.Output(c, authCode, http.StatusText(authCode))
 		c.Abort()
