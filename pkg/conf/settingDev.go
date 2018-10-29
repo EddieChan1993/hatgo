@@ -17,7 +17,6 @@ func load() {
 		log.Fatalf("Fail to parse 'conf/app.ini':%v", err)
 	}
 	loadServer()
-	loadQiniu()
 }
 func loadServer() {
 	Serverer = new(Server)
@@ -30,20 +29,4 @@ func loadServer() {
 	Serverer.ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
 	Serverer.WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
 	fmt.Println("server is running in 【开发模式】")
-}
-
-func loadQiniu() {
-	QiNiuer = new(QiNiu)
-	sec, err := Cfg.GetSection("qiniu")
-	if err != nil {
-		log.Fatalf("Fail to get section 'qiniu':%v", err)
-	}
-	QiNiuer.Host = sec.Key("host").MustString("")
-	QiNiuer.HostBase = sec.Key("hostBase").MustString(QiNiuer.Host)
-	QiNiuer.AccessKey = sec.Key("accessKey").MustString("")
-	QiNiuer.SecretKey = sec.Key("secretKey").MustString("")
-	QiNiuer.Bucket = sec.Key("bucket").MustString("")
-	QiNiuer.Folder = sec.Key("folder").MustString("")
-	QiNiuer.IsUseHttps = sec.Key("host").MustBool(false)
-	QiNiuer.ZoneKey = sec.Key("zone").MustString("huaNan")
 }
