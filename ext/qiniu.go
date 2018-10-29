@@ -10,8 +10,18 @@ import (
 	"mime/multipart"
 	"time"
 	"path/filepath"
-	"hatgo/pkg/conf"
 	"hatgo/pkg/logs"
+)
+
+const (
+	host       = "p2otxz81j.bkt.clouddn.com"
+	hostBase   = "http://www.dcwen.top"
+	accessKey  = "YwBMfAjdDqGQMWrwWgQrkHoES8h_sfQ4oJT7esdG"
+	secretKey  = "b-laMNJSLbOyGj-W7qfyFOGWEtvinnaeOLZtAs2-"
+	bucket     = "alphacms"
+	folder     = "test"
+	isUseHttps = false
+	zoneKey    = "huaNan"
 )
 
 var (
@@ -31,14 +41,14 @@ var (
 
 func init() {
 	putPolicy = &storage.PutPolicy{
-		Scope: conf.QiNiuer.Bucket,
+		Scope: bucket,
 	}
-	mac = qbox.NewMac(conf.QiNiuer.AccessKey, conf.QiNiuer.SecretKey)
+	mac = qbox.NewMac(accessKey, secretKey)
 	upToken = putPolicy.UploadToken(mac)
 	cfg = new(storage.Config)
-	cfg.Zone = zone[conf.QiNiuer.ZoneKey]
-	cfg.UseHTTPS = conf.QiNiuer.IsUseHttps
-	cfg.UseCdnDomains = conf.QiNiuer.IsUseHttps
+	cfg.Zone = zone[zoneKey]
+	cfg.UseHTTPS = isUseHttps
+	cfg.UseCdnDomains = isUseHttps
 
 	ret = new(storage.PutRet)
 	putExtra = new(storage.PutExtra)
@@ -56,20 +66,26 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 		return "", logs.SysErr(err)
 	}
 	//存储后的新地址
-	key := fmt.Sprintf("%s/%s/%v%s", conf.QiNiuer.Folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
+	key := fmt.Sprintf("%s/%s/%v%s", folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
-	return fmt.Sprintf("http://%s/%s", conf.QiNiuer.HostBase, key), nil
+	imgUrl := ""
+	if hostBase == "" {
+		imgUrl = fmt.Sprintf("%s/%s", host, key)
+	} else {
+		imgUrl = fmt.Sprintf("%s/%s", hostBase, key)
+	}
+	return imgUrl, nil
 }
 
 func fileInfo(key string) {
-	mac := qbox.NewMac(conf.QiNiuer.AccessKey, conf.QiNiuer.SecretKey)
+	mac := qbox.NewMac(accessKey, secretKey)
 	bucketManager := storage.NewBucketManager(mac, cfg)
 
-	fileInfo, sErr := bucketManager.Stat(conf.QiNiuer.Bucket, key)
+	fileInfo, sErr := bucketManager.Stat(bucket, key)
 	if sErr != nil {
 		fmt.Println(sErr)
 		return
