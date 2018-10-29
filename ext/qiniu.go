@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	host       = "p2otxz81j.bkt.clouddn.com"
-	hostBase   = "http://www.dcwen.top"
+	host       = "http://p2otxz81j.bkt.clouddn.com"
+	hostBase   = ""
 	accessKey  = "YwBMfAjdDqGQMWrwWgQrkHoES8h_sfQ4oJT7esdG"
 	secretKey  = "b-laMNJSLbOyGj-W7qfyFOGWEtvinnaeOLZtAs2-"
 	bucket     = "alphacms"
