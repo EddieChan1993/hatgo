@@ -29,6 +29,6 @@ func RUpload(c *gin.Context) {
 	}
 }
 
-func RDelTest(c *gin.Context) {
-
+func GetXml(c *gin.Context) {
+	service.GetXml(c)
 }

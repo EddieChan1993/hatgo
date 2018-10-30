@@ -23,7 +23,7 @@ func InitRouter() *gin.Engine {
 		api.POST("get-test", v1.RGetTest)
 		api.POST("add-test", v1.RAddTest)
 		api.POST("upload", v1.RUpload)
-		api.DELETE("test/:id", v1.RDelTest)
+		api.POST("get-xml", v1.GetXml)
 	}
 	return r
 }
