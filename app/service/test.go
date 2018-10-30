@@ -20,6 +20,10 @@ type ReqTest2 struct {
 	IP     string `json:"ip"`
 }
 
+type XmlData struct {
+	ResultCode string `xml:"result_code"`
+}
+
 func SGetTestT(c *gin.Context) error {
 	if 1 == 1 {
 		c.Get("uid")
@@ -63,4 +67,10 @@ func SUpload(c *gin.Context) (path string, err error) {
 		return "", err
 	}
 	return path, nil
+}
+
+func GetXml(c *gin.Context)  {
+	req:=new(XmlData)
+	c.ShouldBind(req)
+	fmt.Println(req.ResultCode)
 }
