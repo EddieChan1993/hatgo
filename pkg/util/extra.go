@@ -73,3 +73,9 @@ func RandFloat32(start, end float32) float32 {
 	ca := end - start
 	return rand.Float32()*ca + start
 }
+
+
+//订单号
+func TradeNo(key string) string {
+	return fmt.Sprintf("%s%d%d", key, time.Now().UnixNano(), RandInt(1000, 9999)) //订单单号
+}

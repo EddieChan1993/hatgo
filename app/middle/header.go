@@ -34,7 +34,7 @@ func TouchBody(c *gin.Context) {
 		b, _ := ioutil.ReadAll(c.Request.Body)
 		s, _ := url.PathUnescape(string(b))
 		headerInfo += fmt.Sprintf("%s\n", c.GetHeader("Content-Type"))
-		headerInfo += fmt.Sprintf("%s\n", c.GetHeader("Cookie"))
+		headerInfo += fmt.Sprintf("%s\n", c.GetHeader(HTTP_TOKEN))
 		c.Request.Body = ioutil.NopCloser(bytes.NewReader(b))
 		requestInfo += fmt.Sprintf("%s%s\n", headerInfo, s)
 	}
@@ -42,4 +42,3 @@ func TouchBody(c *gin.Context) {
 	logs.LogsReq.Info(requestInfo)
 	c.Next()
 }
-

@@ -18,19 +18,7 @@ type Server struct {
 	WriteTimeout time.Duration
 }
 
-type QiNiu struct {
-	Folder     string
-	Host       string
-	HostBase   string
-	AccessKey  string
-	SecretKey  string
-	Bucket     string
-	IsUseHttps bool
-	ZoneKey    string
-}
-
 var (
-	QiNiuer  *QiNiu
 	Serverer *Server
 )
 
