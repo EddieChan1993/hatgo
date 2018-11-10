@@ -1,15 +1,15 @@
 package util
 
 import (
-	"github.com/gorilla/websocket"
-	"encoding/json"
-	"net/http"
-	"io"
 	"crypto/rand"
 	"encoding/base64"
-	"hatgo/pkg/logs"
-	"github.com/gin-gonic/gin"
+	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"hatgo/pkg/logs"
+	"io"
+	"net/http"
 )
 
 const secWebsocketProtocol = "Sec-WebSocket-Protocol"
