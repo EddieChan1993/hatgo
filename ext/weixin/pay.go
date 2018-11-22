@@ -16,7 +16,7 @@ import (
 	"strconv"
 )
 
-const ReturnCode = "SUCCESS"
+const SUCCESS = "SUCCESS"
 
 //首先定义一个UnifyOrderReq用于填入我们要传入的参数。
 type UnifyOrderReq struct {
@@ -42,7 +42,7 @@ type WxOrderGoods struct {
 	NotifyUrl      string //支付回调 eg:"https://www.yourserver.com/wxpayNotify"
 }
 
-//统一下单返回数据
+//统一下单接口返回数据
 type ReturnData struct {
 	ReturnCode string `xml:"return_code"`
 	ReturnMsg  string `xml:"return_msg"`
@@ -50,11 +50,11 @@ type ReturnData struct {
 	PrepayId   string `xml:"prepay_id"` //预支付交易会话标识
 }
 
-//客户端支付响应数据
+//客户端支付所需返回数据
 type ResPayData struct {
 	TimeStamp string `json:"time_stamp"` //时间戳
 	NonceStr  string `json:"nonce_str"`  //随机数据
-	Package   string `json:"package"`    //统一下单接口返回的 prepay_id 参数值
+	PrepayId  string `json:"prepay_id"`  //统一下单接口返回的 prepay_id 参数值
 	PaySign   string `json:"pay_sign"`   //签名
 }
 
@@ -68,15 +68,19 @@ type NoticeData struct {
 	Sign          string `xml:"sign"`           //签名
 }
 
+//小程序支付
+func PayXCX(openId string, orderGoods *WxOrderGoods) (*ResPayData, error) {
+	return unifiedOrder(openId, appidXCX, jsapi, orderGoods)
+}
+
 //统一下单
-func UnifiedOrder(openId string, orderGoods *WxOrderGoods) (*ResPayData, error) {
+func unifiedOrder(openId, appid, tradeType string, orderGoods *WxOrderGoods) (*ResPayData, error) {
 	var data UnifyOrderReq
 	//统一下单请求参数
-	nonceStr := fmt.Sprintf("%s%d", time.Now().Format("20060102150405"), util.RandInt(0000, 9999)) //随机字符串
-	data.Appid = appid                                                                             //微信开放平台我们创建出来的app的app id
+	data.Appid = appid
 	data.MchId = mchId
 	data.Openid = openId
-	data.NonceStr = nonceStr
+	data.NonceStr = nonceStr()
 	data.TradeType = tradeType
 	data.Body = orderGoods.Body
 	data.NotifyUrl = orderGoods.NotifyUrl
@@ -114,7 +118,7 @@ func UnifiedOrder(openId string, orderGoods *WxOrderGoods) (*ResPayData, error) 
 		return nil, logs.SysErr(err)
 	}
 	req.Header.Set("Accept", "application/xml")
-	req.Header.Set("Content-Type", "application/xml;charset=utf-8")
+	req.Header.Set("Content-Status", "application/xml;charset=utf-8")
 
 	c := http.Client{}
 	resp, err := c.Do(req)
@@ -133,11 +137,11 @@ func UnifiedOrder(openId string, orderGoods *WxOrderGoods) (*ResPayData, error) 
 		return nil, logs.SysErr(err)
 	}
 	code := strings.ToUpper(respData.ReturnCode)
-	if code == "SUCCESS" {
+	if code == SUCCESS {
 		//返回给客户端数据，用于调起支付
 		resPayData := new(ResPayData)
 		resPayData.TimeStamp = strconv.FormatInt(time.Now().Unix(), 10) //时间戳
-		resPayData.Package = "prepay_id=" + respData.PrepayId           //统一下单接口返回的 prepay_id 参数值
+		resPayData.PrepayId = respData.PrepayId                         //统一下单接口返回的 prepay_id 参数值
 		resPayData.NonceStr = respData.NonceStr                         //随机数
 		//签名算法
 		resMap := make(map[string]interface{}, 0)
@@ -183,4 +187,9 @@ func wxpayCalcSign(mReq map[string]interface{}, key string) (sign string) {
 	cipherStr := md5Ctx.Sum(nil)
 	upperSign := strings.ToUpper(hex.EncodeToString(cipherStr))
 	return upperSign
+}
+
+//随机字符串
+func nonceStr() string {
+	return fmt.Sprintf("%s%d", time.Now().Format("20060102150405"), util.RandInt(0000, 9999))
 }

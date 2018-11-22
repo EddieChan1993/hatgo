@@ -1,9 +1,22 @@
 package weixin
 
+//平台
 const (
-	appid       = "wxabbfe2d69e9264de"
-	appSecret   = "4962407af122edd415d779762034b375"
+	appidXCX     = "wxabbfe2d69e9264de"               //小程序
+	appSecretXCX = "4962407af122edd415d779762034b375" //小程序
+
+	appidApp     = "" //app
+	appSecretApp = "" //app
+)
+
+//商户
+const (
 	mchId       = "1517821541"
 	wxPayApiKey = "qianbaike666qianbaike666qianbaik"
-	tradeType   = "JSAPI"
+)
+
+//交易类型
+const (
+	jsapi = "JSAPI"
+	app   = "APP"
 )
