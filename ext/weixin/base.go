@@ -33,7 +33,7 @@ func OpenidXCX(code string) (string, error) {
 func AuthOpenid(code, appid string) (string, error) {
 	var d []byte
 	host := "https://api.weixin.qq.com/sns/jscode2session"
-	formUrl := "%s?appidXCX=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
+	formUrl := "%s?appid=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
 	url := fmt.Sprintf(formUrl, host, appid, appSecretXCX, code)
 	resOpenid := new(ResOpenId)
 	d, err := util.HttpCurl(url).Get()
