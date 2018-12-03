@@ -52,7 +52,7 @@ func AuthOpenid(code, appid string) (string, error) {
 
 //获取access_token
 func AccessToken() (string, error) {
-	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appidXCX=%s&secret=%s", appidXCX, appSecretXCX)
+	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
 	req, err := http.NewRequest("GET", url, nil)
 	c := http.Client{}
 	resp, err := c.Do(req)
