@@ -1,6 +1,6 @@
 //+build !prod
 
-package conf
+package c
 
 import (
 	"log"
@@ -21,7 +21,7 @@ func load() {
 func loadServer() {
 	Serverer = new(Server)
 	sec, err := Cfg.GetSection("server")
-	if err != nil {HTTP_PORT
+	if err != nil {
 		log.Fatalf("Fail to get section 'server':%v", err)
 	}
 	Serverer.HTTPAdd = sec.Key("HTTP_ADDR").MustString("")

@@ -3,7 +3,7 @@ package link
 import (
 	"github.com/go-redis/redis"
 	"log"
-	"hatgo/pkg/conf"
+	"hatgo/pkg/c"
 	"fmt"
 )
 
@@ -23,7 +23,7 @@ func rd() {
 		err        error
 		pass, host string
 	)
-	sec, err := conf.Cfg.GetSection("redis")
+	sec, err := c.Cfg.GetSection("redis")
 	if err != nil {
 		log.Fatal(2, "Fail to get section 'redis':%v", err)
 	}

@@ -1,6 +1,6 @@
 //+build prod
 
-package conf
+package c
 
 import (
 	"time"
