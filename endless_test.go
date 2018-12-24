@@ -32,7 +32,7 @@ func testEndLess(T *testing.T) {
 	server := endless.NewServer(fmt.Sprintf("%s:%s", c.Serverer.HTTPAdd, c.Serverer.HTTPPort), router.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Printf("HOST is %s", c.Serverer.HTTPAdd)
-		log.Printf("Listening port %s", c.Serverer.HTTPPort)
+		log.Printf("Listening port is %s", c.Serverer.HTTPPort)
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
 	err := server.ListenAndServe()
