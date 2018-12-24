@@ -1,4 +1,4 @@
-package weixin
+package wx
 
 //平台
 const (

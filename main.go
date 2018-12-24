@@ -1,15 +1,16 @@
 package main
 
 import (
-	"hatgo/pkg/link"
 	"fmt"
-	"hatgo/pkg/conf"
-	"log"
-	"hatgo/pkg/logs"
 	"hatgo/app/router"
+	"hatgo/pkg/conf"
+	"hatgo/pkg/link"
+	"hatgo/pkg/logs"
+	"log"
 )
 
 const keyVer = "[version]"
+
 var _version_ = "none setting"
 
 func main() {
@@ -22,8 +23,8 @@ func main() {
 	}()
 
 	router := router.InitRouter()
-	log.Printf("%s %s",keyVer,_version_)
-	err := router.Run(fmt.Sprintf("%s%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
+	log.Printf("%s %s", keyVer, _version_)
+	err := router.Run(fmt.Sprintf("%s:%s", conf.Serverer.HTTPAdd, conf.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
 	}

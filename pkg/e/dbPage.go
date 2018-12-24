@@ -9,7 +9,11 @@ const (
 
 )
 
-//翻页偏移量
+/**
+	翻页偏移量
+	pageNum 页索引
+	limitNums 显示数量
+ */
 func Page(pageNum int, limitNums int) (int, int) {
 	if pageNum <= 1 {
 		return limitNums, 0

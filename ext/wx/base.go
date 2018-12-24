@@ -1,4 +1,4 @@
-package weixin
+package wx
 
 import (
 	"encoding/json"
@@ -26,13 +26,13 @@ type ResAccessToken struct {
 }
 
 func OpenidXCX(code string) (string, error) {
-	return AuthOpenid(code, appidXCX)
+	return authOpenid(code, appidXCX)
 }
 
 //获取openid
-func AuthOpenid(code, appid string) (string, error) {
+func authOpenid(code, appid string) (string, error) {
 	var d []byte
-	host := "https://api.weixin.qq.com/sns/jscode2session"
+	host := "https://api.wx.qq.com/sns/jscode2session"
 	formUrl := "%s?appid=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
 	url := fmt.Sprintf(formUrl, host, appid, appSecretXCX, code)
 	resOpenid := new(ResOpenId)
@@ -52,7 +52,7 @@ func AuthOpenid(code, appid string) (string, error) {
 
 //获取access_token
 func AccessToken() (string, error) {
-	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
+	url := fmt.Sprintf("https://api.wx.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
 	req, err := http.NewRequest("GET", url, nil)
 	c := http.Client{}
 	resp, err := c.Do(req)
