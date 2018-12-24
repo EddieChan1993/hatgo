@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"foleng/pkg/logs"
+	"hatgo/pkg/logs"
+	"hatgo/pkg/util"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"foleng/pkg/util"
 )
 
 //参考https://developers.weixin.qq.com/miniprogram/dev/api/open-api/template-message/sendTemplateMessage.html

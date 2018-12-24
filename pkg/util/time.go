@@ -29,13 +29,3 @@ func StampToFormat(format string, timeFormat string) int64 {
 	}
 	return tm2.Unix()
 }
-
-//获取当前时间
-func DateNow(timeFormat string) string {
-	return time.Now().Format(timeFormat)
-}
-
-//获取当前时间戳
-func TimeStamp() int64 {
-	return time.Now().Unix()
-}

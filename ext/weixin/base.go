@@ -3,8 +3,8 @@ package weixin
 import (
 	"encoding/json"
 	"fmt"
-	"foleng/pkg/logs"
-	"foleng/pkg/util"
+	"hatgo/pkg/logs"
+	"hatgo/pkg/util"
 	"io/ioutil"
 	"net/http"
 )

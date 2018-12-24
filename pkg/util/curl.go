@@ -19,7 +19,7 @@ type request struct {
 }
 
 //构造request实例对象
-func httpCurl(url string)*request {
+func HttpCurl(url string)*request {
 	if url=="" {
 		log.Fatalln("Lack of request url")
 	}

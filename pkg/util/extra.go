@@ -10,15 +10,6 @@ import (
 	"math/rand"
 )
 
-//获取Ip地址
-func GetIp(c *gin.Context) string {
-	//ip :=c.request.RemoteAddr
-	//return fmt.Sprintf(ip[0:strings.LastIndex(ip,":")])
-
-	//X-Real_IP是根据nginx的配置的header来的，用于获取客户端的真实信息
-	return c.ClientIP()
-}
-
 //md5加密
 func Md5(value string) string {
 	h := md5.New()
@@ -57,23 +48,6 @@ func RandInt(start, end int) int {
 	ca := end - start
 	return start + rand.Intn(ca)
 }
-
-//获取float64的随机数
-func RandFloat64(start, end float64) float64 {
-	timens := int64(time.Now().Nanosecond())
-	rand.Seed(timens)
-	ca := end - start
-	return rand.Float64()*ca + start
-}
-
-//获取float32的随机数
-func RandFloat32(start, end float32) float32 {
-	timens := int64(time.Now().Nanosecond())
-	rand.Seed(timens)
-	ca := end - start
-	return rand.Float32()*ca + start
-}
-
 
 //订单号
 func TradeNo(key string) string {
