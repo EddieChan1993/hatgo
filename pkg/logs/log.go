@@ -86,6 +86,7 @@ func errLog() {
 		bErrC, _ := json.Marshal(logConfErrConsole)
 		logsErr.SetLogger(logs.AdapterConsole, string(bErrC))
 	}
+	logsErr.Async()
 }
 
 /**
