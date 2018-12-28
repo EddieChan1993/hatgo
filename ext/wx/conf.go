@@ -2,7 +2,7 @@ package wx
 
 //平台
 const (
-	appidXCX     = "wxabbfe2d69e9264de"               //小程序
+	appidXCX     = "99999"               //小程序
 	appSecretXCX = "4962407af122edd415d779762034b375" //小程序
 
 	appidApp     = "" //app
@@ -11,7 +11,7 @@ const (
 
 //商户
 const (
-	mchId       = "1517821541"
+	mchId       = "99999"
 	wxPayApiKey = "qianbaike666qianbaike666qianbaik"
 )
 

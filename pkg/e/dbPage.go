@@ -6,7 +6,6 @@ const (
 	LimitUserAddr    = 3 //我的地址
 	LimitUserDevices = 3 //用户设备
 	LimitSysMsg      = 3 //系统消息
-
 )
 
 /**

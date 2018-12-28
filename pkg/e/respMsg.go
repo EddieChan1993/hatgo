@@ -6,30 +6,30 @@ import (
 )
 
 const (
-	NO_ERROR  = 0
-	HAS_ERROR = 1
+	NoneError = 0
+	HasError  = 1
 )
 
 func resSuccess(data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":  http.StatusOK,
-		"error": NO_ERROR,
+		"e":     http.StatusOK,
+		"error": NoneError,
 		"data":  data,
 	}
 }
 
 func resWarning(data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":  http.StatusOK,
-		"error": HAS_ERROR,
+		"e":     http.StatusOK,
+		"error": HasError,
 		"data":  data,
 	}
 }
 
 func resOutput(code int, data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":  code,
-		"error": HAS_ERROR,
+		"e":     code,
+		"error": HasError,
 		"data":  data,
 	}
 }
