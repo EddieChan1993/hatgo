@@ -1,4 +1,4 @@
-package c
+package code
 
 import (
 	"github.com/astaxie/beego/validation"

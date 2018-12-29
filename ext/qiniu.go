@@ -15,10 +15,10 @@ import (
 
 const (
 	host       = "http://p2otxz81j.bkt.clouddn.com"
-	hostBase   = ""
-	accessKey  = "YwBMfAjdDqGQMWrwWgQrkHoES8h_sfQ4oJT7esdG"
-	secretKey  = "b-laMNJSLbOyGj-W7qfyFOGWEtvinnaeOLZtAs2-"
-	bucket     = "alphacms"
+	hostBase   = "http://fans.dcwen.top"
+	accessKey  = "YwBMfAjdDqGQMDfWrwWgQrkHoESDD8h_sfQ4oJT7esdG"
+	secretKey  = "b-laMNJSLbOyGj-W7343werqfyFOGWEtvinfnaeOLZtAs2-"
+	bucket     = "fans"
 	folder     = "test"
 	isUseHttps = false
 	zoneKey    = "huaNan"

@@ -178,7 +178,7 @@ func wxPayCalcSign(mReq map[string]interface{}, key string) (sign string) {
 
 	//STEP3, 在键值对的最后加上key=API_KEY
 	if key != "" {
-		signStrings = signStrings + "key=" + key
+		signStrings = signStrings + "e=" + key
 	}
 
 	//STEP4, 进行MD5签名并且将所有字符转为大写.

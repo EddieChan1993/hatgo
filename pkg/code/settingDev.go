@@ -1,18 +1,18 @@
-//+build prod
+//+build !prod
 
-package c
+package code
 
 import (
-	"time"
 	"log"
+	"github.com/gin-gonic/gin"
+	"time"
 	"fmt"
 	"github.com/go-ini/ini"
-	"github.com/gin-gonic/gin"
 )
 
-const RunMode    = gin.ReleaseMode //生产模式
+const RunMode = gin.DebugMode //调试模式
 func load() {
-	Cfg, err = ini.Load("conf/app.ini", "conf/app.prod.ini")
+	Cfg, err = ini.Load("conf/app.ini", "conf/app.dev.ini")
 	if err != nil {
 		log.Fatalf("Fail to parse 'conf/app.ini':%v", err)
 	}
@@ -28,5 +28,5 @@ func loadServer() {
 	Serverer.HTTPPort = sec.Key("HTTP_PORT").MustString("8000")
 	Serverer.ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
 	Serverer.WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
-	fmt.Println("server is running in 【生产模式】")
+	fmt.Println("server is running in 【开发模式】")
 }

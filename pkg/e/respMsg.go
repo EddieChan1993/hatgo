@@ -12,7 +12,7 @@ const (
 
 func resSuccess(data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":     http.StatusOK,
+		"code":     http.StatusOK,
 		"error": NoneError,
 		"data":  data,
 	}
@@ -20,7 +20,7 @@ func resSuccess(data interface{}) map[string]interface{} {
 
 func resWarning(data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":     http.StatusOK,
+		"code":     http.StatusOK,
 		"error": HasError,
 		"data":  data,
 	}
@@ -28,7 +28,7 @@ func resWarning(data interface{}) map[string]interface{} {
 
 func resOutput(code int, data interface{}) map[string]interface{} {
 	return gin.H{
-		"e":     code,
+		"code":     code,
 		"error": HasError,
 		"data":  data,
 	}

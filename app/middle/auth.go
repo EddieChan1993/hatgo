@@ -2,8 +2,8 @@ package middle
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"hatgo/pkg/e"
+	"net/http"
 )
 
 const HTTP_TOKEN = "auth_token"
@@ -17,6 +17,6 @@ func Auth(c *gin.Context) {
 		return
 	}
 	c.Set("uid", 12)
-	//c.GetInt64("uid")
+	//code.GetInt64("uid")
 	c.Next()
 }

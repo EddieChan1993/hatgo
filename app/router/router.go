@@ -2,16 +2,16 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"hatgo/pkg/c"
+	"hatgo/pkg/code"
 	"hatgo/app/router/api/v1"
 	"hatgo/app/middle"
 )
 
 func InitRouter() *gin.Engine {
-	gin.SetMode(c.RunMode)
+	gin.SetMode(code.RunMode)
 	r := gin.New()
 	r.Use(gin.Recovery())
-	if c.RunMode == gin.DebugMode {
+	if code.RunMode == gin.DebugMode {
 		r.Use(gin.Logger())
 	}
 	r.Use(middle.Core, middle.TouchBody)
