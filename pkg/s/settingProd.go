@@ -1,6 +1,6 @@
 //+build prod
 
-package code
+package s
 
 import (
 	"time"

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"hatgo/app/router"
-	"hatgo/pkg/code"
+	"hatgo/pkg/s"
 	"hatgo/pkg/link"
 	"hatgo/pkg/logs"
 	"log"
@@ -24,15 +24,15 @@ func testEndLess(T *testing.T) {
 		logs.LogsSql.Close()
 	}()
 
-	endless.DefaultReadTimeOut = code.Serverer.ReadTimeout
-	endless.DefaultWriteTimeOut = code.Serverer.WriteTimeout
+	endless.DefaultReadTimeOut = s.Serverer.ReadTimeout
+	endless.DefaultWriteTimeOut = s.Serverer.WriteTimeout
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
 	log.Printf("%s %s", keyVer, _version_)
-	server := endless.NewServer(fmt.Sprintf("%s:%s", code.Serverer.HTTPAdd, code.Serverer.HTTPPort), router.InitRouter())
+	server := endless.NewServer(fmt.Sprintf("%s:%s", s.Serverer.HTTPAdd, s.Serverer.HTTPPort), router.InitRouter())
 	server.BeforeBegin = func(add string) {
-		log.Printf("HOST is %s", code.Serverer.HTTPAdd)
-		log.Printf("Listening port is %s", code.Serverer.HTTPPort)
+		log.Printf("HOST is %s", s.Serverer.HTTPAdd)
+		log.Printf("Listening port is %s", s.Serverer.HTTPPort)
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
 	err := server.ListenAndServe()
@@ -52,7 +52,7 @@ func testNoEndless(T testing.T) {
 
 	router := router.InitRouter()
 	log.Printf("%s %s", keyVer, _version_)
-	err := router.Run(fmt.Sprintf("%s:%s", code.Serverer.HTTPAdd, code.Serverer.HTTPPort))
+	err := router.Run(fmt.Sprintf("%s:%s", s.Serverer.HTTPAdd, s.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
 	}

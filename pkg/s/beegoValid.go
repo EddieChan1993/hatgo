@@ -1,4 +1,4 @@
-package code
+package s
 
 import (
 	"github.com/astaxie/beego/validation"

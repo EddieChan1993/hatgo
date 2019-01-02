@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"fmt"
 	"github.com/astaxie/beego/validation"
-	"hatgo/pkg/code"
+	"hatgo/pkg/s"
 	"github.com/gin-gonic/gin"
 )
 
@@ -79,7 +79,7 @@ func errLog() {
 	bErr, _ := json.Marshal(logConfErr)
 	//logsErr.EnableFuncCallDepth(true) //每行的位置
 	logsErr.SetLogger(logs.AdapterFile, string(bErr))
-	if code.RunMode == gin.DebugMode {
+	if s.RunMode == gin.DebugMode {
 		logConfErrConsole := LogConfT{
 			Level: 7,
 		}

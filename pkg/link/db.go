@@ -7,7 +7,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/go-xorm/core"
 	"hatgo/pkg/logs"
-	"hatgo/pkg/code"
+	"hatgo/pkg/s"
 )
 
 const mysqlLogIH = "[xorm] [info]"
@@ -24,7 +24,7 @@ func db() {
 		dbType, dbName, user, pass, host, tablePrefix string
 	)
 
-	sec, err := code.Cfg.GetSection("database")
+	sec, err := s.Cfg.GetSection("database")
 	if err != nil {
 		log.Fatal(2, "Fail to get section 'database':%v", err)
 	}
