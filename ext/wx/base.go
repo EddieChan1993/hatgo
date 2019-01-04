@@ -3,8 +3,8 @@ package wx
 import (
 	"encoding/json"
 	"fmt"
-	"hatgo/pkg/logs"
-	"hatgo/pkg/util"
+	"fans/pkg/logs"
+	"fans/pkg/util"
 	"io/ioutil"
 	"net/http"
 )
@@ -32,7 +32,7 @@ func OpenidXCX(code string) (string, error) {
 //获取openid
 func authOpenid(code, appid string) (string, error) {
 	var d []byte
-	host := "https://api.wx.qq.com/sns/jscode2session"
+	host := "https://api.weixin.qq.com/sns/jscode2session"
 	formUrl := "%s?appid=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
 	url := fmt.Sprintf(formUrl, host, appid, appSecretXCX, code)
 	resOpenid := new(ResOpenId)
@@ -52,7 +52,7 @@ func authOpenid(code, appid string) (string, error) {
 
 //获取access_token
 func AccessToken() (string, error) {
-	url := fmt.Sprintf("https://api.wx.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
+	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
 	req, err := http.NewRequest("GET", url, nil)
 	c := http.Client{}
 	resp, err := c.Do(req)

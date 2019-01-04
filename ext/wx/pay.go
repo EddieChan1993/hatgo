@@ -11,8 +11,8 @@ import (
 	"net/http"
 	"io/ioutil"
 	"bytes"
-	"hatgo/pkg/util"
-	"hatgo/pkg/logs"
+	"fans/pkg/util"
+	"fans/pkg/logs"
 	"strconv"
 )
 
@@ -112,7 +112,7 @@ func unifiedOrder(openId, appid, tradeType string, orderGoods *WxOrderGoods) (*R
 	bytesReq = []byte(strReq)
 
 	//发送unified order请求.统一下单接口
-	url := "https://api.mch.wx.qq.com/pay/unifiedorder"
+	url := "https://api.mch.weixin.qq.com/pay/unifiedorder"
 	req, err := http.NewRequest("POST", url, bytes.NewReader(bytesReq))
 	if err != nil {
 		return nil, logs.SysErr(err)

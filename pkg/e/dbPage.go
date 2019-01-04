@@ -1,5 +1,7 @@
 package e
 
+import "fmt"
+
 //列表数据显示条数
 const (
 	LimitUserOrders  = 3 //充值记录
@@ -19,4 +21,16 @@ func Page(pageNum int, limitNums int) (int, int) {
 	} else {
 		return limitNums, (pageNum - 1) * limitNums
 	}
+}
+
+/**
+	where翻页
+	maxId 最大筛选主键
+	pkName 主键名称
+ */
+func WPage(minPk int, pkName string) string {
+	if minPk <= 0 {
+		return ""
+	}
+	return fmt.Sprintf("%s<%d", pkName, minPk)
 }

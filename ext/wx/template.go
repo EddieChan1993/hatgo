@@ -4,14 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"hatgo/pkg/logs"
-	"hatgo/pkg/util"
+	"fans/pkg/logs"
+	"fans/pkg/util"
 	"io/ioutil"
 	"net/http"
 	"time"
 )
 
-//参考https://developers.wx.qq.com/miniprogram/dev/api/open-api/template-message/sendTemplateMessage.html
+//参考https://developers.weixin.qq.com/miniprogram/dev/api/open-api/template-message/sendTemplateMessage.html
 type TempData struct {
 	Touser     string      `json:"touser"`      //接收者（用户）的 openid
 	TemplateId string      `json:"template_id"` //所需下发的模板消息的id
@@ -38,7 +38,7 @@ func sendTemp(openid, fromId, templateId string, data interface{}) error {
 	if err != nil {
 		return logs.SysErr(err)
 	}
-	url := fmt.Sprintf("https://api.wx.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s", accessToken)
+	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=%s", accessToken)
 	m := new(TempData)
 	m.Touser = openid
 	m.TemplateId = templateId
