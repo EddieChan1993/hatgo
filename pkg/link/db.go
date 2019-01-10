@@ -45,9 +45,10 @@ func db() {
 		log.Printf("%v\n", err)
 	}
 
+	log.Printf("%s host:%s user:%s pass:%s db:%s\n", mysqlLogIH, host, user, pass, dbName)
 	err = Db.Ping()
 	if err != nil {
-		fmt.Printf("%s %v\n", mysqlLogIH, err)
+		log.Printf("%s %v\n", mysqlLogIH, err)
 	} else {
 		log.Printf("%s %s\n", mysqlLogIH, "mysql's connecting is ok")
 	}

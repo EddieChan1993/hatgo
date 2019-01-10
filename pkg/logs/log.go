@@ -2,18 +2,19 @@ package logs
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/validation"
+	"github.com/gin-gonic/gin"
+	"hatgo/pkg/s"
 	"os"
 	"runtime"
-	"fmt"
-	"github.com/astaxie/beego/validation"
-	"hatgo/pkg/s"
-	"github.com/gin-gonic/gin"
 )
 
 //单个日志文件存储，默认256M
 type LogConfT struct {
 	Filename string
+	MaxSize  int64
 	Maxdays  int
 	Level    int
 }
@@ -43,6 +44,7 @@ func reqLog() {
 
 	logConf := LogConfT{
 		Filename: filePath,
+		MaxSize:  5 * mb,
 		Maxdays:  3,
 		Level:    6,
 	}
@@ -58,6 +60,7 @@ func sqlLog() {
 
 	logConfSql := LogConfT{
 		Filename: filePathSql,
+		MaxSize:  5 * mb,
 		Maxdays:  3,
 		Level:    6,
 	}
@@ -72,6 +75,7 @@ func errLog() {
 	filePathErr, _ = getLogFilePullPath("err", "err")
 	logConfErr := LogConfT{
 		Filename: filePathErr,
+		MaxSize:  5 * mb,
 		Maxdays:  3,
 		Level:    6,
 	}
@@ -108,7 +112,9 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 
 	logConf := LogConfT{
 		Filename: filePathSql,
+		MaxSize:  5*mb,
 		Maxdays:  3,
+		Level:    6,
 	}
 	b, _ := json.Marshal(logConf)
 	newLogs.EnableFuncCallDepth(true) //每行的位置

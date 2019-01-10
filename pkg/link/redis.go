@@ -37,8 +37,10 @@ func rd() {
 		DB:       db,
 	})
 
+
 	_, err = Rd.Ping().Result()
 	fmt.Printf("%s %s\n", redisLogIH, "ping redis")
+	fmt.Printf("%s host:%s pass:%s db:%d\n", redisLogIH, host, pass, db)
 	if err != nil {
 		log.Printf("%s %s\n", redisLogWH, err)
 	} else {
