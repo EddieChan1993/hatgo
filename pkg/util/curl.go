@@ -1,99 +1,56 @@
 package util
+
 import (
-	"net/url"
-	"net/http"
-	"strings"
-	"log"
-	"encoding/base64"
+	"bytes"
+	"fans/pkg/logs"
+	"fmt"
 	"io/ioutil"
-	"sync"
+	"net/http"
 )
 
-type request struct {
-	url    string //url地址
-	req    *http.Request //请求实例
-	cli    *url.Values
-	header map[string]string //请求头
-	param  map[string]string //post提交参数
-	sync.RWMutex
-}
+const (
+	XMLHeader  = "xml"
+	JSONHeader = "json"
+)
 
-//构造request实例对象
-func HttpCurl(url string)*request {
-	if url=="" {
-		log.Fatalln("Lack of request url")
-	}
-	return &request{
-		url:url,
-	}
-}
-//传入header
-func (this *request) SetHeader(headers map[string]string)*request {
-	this.header =headers
-	return this
-}
-//传入请求参数，POST/GET
-func (this *request) SetParms(postData map[string]string)*request {
-	this.param =postData
-	return this
-}
-
-//将参数加入请求中
-func (this *request) initParams() *strings.Reader {
-	for k,v:=range this.param {
-		this.cli.Add(k,v)
-	}
-	return strings.NewReader(this.cli.Encode())
-
-}
-
-//post请求
-func (this *request)Post()([]byte,error)  {
-	return this.send(http.MethodPost)
-}
-
-//get请求
-func (this *request)Get()([]byte,error)  {
-	return this.send(http.MethodGet)
-}
-
-//将用户自定义请求头添加到http.Request实例
-func (this *request) initHeaders(){
-	for k, v := range this.header {
-		this.req.Header.Set(k,v)
-	}
-}
-
-//发送请求
-func (this *request)send(method string) ([]byte,error){
-	this.Lock()
-	defer this.Unlock()
-
-	this.cli=&url.Values{}
-	req,err:=http.NewRequest(method,this.url,this.initParams())
-	if err !=nil{
-		return nil,err
-	}
-
-	this.req=req
-	this.initHeaders()
-
-	/**************处理响应数据***************/
-	resp,err := http.DefaultClient.Do(req)
-	if err!=nil {
-		return nil,err
-	}
+func GetCurl(url string) ([]byte, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	c := http.Client{}
+	resp, err := c.Do(req)
 	defer resp.Body.Close()
-
-	body,err:=ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil,err
+		return nil, logs.SysErr(err)
 	}
-	return body,nil
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	return body, nil
 }
 
+/**
+	header 默认JSON请求
+ */
+func PostCurl(url string, params []byte, header string) ([]byte, error) {
+	req, err := http.NewRequest("POST", url, bytes.NewReader(params))
 
-func BasicAuth(username, password string) string {
-	auth := username + ":" + password
-	return "Basic "+base64.StdEncoding.EncodeToString([]byte(auth))
+	if header == JSONHeader || header == "" {
+		req.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	} else if header == XMLHeader {
+		req.Header.Set("Accept", "application/xml")
+		req.Header.Set("Content-Status", "application/xml;charset=utf-8")
+	} else {
+		return nil, logs.SysErr(fmt.Errorf("未定义请求头"))
+	}
+	c := http.Client{}
+	resp, err := c.Do(req)
+	defer resp.Body.Close()
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	return body, nil
 }

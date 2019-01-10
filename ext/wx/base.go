@@ -2,11 +2,9 @@ package wx
 
 import (
 	"encoding/json"
-	"fmt"
 	"fans/pkg/logs"
 	"fans/pkg/util"
-	"io/ioutil"
-	"net/http"
+	"fmt"
 )
 
 //获取openid
@@ -31,16 +29,12 @@ func OpenidXCX(code string) (string, error) {
 
 //获取openid
 func authOpenid(code, appid string) (string, error) {
-	var d []byte
 	host := "https://api.weixin.qq.com/sns/jscode2session"
 	formUrl := "%s?appid=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
 	url := fmt.Sprintf(formUrl, host, appid, appSecretXCX, code)
 	resOpenid := new(ResOpenId)
-	d, err := util.HttpCurl(url).Get()
-	if err != nil {
-		return "", logs.SysErr(err)
-	}
-	err = json.Unmarshal(d, resOpenid)
+	body, err := util.GetCurl(url)
+	err = json.Unmarshal(body, resOpenid)
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
@@ -53,17 +47,7 @@ func authOpenid(code, appid string) (string, error) {
 //获取access_token
 func AccessToken() (string, error) {
 	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
-	req, err := http.NewRequest("GET", url, nil)
-	c := http.Client{}
-	resp, err := c.Do(req)
-	defer resp.Body.Close()
-	if err != nil {
-		return "", logs.SysErr(err)
-	}
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", logs.SysErr(err)
-	}
+	body, err := util.GetCurl(url)
 	respM := new(ResAccessToken)
 	err = json.Unmarshal(body, respM)
 	if err != nil {

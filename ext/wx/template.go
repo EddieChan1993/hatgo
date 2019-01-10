@@ -1,13 +1,10 @@
 package wx
 
 import (
-	"bytes"
 	"encoding/json"
-	"fmt"
 	"fans/pkg/logs"
 	"fans/pkg/util"
-	"io/ioutil"
-	"net/http"
+	"fmt"
 	"time"
 )
 
@@ -50,24 +47,12 @@ func sendTemp(openid, fromId, templateId string, data interface{}) error {
 		return logs.SysErr(err)
 	}
 	//发送unified order请求.统一下单接口
-	req, err := http.NewRequest("POST", url, bytes.NewReader(bytesReq))
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
-
-	c := http.Client{}
-	resp, err := c.Do(req)
-	defer resp.Body.Close()
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	body, err := ioutil.ReadAll(resp.Body)
+	body,err:=util.PostCurl(url,bytesReq,util.JSONHeader)
 	if err != nil {
 		return logs.SysErr(err)
 	}
 	resp2 := new(ResSendTemp)
-	err = json.Unmarshal(body, resp)
+	err = json.Unmarshal(body, resp2)
 	if resp2.Errcode != 0 {
 		return logs.SysErr(fmt.Errorf(resp2.Errmsg))
 	}
@@ -84,7 +69,7 @@ func SendDeliverTemp(openid, fromId, paySn, goodsName, addrStr string) error {
 	data := make(map[string]TempContent)
 	data["keyword1"] = TempContent{Value: paySn}
 	data["keyword2"] = TempContent{Value: goodsName}
-	data["keyword3"] = TempContent{Value: util.FormatToStamp(time.Now().Unix()+2*60*60, util.YMD_HIS)}
+	data["keyword3"] = TempContent{Value: util.FormatByStamp(time.Now().Unix()+2*60*60, util.YMD_HIS)}
 	data["keyword4"] = TempContent{Value: addrStr}
 	return sendTemp(openid, fromId, "3BINmC9N0X06lIn3oBbQacqeEMBaF7ZF_rfTXwpEZCk", data)
 }

@@ -1,19 +1,16 @@
 package wx
 
 import (
-	"fmt"
 	"crypto/md5"
-	"strings"
 	"encoding/hex"
-	"sort"
-	"time"
 	"encoding/xml"
-	"net/http"
-	"io/ioutil"
-	"bytes"
-	"fans/pkg/util"
 	"fans/pkg/logs"
+	"fans/pkg/util"
+	"fmt"
+	"sort"
 	"strconv"
+	"strings"
+	"time"
 )
 
 const SUCCESS = "SUCCESS"
@@ -113,20 +110,7 @@ func unifiedOrder(openId, appid, tradeType string, orderGoods *WxOrderGoods) (*R
 
 	//发送unified order请求.统一下单接口
 	url := "https://api.mch.weixin.qq.com/pay/unifiedorder"
-	req, err := http.NewRequest("POST", url, bytes.NewReader(bytesReq))
-	if err != nil {
-		return nil, logs.SysErr(err)
-	}
-	req.Header.Set("Accept", "application/xml")
-	req.Header.Set("Content-Status", "application/xml;charset=utf-8")
-
-	c := http.Client{}
-	resp, err := c.Do(req)
-	defer resp.Body.Close()
-	if err != nil {
-		return nil, logs.SysErr(err)
-	}
-	body, err := ioutil.ReadAll(resp.Body)
+	body,err:=util.PostCurl(url,bytesReq,util.XMLHeader)
 	if err != nil {
 		return nil, logs.SysErr(err)
 	}
