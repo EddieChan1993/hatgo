@@ -4,7 +4,6 @@
 package util
 
 import (
-	"fans-mid-server/pkg/util"
 	"fans/pkg/logs"
 	"time"
 )
@@ -50,8 +49,8 @@ func NowFormat(timeFormat string) string {
  */
 func ExpireDays(days int64) (time.Duration, error) {
 	torrowStam := time.Now().Unix() + 24*60*60
-	tomD := FormatByStamp(torrowStam, util.YMD)
-	tomS, err := TimeByFormat(tomD, util.YMD)
+	tomD := FormatByStamp(torrowStam, YMD)
+	tomS, err := TimeByFormat(tomD, YMD)
 	if err != nil {
 		return 0, logs.SysErr(err)
 	}
@@ -66,8 +65,8 @@ func ExpireDays(days int64) (time.Duration, error) {
  */
 func ExpireSec(sec int64) (time.Duration, error) {
 	torrowStam := time.Now().Unix() + sec
-	tomD := FormatByStamp(torrowStam, util.YMD_HIS)
-	tomS, err := TimeByFormat(tomD, util.YMD_HIS)
+	tomD := FormatByStamp(torrowStam, YMD_HIS)
+	tomS, err := TimeByFormat(tomD, YMD_HIS)
 	if err != nil {
 		return 0, logs.SysErr(err)
 	}
