@@ -4,7 +4,7 @@
 package util
 
 import (
-	"fans/pkg/logs"
+	"hatgo/pkg/logs"
 	"time"
 )
 
