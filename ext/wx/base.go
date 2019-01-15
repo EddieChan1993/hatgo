@@ -2,9 +2,12 @@ package wx
 
 import (
 	"encoding/json"
+	"fans/pkg/e"
 	"fans/pkg/logs"
 	"fans/pkg/util"
 	"fmt"
+	"github.com/go-redis/redis"
+	"hatgo/pkg/link"
 )
 
 //获取openid
@@ -46,6 +49,24 @@ func authOpenid(code, appid string) (string, error) {
 
 //获取access_token
 func AccessToken() (string, error) {
+	v, err := link.Rd.Get(e.AK).Result()
+	if err == redis.Nil {
+		ak, err := getAk()
+		if err != nil {
+			return "", logs.SysErr(err)
+		}
+		err = link.Rd.Set(e.AK, ak, e.AkExprie).Err()
+		if err != nil {
+			return "", logs.SysErr(err)
+		}
+		return ak, nil
+	} else if err != nil {
+		return "", logs.SysErr(err)
+	}
+	return v, nil
+}
+
+func getAk() (string, error) {
 	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
 	body, err := util.GetCurl(url)
 	respM := new(ResAccessToken)
