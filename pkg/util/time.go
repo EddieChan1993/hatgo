@@ -41,35 +41,3 @@ func NowFormat(timeFormat string) string {
 	stamp := time.Now().Unix()
 	return FormatByStamp(stamp, timeFormat)
 }
-
-/**
-	获取当天到添加时间的timeDuration区间时间类型
-	days 加上多少天时间
-	返回
- */
-func ExpireDays(days int64) (time.Duration, error) {
-	torrowStam := time.Now().Unix() + 24*60*60
-	tomD := FormatByStamp(torrowStam, YMD)
-	tomS, err := TimeByFormat(tomD, YMD)
-	if err != nil {
-		return 0, logs.SysErr(err)
-	}
-	subD := tomS.Sub(time.Now())
-	return subD, nil
-}
-
-/**
-	获取当天到添加时间的timeDuration区间时间类型
-	days 加上多少天时间
-	返回
- */
-func ExpireSec(sec int64) (time.Duration, error) {
-	torrowStam := time.Now().Unix() + sec
-	tomD := FormatByStamp(torrowStam, YMD_HIS)
-	tomS, err := TimeByFormat(tomD, YMD_HIS)
-	if err != nil {
-		return 0, logs.SysErr(err)
-	}
-	subD := tomS.Sub(time.Now())
-	return subD, nil
-}
