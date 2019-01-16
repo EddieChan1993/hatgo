@@ -50,7 +50,7 @@ func init() {
 	ret = new(storage.PutRet)
 	putExtra = new(storage.PutExtra)
 }
-
+//官方token有效期为1小时
 func token() (string, error) {
 	putPolicy = &storage.PutPolicy{
 		Scope: bucket,
