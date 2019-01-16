@@ -1,39 +1,38 @@
 package ext
 
 import (
-	"fans/pkg/link"
-	"github.com/qiniu/api.v7/storage"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"fmt"
-	"context"
 	"bytes"
+	"context"
+	"fmt"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
+	"hatgo/pkg/link"
+	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
 	"io/ioutil"
 	"mime/multipart"
 	"net/url"
-	"time"
 	"path/filepath"
-	"hatgo/pkg/logs"
+	"time"
 )
 
 const (
 	host       = "http://p2otxz81j.bkt.clouddn.com"
 	hostBase   = "http://fans.dcwen.top"
-	accessKey  = "YwBMfAjdDqGQMDfWrwWgQrkHoESDD8h_sfQ4oJT7esdG"
-	secretKey  = "b-laMNJSLbOyGj-W7343werqfyFOGWEtvinfnaeOLZtAs2-"
+	accessKey  = "YwBMfAjdDqGQMWrwWgQrkHoES8h_sfQ4oJT7esdG"
+	secretKey  = "b-laMNJSLbOyGj-W7qfyFOGWEtvinnaeOLZtAs2-"
 	bucket     = "fans"
-	folder     = "test"
 	isUseHttps = false
 	zoneKey    = "huaNan"
 )
-
+const tokenExpire = time.Hour //1个小时token
+const maxSize = 1 << 20 * 10  //最大10M
 var (
 	cfg       *storage.Config
 	putPolicy *storage.PutPolicy
 	putExtra  *storage.PutExtra
 	mac       *qbox.Mac
 	ret       *storage.PutRet
-	upToken   string
 	zone      = map[string]*storage.Zone{
 		"huaDong": &storage.ZoneHuadong,
 		"huaBei":  &storage.ZoneHuabei,
@@ -43,11 +42,6 @@ var (
 )
 
 func init() {
-	putPolicy = &storage.PutPolicy{
-		Scope: bucket,
-	}
-	mac = qbox.NewMac(accessKey, secretKey)
-	upToken = putPolicy.UploadToken(mac)
 	cfg = new(storage.Config)
 	cfg.Zone = zone[zoneKey]
 	cfg.UseHTTPS = isUseHttps
@@ -57,10 +51,23 @@ func init() {
 	putExtra = new(storage.PutExtra)
 }
 
+func token() (string, error) {
+	putPolicy = &storage.PutPolicy{
+		Scope: bucket,
+	}
+	mac = qbox.NewMac(accessKey, secretKey)
+	upToken := putPolicy.UploadToken(mac)
+	return upToken, nil
+
+}
+
 //数据流上传
 func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err error) {
 	f, err := file.Open()
 	defer f.Close()
+	if file.Size > maxSize {
+		return "", logs.SysErr(fmt.Errorf("上传的文件太大了，客官"))
+	}
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
@@ -68,9 +75,15 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
+	upToken, err := token()
+	if err != nil {
+		return "", logs.SysErr(err)
+	}
 	//存储后的新地址
-	key := fmt.Sprintf("%s/%s/%v%s", folder, pathName, time.Now().UnixNano(), filepath.Ext(file.Filename))
+	ext := filepath.Ext(file.Filename) //图片格式
+	key := fmt.Sprintf("%s/%s/%v%s", link.DbName, pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
 	formUploader := storage.NewFormUploader(cfg)
+
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
 	if err != nil {
 		return "", logs.SysErr(err)
@@ -88,6 +101,10 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 func QiniuByteUpload(body []byte, pathName string) (path string, err error) {
 	ext := ".png" //图片格式
 	key := fmt.Sprintf("%s/%s/%v%s", link.DbName, pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
+	upToken, err := token()
+	if err != nil {
+		return "", logs.SysErr(err)
+	}
 	formUploader := storage.NewFormUploader(cfg)
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(body), int64(len(body)), putExtra)
 	if err != nil {
