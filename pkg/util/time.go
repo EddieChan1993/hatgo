@@ -42,15 +42,35 @@ func NowFormat(timeFormat string) string {
 	return FormatByStamp(stamp, timeFormat)
 }
 
-
-//缓存到今晚
+//当前时间到未来指定天数晚上的时间间隔
 func ExpireDayNight(days int64) (time.Duration, error) {
-	torrowStam := time.Now().Unix() + 24*60*60
+	torrowStam := time.Now().Unix() + int64(time.Hour.Seconds()*24)*days
 	tomD := FormatByStamp(torrowStam, YMD)
 	tomS, err := TimeByFormat(tomD, YMD)
 	if err != nil {
 		return 0, logs.SysErr(err)
 	}
 	subD := tomS.Sub(time.Now())
+	return subD, nil
+}
+
+/**
+	指定时间戳到未来指定天数晚上的时间间隔
+	stamp 时间戳
+	days 未来多少天
+ */
+func StampToDays(stamp int64, days int64) (time.Duration, error) {
+	Stam := stamp + int64(time.Hour.Seconds()*24)*days
+	tomD := FormatByStamp(Stam, YMD)
+	tomS, err := TimeByFormat(tomD, YMD)
+	if err != nil {
+		return 0, logs.SysErr(err)
+	}
+	nowD2 := FormatByStamp(stamp, YMD_HIS)
+	nowS2, err := TimeByFormat(nowD2, YMD_HIS)
+	if err != nil {
+		return 0, logs.SysErr(err)
+	}
+	subD := tomS.Sub(nowS2)
 	return subD, nil
 }
