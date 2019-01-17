@@ -41,3 +41,16 @@ func NowFormat(timeFormat string) string {
 	stamp := time.Now().Unix()
 	return FormatByStamp(stamp, timeFormat)
 }
+
+
+//缓存到今晚
+func ExpireDayNight(days int64) (time.Duration, error) {
+	torrowStam := time.Now().Unix() + 24*60*60
+	tomD := FormatByStamp(torrowStam, YMD)
+	tomS, err := TimeByFormat(tomD, YMD)
+	if err != nil {
+		return 0, logs.SysErr(err)
+	}
+	subD := tomS.Sub(time.Now())
+	return subD, nil
+}
