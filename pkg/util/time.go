@@ -42,6 +42,17 @@ func NowFormat(timeFormat string) string {
 	return FormatByStamp(stamp, timeFormat)
 }
 
+//今晚的时间戳
+func DayNightStamp(nowStamp int64) (int64, error) {
+	tomorrow := nowStamp + int64(time.Hour.Seconds()*24)
+	tomorrowDate := FormatByStamp(tomorrow, YMD)
+	dayNightStamp, err := StampByFormat(tomorrowDate, YMD)
+	if err != nil {
+		return 0, logs.SysErr(err)
+	}
+	return dayNightStamp, nil
+}
+
 //当前时间到未来指定天数晚上的时间间隔
 func ExpireDayNight(days int64) (time.Duration, error) {
 	torrowStam := time.Now().Unix() + int64(time.Hour.Seconds()*24)*days
@@ -59,7 +70,7 @@ func ExpireDayNight(days int64) (time.Duration, error) {
 	stamp 时间戳
 	days 未来多少天
  */
-func StampToDays(stamp int64, days int64) (time.Duration, error) {
+func ExpireDaysNight(stamp int64, days int64) (time.Duration, error) {
 	Stam := stamp + int64(time.Hour.Seconds()*24)*days
 	tomD := FormatByStamp(Stam, YMD)
 	tomS, err := TimeByFormat(tomD, YMD)
