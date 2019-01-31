@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -17,8 +18,7 @@ func (this XormDate) MarshalJSON() ([]byte, error) {
 
 //是否是sql字段值重复错误
 func IsDuplicateError(err error) bool {
-	bt := []byte(err.Error())
-	if string(bt[:10]) == SqlCodeErr {
+	if strings.Index(err.Error(), SqlCodeErr) != -1 {
 		return true
 	}
 	return false
