@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/storage"
-	"hatgo/pkg/link"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
 	"io/ioutil"
@@ -81,7 +80,7 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 	}
 	//存储后的新地址
 	ext := filepath.Ext(file.Filename) //图片格式
-	key := fmt.Sprintf("%s/%s/%v%s", link.DbName, pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
+	key := fmt.Sprintf("%s/%v%s", pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
 	formUploader := storage.NewFormUploader(cfg)
 
 	err = formUploader.Put(context.Background(), ret, upToken, key, bytes.NewReader(bf), int64(len(bf)), putExtra)
@@ -100,7 +99,7 @@ func QiniuUpload(file *multipart.FileHeader, pathName string) (path string, err 
 //字节数组的上传
 func QiniuByteUpload(body []byte, pathName string) (path string, err error) {
 	ext := ".png" //图片格式
-	key := fmt.Sprintf("%s/%s/%v%s", link.DbName, pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
+	key := fmt.Sprintf("%s/%v%s", pathName, util.Md5(fmt.Sprintf("%d", time.Now().UnixNano())), ext)
 	upToken, err := token()
 	if err != nil {
 		return "", logs.SysErr(err)
