@@ -3,6 +3,3 @@
 nohup.out
 /runtime
 main
-/vendor/*
-!/vendor/golang.org/
-!/vendor/vendor.json

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"hatgo/app/router"
-	"hatgo/pkg/s"
 	"hatgo/pkg/link"
 	"hatgo/pkg/logs"
+	"hatgo/pkg/s"
 	"log"
 	"syscall"
 	"testing"
@@ -16,7 +16,7 @@ const keyVer = "[version]"
 
 var _version_ = "none setting"
 
-func testEndLess(T *testing.T) {
+func TestEndLess(T *testing.T) {
 	defer func() {
 		link.Db.Close()
 		link.Rd.Close()

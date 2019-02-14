@@ -20,7 +20,19 @@ require (
 	github.com/qiniu/api.v7 v0.0.0-20180813085939-10e8409dc200
 	github.com/qiniu/x v0.0.0-20150721034113-f512abcf45ab
 	github.com/ugorji/go v0.0.0-20180628102755-7d51bbe6161d
+	golang.org/x/net v0.0.0
+	golang.org/x/sync v0.0.0
+	golang.org/x/sys v0.0.0
+	golang.org/x/text v0.0.0
 	gopkg.in/go-playground/validator.v8 v8.18.2
 	gopkg.in/yaml.v2 v2.2.1
 	qiniupkg.com/x v0.0.0-20150721034113-f512abcf45ab
 )
+
+replace golang.org/x/net v0.0.0 => github.com/golang/net v0.0.0-20190213061140-3a22650c66bd
+
+replace golang.org/x/text v0.0.0 => github.com/golang/text v0.3.0
+
+replace golang.org/x/sys v0.0.0 => github.com/golang/sys v0.0.0-20190213121743-983097b1a8a3
+
+replace golang.org/x/sync v0.0.0 => github.com/golang/sync v0.0.0-20181221193216-37e7f081c4d4

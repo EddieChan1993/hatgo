@@ -2,8 +2,8 @@ package util
 
 import (
 	"bytes"
-	"fans/pkg/logs"
 	"fmt"
+	"hatgo/pkg/logs"
 	"io/ioutil"
 	"net/http"
 )
