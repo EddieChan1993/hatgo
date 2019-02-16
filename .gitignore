@@ -3,6 +3,5 @@
 nohup.out
 /runtime
 main
-/vendor/*
-!/vendor/golang.org/
-!/vendor/vendor.json
+go.mod
+go.sum
