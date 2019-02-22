@@ -15,6 +15,9 @@ const (
 
 func GetCurl(url string) ([]byte, error) {
 	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
 	c := http.Client{}
 	resp, err := c.Do(req)
 	defer resp.Body.Close()
@@ -33,7 +36,9 @@ func GetCurl(url string) ([]byte, error) {
  */
 func PostCurl(url string, params []byte, header string) ([]byte, error) {
 	req, err := http.NewRequest("POST", url, bytes.NewReader(params))
-
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
 	if header == JSONHeader || header == "" {
 		req.Header.Set("Content-Type", "application/json;charset=UTF-8")
 	} else if header == XMLHeader {
