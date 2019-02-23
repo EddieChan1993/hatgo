@@ -16,7 +16,7 @@ const (
 func GetCurl(url string) ([]byte, error) {
 	defer func() {
 		if er := recover(); er != nil {
-			logs.SysErr(fmt.Errorf("%b", er))
+			logs.SysErr(fmt.Errorf("%v", er))
 		}
 	}()
 	req, err := http.NewRequest("GET", url, nil)
@@ -42,7 +42,7 @@ func GetCurl(url string) ([]byte, error) {
 func PostCurl(url string, params []byte, header string) ([]byte, error) {
 	defer func() {
 		if er := recover(); er != nil {
-			logs.SysErr(fmt.Errorf("%b", er))
+			logs.SysErr(fmt.Errorf("%v", er))
 		}
 	}()
 	req, err := http.NewRequest("POST", url, bytes.NewReader(params))
