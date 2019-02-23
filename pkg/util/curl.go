@@ -2,8 +2,8 @@ package util
 
 import (
 	"bytes"
-	"hatgo/pkg/logs"
 	"fmt"
+	"hatgo/pkg/logs"
 	"io/ioutil"
 	"net/http"
 )
@@ -14,6 +14,11 @@ const (
 )
 
 func GetCurl(url string) ([]byte, error) {
+	defer func() {
+		if er := recover(); er != nil {
+			logs.SysErr(fmt.Errorf("%b", er))
+		}
+	}()
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, logs.SysErr(err)
@@ -35,6 +40,11 @@ func GetCurl(url string) ([]byte, error) {
 	header 默认JSON请求
  */
 func PostCurl(url string, params []byte, header string) ([]byte, error) {
+	defer func() {
+		if er := recover(); er != nil {
+			logs.SysErr(fmt.Errorf("%b", er))
+		}
+	}()
 	req, err := http.NewRequest("POST", url, bytes.NewReader(params))
 	if err != nil {
 		return nil, logs.SysErr(err)
