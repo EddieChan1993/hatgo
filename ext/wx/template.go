@@ -2,8 +2,8 @@ package wx
 
 import (
 	"encoding/json"
-	"fans/pkg/logs"
-	"fans/pkg/util"
+	"hatgo/pkg/logs"
+	"hatgo/pkg/util"
 	"fmt"
 	"time"
 )

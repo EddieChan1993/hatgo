@@ -2,12 +2,13 @@ package wx
 
 import (
 	"encoding/json"
-	"fans/pkg/e"
-	"fans/pkg/logs"
-	"fans/pkg/util"
 	"fmt"
 	"github.com/go-redis/redis"
+	"hatgo/pkg/e"
 	"hatgo/pkg/link"
+	"hatgo/pkg/logs"
+	"hatgo/pkg/util"
+	"time"
 )
 
 //获取openid
@@ -55,7 +56,7 @@ func AccessToken() (string, error) {
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
-		err = link.Rd.Set(e.AK, ak, e.AkExprie).Err()
+		err = link.Rd.Set(e.AK, ak, 4500*time.Second).Err()
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
