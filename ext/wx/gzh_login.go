@@ -26,7 +26,7 @@ type RespATByFlag struct {
 	AccessToken string `json:"access_token"`
 	ExpiresIn   int    `json:"expires_in"`
 	Openid      string `json:"openid"`
-	Errcode     int    `json:"errocode"`
+	Errcode     int    `json:"errcode"`
 	Errmsg      string `json:"errmsg"`
 }
 
@@ -34,28 +34,28 @@ type RespATByFlag struct {
 type RespUinfoByFlag struct {
 	Openid     string `json:"openid"`
 	Nickname   string `json:"nickname"`
-	Sex        string `json:"sex"` //0-未知 1-男 2-女
+	Sex        int    `json:"sex"` //0-未知 1-男 2-女
 	Province   string `json:"province"`
 	Headimgurl string `json:"headimgurl"`
-	Errcode    int    `json:"errocode"`
+	Errcode    int    `json:"errcode"`
 	Errmsg     string `json:"errmsg"`
 	Unionid    string `json:"unionid"`
 }
 
 //获取code
-func GetCode(redirectUrl string) string {
+func GetCode(redirectUrl, state string) string {
 	api := "https://open.weixin.qq.com/connect/oauth2/authorize"
 	params := url2.Values{}
 	params.Add("redirect_uri", redirectUrl)
 	p := params.Encode()
-	url := fmt.Sprintf("%s?appid=%s&%s&response_type=code&scope=SCOPE&state=STATE#wechat_redirect", api, wx.AppidFlag, p)
+	url := fmt.Sprintf("%s?appid=%s&%s&response_type=code&scope=snsapi_userinfo&state=%s#wechat_redirect", api, AppidFlag, p, state)
 	return url
 }
 
 //获取accessToken
 func GetAccessToken(code string) (*RespATByFlag, error) {
 	api := "https://api.weixin.qq.com/sns/oauth2/access_token"
-	url := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=authorization_code", api, wx.AppidFlag, wx.AppSecretFlag, code)
+	url := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=authorization_code", api, AppidFlag, AppSecretFlag, code)
 	body, err := util.GetCurl(url)
 	if err != nil {
 		return nil, logs.SysErr(err)
