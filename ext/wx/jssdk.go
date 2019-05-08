@@ -27,14 +27,15 @@ type ResTicket struct {
 }
 
 //获取签名和ticket
-type ResTicketAndSign struct {
+type ResJSSDK struct {
 	Signature string `json:"signature"`
-	Ticket    string `json:"ticket"`
+	Timestamp int    `json:"timestamp"`
+	Noncestr  string `json:"noncestr"`
 }
 
-//获取签名和ticket
+//通过config接口注入权限验证配置
 //urlForWeb（当前网页的URL，不包含#及其后面部分）
-func GetTicketAndSign(urlForWeb string) (*ResTicketAndSign, error) {
+func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	ticket, err := getTicketForRedis()
 	if err != nil {
 		return nil, logs.SysErr(err)
@@ -46,12 +47,12 @@ func GetTicketAndSign(urlForWeb string) (*ResTicketAndSign, error) {
 	resMap["timeStamp"] = strconv.FormatInt(time.Now().Unix(), 10)
 	resMap["url"] = urlForWeb
 
-	res := new(ResTicketAndSign)
+	res := new(ResJSSDK)
 	res.Signature = wxCalcSign(resMap) //签名
-	res.Ticket = ticket
+	res.Noncestr = nonceStr()
+	res.Timestamp = resMap["timeStamp"].(int)
 	return res, nil
 }
-
 //wxpay计算签名的函数
 func wxCalcSign(mReq map[string]interface{}) (sign string) {
 	//STEP 1, 对key进行升序排序.
