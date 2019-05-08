@@ -52,7 +52,7 @@ func authOpenid(code, appid string) (string, error) {
 func AccessToken() (string, error) {
 	v, err := link.Rd.Get(e.AK).Result()
 	if err == redis.Nil {
-		ak, err := getAk()
+		ak, err := getAk(appidXCX, appSecretXCX)
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
@@ -67,8 +67,27 @@ func AccessToken() (string, error) {
 	return v, nil
 }
 
-func getAk() (string, error) {
-	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appidXCX, appSecretXCX)
+//获取access_token，公众号
+func AccessTokenForComFlag() (string, error) {
+	v, err := link.Rd.Get(e.AKFlag).Result()
+	if err == redis.Nil {
+		ak, err := getAk(AppidFlag, AppSecretFlag)
+		if err != nil {
+			return "", logs.SysErr(err)
+		}
+		err = link.Rd.Set(e.AKFlag, ak, 4500*time.Second).Err()
+		if err != nil {
+			return "", logs.SysErr(err)
+		}
+		return ak, nil
+	} else if err != nil {
+		return "", logs.SysErr(err)
+	}
+	return v, nil
+}
+
+func getAk(appid, appsecret string) (string, error) {
+	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appid, appsecret)
 	body, err := util.GetCurl(url)
 	respM := new(ResAccessToken)
 	err = json.Unmarshal(body, respM)

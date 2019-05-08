@@ -4,7 +4,9 @@ import "fmt"
 
 const (
 	AK     = "accessToken"
-	QRCode = "qrcode" //二维码
+	AKFlag = "accessTokenFlag" //公众号accessToken
+	Ticket = "ticket"          //ticket用于公众号jssdk
+	QRCode = "qrcode"          //二维码
 )
 const (
 	HomeDataKey = "homeData" //首页数据
