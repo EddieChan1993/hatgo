@@ -1,22 +1,24 @@
-package wx
+package comflag
 
 import (
 	"crypto/sha1"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
+	"hatgo/ext/wx"
 	"hatgo/pkg/e"
 	"hatgo/pkg/link"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
-	"sort"
+	"math/rand"
 	"strconv"
-	"strings"
 	"time"
 )
 
 //jssdk相关的准备工作
+var (
+	chars = []byte("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+)
 
 //https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
 type ResTicket struct {
@@ -27,57 +29,50 @@ type ResTicket struct {
 }
 
 //获取签名和ticket
+
 type ResJSSDK struct {
-	Signature string `json:"signature"`
-	Timestamp int    `json:"timestamp"`
+	Appid     string `json:"appid"`
 	Noncestr  string `json:"noncestr"`
+	Timestamp int64  `json:"timestamp"`
+	Url       string `json:"url"`
+	Signature string `json:"signature"`
 }
 
 //通过config接口注入权限验证配置
-//urlForWeb（当前网页的URL，不包含#及其后面部分）
+//urlForWeb（当前网页的URL，不包含#及其后面部分）注意地址后面的/一定要带上
 func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	ticket, err := getTicketForRedis()
 	if err != nil {
 		return nil, logs.SysErr(err)
 	}
 	//签名算法
-	resMap := make(map[string]interface{}, 0)
-	resMap["jsapi_ticket"] = ticket
-	resMap["nonceStr"] = nonceStr()
-	resMap["timeStamp"] = strconv.FormatInt(time.Now().Unix(), 10)
-	resMap["url"] = urlForWeb
-
 	res := new(ResJSSDK)
-	res.Signature = wxCalcSign(resMap) //签名
-	res.Noncestr = nonceStr()
-	res.Timestamp = resMap["timeStamp"].(int)
+	timeInt := time.Now().Unix()
+	timeStamp := strconv.FormatInt(timeInt, 10)
+	nonceStr := nonceStr()
+
+	res.Signature = Signature(ticket, nonceStr, timeStamp, urlForWeb) //签名
+	res.Noncestr = nonceStr
+	res.Timestamp = timeInt
+	res.Url = urlForWeb
+	res.Appid = wx.AppidFlag
+	fmt.Println(res)
 	return res, nil
 }
+
+//随机字符串
+func nonceStr() string {
+	return RandString(16)
+}
+
 //wxpay计算签名的函数
-func wxCalcSign(mReq map[string]interface{}) (sign string) {
-	//STEP 1, 对key进行升序排序.
-	sortedKeys := make([]string, 0)
-	for k := range mReq {
-		sortedKeys = append(sortedKeys, k)
-	}
-
-	sort.Strings(sortedKeys)
-
-	//STEP2, 对key=value的键值对用&连接起来，略过空值
-	var signStrings string
-	for _, k := range sortedKeys {
-		value := fmt.Sprintf("%v", mReq[k])
-		if value != "" {
-			signStrings = signStrings + k + "=" + value + "&"
-		}
-	}
-
-	//STEP4, 进行sha1签名并且将所有字符转为大写.
-	md5Ctx := sha1.New()
-	md5Ctx.Write([]byte(signStrings))
-	cipherStr := md5Ctx.Sum(nil)
-	upperSign := strings.ToUpper(hex.EncodeToString(cipherStr))
-	return upperSign
+// Signature
+func Signature(jsTicket, noncestr, timestamp, url string) string {
+	h := sha1.New()
+	str := []byte(fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", jsTicket, noncestr, timestamp, url))
+	h.Write(str)
+	fmt.Println(string(str))
+	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
 //读取缓存获取ticket
@@ -88,7 +83,7 @@ func getTicketForRedis() (string, error) {
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
-		err = link.Rd.Set(e.Ticket, ticket, 4500*time.Second).Err()
+		err = link.Rd.Set(e.Ticket, ticket, time.Second*3000).Err()
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
@@ -101,7 +96,7 @@ func getTicketForRedis() (string, error) {
 
 //获取ticket
 func getTicket() (string, error) {
-	ak, err := AccessTokenForComFlag()
+	ak, err := wx.AccessTokenForComFlag()
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
@@ -121,4 +116,12 @@ func getTicket() (string, error) {
 		return "", logs.SysErr(err)
 	}
 	return resTicket.Ticket, nil
+}
+
+func RandString(l int) string {
+	bs := []byte{}
+	for i := 0; i < l; i++ {
+		bs = append(bs, chars[rand.Intn(len(chars))])
+	}
+	return string(bs)
 }
