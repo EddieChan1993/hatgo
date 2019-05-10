@@ -56,7 +56,6 @@ func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	res.Timestamp = timeInt
 	res.Url = urlForWeb
 	res.Appid = wx.AppidFlag
-	fmt.Println(res)
 	return res, nil
 }
 
@@ -71,7 +70,6 @@ func Signature(jsTicket, noncestr, timestamp, url string) string {
 	h := sha1.New()
 	str := []byte(fmt.Sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", jsTicket, noncestr, timestamp, url))
 	h.Write(str)
-	fmt.Println(string(str))
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
