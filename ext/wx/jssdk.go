@@ -39,7 +39,7 @@ type ResJSSDK struct {
 }
 
 //通过config接口注入权限验证配置
-//urlForWeb（当前网页的URL，不包含#及其后面部分）注意地址后面的/一定要带上
+//urlForWeb（当前网页的URL，不包含#及其后面部分）注意地址后面的/，确保js获取的是当前调用的完整地址
 func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	ticket, err := getTicketForRedis()
 	if err != nil {
