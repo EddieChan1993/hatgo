@@ -2,9 +2,9 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"hatgo/pkg/s"
-	"hatgo/app/router/api/v1"
 	"hatgo/app/middle"
+	"hatgo/app/router/test"
+	"hatgo/pkg/s"
 )
 
 func InitRouter() *gin.Engine {
@@ -16,14 +16,14 @@ func InitRouter() *gin.Engine {
 	}
 	r.Use(middle.Core, middle.TouchBody)
 
-	r.POST("/login", v1.RLogin)
+	r.POST("/login", test.RLogin)
 
 	api := r.Group("/")
 	{
-		api.POST("get-test", v1.RGetTest)
-		api.POST("add-test", v1.RAddTest)
-		api.POST("upload", v1.RUpload)
-		api.POST("get-xml", v1.GetXml)
+		api.POST("get-test", test.RGetTest)
+		api.POST("add-test", test.RAddTest)
+		//api.POST("upload", api.RUpload)
+		api.POST("get-xml", test.GetXml)
 	}
 	return r
 }

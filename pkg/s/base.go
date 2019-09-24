@@ -1,6 +1,7 @@
 package s
 
 import (
+	"hatgo/pkg/plugin"
 	"time"
 	"github.com/go-ini/ini"
 	"fmt"
@@ -25,5 +26,5 @@ var (
 func init() {
 	fmt.Println("--------------------------------------------------------------")
 	load()
-	validate()
+	s.Validate()
 }

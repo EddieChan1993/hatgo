@@ -22,9 +22,9 @@ func main() {
 		logs.LogsSql.Close()
 	}()
 
-	router := router.InitRouter()
+	r := router.InitRouter()
 	log.Printf("%s %s", keyVer, _version_)
-	err := router.Run(fmt.Sprintf("%s:%s", s.Serverer.HTTPAdd, s.Serverer.HTTPPort))
+	err := r.Run(fmt.Sprintf("%s:%s", s.Serverer.HTTPAdd, s.Serverer.HTTPPort))
 	if err != nil {
 		log.Fatalf("[server stop]%v", err)
 	}

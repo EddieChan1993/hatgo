@@ -4,6 +4,7 @@
 
 # 安装
 go mod init hatgo
+
 go build 拉取依赖包
 
 ### 通过辅助工具hat部署

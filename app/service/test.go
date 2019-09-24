@@ -5,7 +5,6 @@ import (
 	"hatgo/pkg/logs"
 	"fmt"
 	"github.com/astaxie/beego/validation"
-	"hatgo/ext"
 )
 
 type ReqTest struct {
@@ -55,19 +54,19 @@ func SAddTest(c *gin.Context) error {
 	return nil
 }
 
-//表单提交
-func SUpload(c *gin.Context) (path string, err error) {
-	file, err := c.FormFile("file")
-	if err != nil {
-		return "", logs.SysErr(err)
-	}
-	pathName := "avatar"
-	path, err = ext.QiniuUpload(file, pathName)
-	if err != nil {
-		return "", err
-	}
-	return path, nil
-}
+////表单提交
+//func SUpload(c *gin.Context) (path string, err error) {
+//	file, err := c.FormFile("file")
+//	if err != nil {
+//		return "", logs.SysErr(err)
+//	}
+//	pathName := "avatar"
+//	path, err = ext.QiniuUpload(file, pathName)
+//	if err != nil {
+//		return "", err
+//	}
+//	return path, nil
+//}
 
 func GetXml(c *gin.Context)  {
 	req:=new(XmlData)

@@ -29,6 +29,6 @@ var messageTmpls = map[string]string{
 }
 
 //验证提示语重载
-func validate() {
+func Validate() {
 	validation.SetDefaultMessage(messageTmpls)
 }

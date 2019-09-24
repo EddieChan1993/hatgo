@@ -1,4 +1,4 @@
-package v1
+package test
 
 import (
 	"github.com/gin-gonic/gin"
@@ -20,14 +20,14 @@ func RAddTest(c *gin.Context) {
 	}
 }
 
-func RUpload(c *gin.Context) {
-	path, err := service.SUpload(c)
-	if err != nil {
-		e.Warning(c, err)
-	} else {
-		e.Success(c, path)
-	}
-}
+//func RUpload(c *gin.Context) {
+//	path, err := service.SUpload(c)
+//	if err != nil {
+//		e.Warning(c, err)
+//	} else {
+//		e.Success(c, path)
+//	}
+//}
 
 func GetXml(c *gin.Context) {
 	service.GetXml(c)
