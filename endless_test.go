@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"hatgo/app/router"
+	"hatgo/pkg/plugin"
 	"hatgo/pkg/s"
-	"hatgo/pkg/link"
 	"hatgo/pkg/logs"
 	"log"
 	"syscall"
@@ -18,8 +18,8 @@ var _version_ = "none setting"
 
 func testEndLess(T *testing.T) {
 	defer func() {
-		link.Db.Close()
-		link.Rd.Close()
+		plugin.Db.Close()
+		plugin.Rd.Close()
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
 	}()
@@ -44,8 +44,8 @@ func testEndLess(T *testing.T) {
 
 func testNoEndless(T testing.T) {
 	defer func() {
-		link.Db.Close()
-		link.Rd.Close()
+		plugin.Db.Close()
+		plugin.Rd.Close()
 		logs.LogsReq.Close()
 		logs.LogsSql.Close()
 	}()
