@@ -5,6 +5,7 @@ import (
 	"hatgo/pkg/logs"
 	"fmt"
 	"github.com/astaxie/beego/validation"
+	"hatgo/pkg/plugin"
 )
 
 type ReqTest struct {
@@ -25,6 +26,9 @@ type XmlData struct {
 
 func SGetTestT(c *gin.Context) error {
 	if 1 == 1 {
+		sql:= "select * from army"
+		res,_:=plugin.Db.QueryString(sql)
+		fmt.Println(res)
 		c.Get("uid")
 		selfLog := logs.NewSelfLog("test", "cf")
 		defer func() {
@@ -49,7 +53,7 @@ func SAddTest(c *gin.Context) error {
 	v.Mobile(req.Mobile, "")
 	v.IP(req.IP, "")
 	if v.HasErrors() {
-		return logs.ValidErr(v.Errors)
+		return plugin.ValidErr(v.Errors)
 	}
 	return nil
 }

@@ -1,6 +1,7 @@
-package s
+package plugin
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/validation"
 )
 
@@ -28,7 +29,19 @@ var messageTmpls = map[string]string{
 	"ZipCode":      "Must be valid zipcode",
 }
 
+func init() {
+	validate()
+}
 //验证提示语重载
-func Validate() {
+func validate() {
 	validation.SetDefaultMessage(messageTmpls)
+}
+
+
+//请求验证异常抛出
+func ValidErr(errs []*validation.Error) error {
+	for _, err := range errs {
+		return fmt.Errorf("%s%s", err.Key, err.Message)
+	}
+	return nil
 }

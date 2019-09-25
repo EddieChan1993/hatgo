@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"hatgo/pkg/s"
 	"os"
@@ -134,12 +133,4 @@ func SysErr(err error) error {
 	fileLine := fmt.Sprintf("%s:%d", file, line)
 	logsErr.Error("%v\n%s", err, fileLine)
 	return err
-}
-
-//请求验证异常抛出
-func ValidErr(errs []*validation.Error) error {
-	for _, err := range errs {
-		return fmt.Errorf("%s%s", err.Key, err.Message)
-	}
-	return nil
 }

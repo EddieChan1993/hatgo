@@ -2,21 +2,21 @@ package test
 
 import (
 	"github.com/gin-gonic/gin"
-	"hatgo/pkg/e"
 	"hatgo/app/service"
+	"hatgo/pkg/util"
 )
 
 func RGetTest(c *gin.Context) {
 	err := service.SGetTestT(c)
-	e.Warning(c, err)
+	util.Warning(c, err)
 }
 
 func RAddTest(c *gin.Context) {
 	err := service.SAddTest(c)
 	if err != nil {
-		e.Warning(c, err)
+		util.Warning(c, err)
 	} else {
-		e.Success(c, "ok")
+		util.Success(c, "ok")
 	}
 }
 

@@ -1,10 +1,9 @@
 package s
 
 import (
-	"hatgo/pkg/plugin"
-	"time"
-	"github.com/go-ini/ini"
 	"fmt"
+	"github.com/go-ini/ini"
+	"time"
 )
 
 var (
@@ -20,11 +19,11 @@ type Server struct {
 }
 
 var (
-	Serverer *Server
+	Service *Server
 )
 
 func init() {
 	fmt.Println("--------------------------------------------------------------")
 	load()
-	s.Validate()
+	//plugin.Validate()
 }

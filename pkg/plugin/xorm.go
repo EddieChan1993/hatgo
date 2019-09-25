@@ -1,13 +1,13 @@
 package plugin
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"log"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
-	"xorm.io/core"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/s"
+	"log"
+	"xorm.io/core"
 )
 
 const mysqlLogIH = "[xorm] [info]"
@@ -55,7 +55,7 @@ func db() {
 	//设置表前缀
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, tablePrefix)
 	Db.SetTableMapper(tbMapper)
-	logger := xorm.NewSimpleLogger(logs.LogsSql)
+	//日志记录到对应文档
+	Db.SetLogger(xorm.NewSimpleLogger(logs.LogsSql))
 	Db.ShowSQL(true)
-	Db.SetLogger(logger)
 }
