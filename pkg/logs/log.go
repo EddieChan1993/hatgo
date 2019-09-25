@@ -39,7 +39,7 @@ func init() {
 //请求日志
 func reqLog() {
 	LogsReq = logs.NewLogger()
-	filePath, _ = getLogFilePullPath("req", "main")
+	filePath, _ = getLogFilePullPath("http", "http")
 
 	logConf := LogConfT{
 		Filename: filePath,
