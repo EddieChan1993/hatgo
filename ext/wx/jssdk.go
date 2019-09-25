@@ -1,23 +1,17 @@
-package comflag
+package wx
 
 import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
-	"hatgo/ext/wx"
 	"hatgo/pkg/e"
-	"hatgo/pkg/link"
+	"hatgo/pkg/plugin"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
 	"math/rand"
 	"strconv"
 	"time"
-)
-
-//jssdk相关的准备工作
-var (
-	chars = []byte("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 )
 
 //https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
@@ -55,14 +49,12 @@ func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	res.Noncestr = nonceStr
 	res.Timestamp = timeInt
 	res.Url = urlForWeb
-	res.Appid = wx.AppidFlag
+	res.Appid = AppidFlag
+
 	return res, nil
 }
 
-//随机字符串
-func nonceStr() string {
-	return RandString(16)
-}
+
 
 //wxpay计算签名的函数
 // Signature
@@ -75,13 +67,13 @@ func Signature(jsTicket, noncestr, timestamp, url string) string {
 
 //读取缓存获取ticket
 func getTicketForRedis() (string, error) {
-	v, err := link.Rd.Get(e.Ticket).Result()
+	v, err := plugin.Rd.Get(e.Ticket).Result()
 	if err == redis.Nil {
 		ticket, err := getTicket()
 		if err != nil {
 			return "", logs.SysErr(err)
 		}
-		err = link.Rd.Set(e.Ticket, ticket, time.Second*3000).Err()
+		err = plugin.Rd.Set(e.Ticket, ticket, time.Second*3000).Err()
 		if err != nil {
 			return "", logs.SysErr(err)
 		}

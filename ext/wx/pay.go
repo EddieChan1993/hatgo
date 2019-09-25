@@ -77,7 +77,7 @@ func unifiedOrder(openId, appid, tradeType string, orderGoods *WxOrderGoods) (*R
 	data.Appid = appid
 	data.MchId = mchId
 	data.Openid = openId
-	data.NonceStr = nonceStr()
+	data.NonceStr = util.NonceStr()
 	data.TradeType = tradeType
 	data.Body = orderGoods.Body
 	data.NotifyUrl = orderGoods.NotifyUrl
@@ -171,9 +171,4 @@ func wxPayCalcSign(mReq map[string]interface{}, key string) (sign string) {
 	cipherStr := md5Ctx.Sum(nil)
 	upperSign := strings.ToUpper(hex.EncodeToString(cipherStr))
 	return upperSign
-}
-
-//随机字符串
-func nonceStr() string {
-	return fmt.Sprintf("%s%d", time.Now().Format("20060102150405"), util.RandInt(0000, 9999))
 }

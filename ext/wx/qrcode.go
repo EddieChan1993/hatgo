@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis"
 	"hatgo/ext"
 	"hatgo/pkg/e"
-	"hatgo/pkg/link"
+	"hatgo/pkg/plugin"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
 )
@@ -23,7 +23,7 @@ type ResQrCodeData struct {
 
 //小程序码
 func XCXQRCode() (string, error) {
-	v, err := link.Rd.Get(e.QRCode).Result()
+	v, err := plugin.Rd.Get(e.QRCode).Result()
 	if err == redis.Nil {
 		ak, err := AccessToken()
 		if err != nil {
@@ -47,7 +47,7 @@ func XCXQRCode() (string, error) {
 			if err != nil {
 				return "", logs.SysErr(err)
 			}
-			err = link.Rd.Set(e.QRCode, path, 0).Err()
+			err = plugin.Rd.Set(e.QRCode, path, 0).Err()
 			if err != nil {
 				return "", logs.SysErr(err)
 			}
