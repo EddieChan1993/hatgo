@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
+	"hatgo/pkg/lang"
 	"hatgo/pkg/logs"
 	"fmt"
 	"github.com/astaxie/beego/validation"
@@ -38,7 +39,7 @@ func SGetTestT(c *gin.Context) error {
 		selfLog.BeeLog.Info("what")
 		selfLog.BeeLog.Error("what")
 		selfLog.BeeLog.Warning("what")
-		return fmt.Errorf("what")
+		return fmt.Errorf(lang.VIP_MORE)
 	}
 	return nil
 }
