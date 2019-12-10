@@ -50,7 +50,8 @@ func testNoEndless(T testing.T) {
 		logs.LogsSql.Close()
 	}()
 
-	r := router.InitRouterr()
+
+	r := router.InitRouter()
 	log.Printf("%s %s", keyVer, _version_)
 	err := r.Run(fmt.Sprintf("%s:%s", s.Service.HTTPAdd, s.Service.HTTPPort))
 	if err != nil {
