@@ -52,6 +52,9 @@ func RandInt(start, end int) int {
 	timens := int64(time.Now().Nanosecond())
 	rand.Seed(timens)
 	ca := end - start
+	if ca==0{
+		return start
+	}
 	return start + rand.Intn(ca)
 }
 
