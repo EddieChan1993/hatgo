@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-const HTTP_TOKEN = "auth_token"
+const HTTP_TOKEN = "authToken"//nginx对header头的下划线有过滤配置
 
 func Auth(c *gin.Context) {
 	authCode := http.StatusUnauthorized
