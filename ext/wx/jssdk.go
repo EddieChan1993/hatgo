@@ -6,10 +6,9 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"hatgo/pkg/e"
-	"hatgo/pkg/plugin"
 	"hatgo/pkg/logs"
+	"hatgo/pkg/plugin"
 	"hatgo/pkg/util"
-	"math/rand"
 	"strconv"
 	"time"
 )
@@ -43,7 +42,7 @@ func JSSDKConf(urlForWeb string) (*ResJSSDK, error) {
 	res := new(ResJSSDK)
 	timeInt := time.Now().Unix()
 	timeStamp := strconv.FormatInt(timeInt, 10)
-	nonceStr := nonceStr()
+	nonceStr := util.NonceStr()
 
 	res.Signature = Signature(ticket, nonceStr, timeStamp, urlForWeb) //签名
 	res.Noncestr = nonceStr
@@ -86,7 +85,7 @@ func getTicketForRedis() (string, error) {
 
 //获取ticket
 func getTicket() (string, error) {
-	ak, err := wx.AccessTokenForComFlag()
+	ak, err := AccessTokenForComFlag()
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
@@ -106,12 +105,4 @@ func getTicket() (string, error) {
 		return "", logs.SysErr(err)
 	}
 	return resTicket.Ticket, nil
-}
-
-func RandString(l int) string {
-	bs := []byte{}
-	for i := 0; i < l; i++ {
-		bs = append(bs, chars[rand.Intn(len(chars))])
-	}
-	return string(bs)
 }
