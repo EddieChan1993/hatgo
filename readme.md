@@ -3,9 +3,9 @@
 > **gin**框架构建，linux下采用**endless**实现热更新，mysql数据库操作采用**xorm**
 
 # 安装
-go mod init hatgo
+//go mod init hatgo
 
-go build 拉取依赖包
+go list 拉取依赖包
 
 ### 通过辅助工具hat部署
 [hat工具](https://github.com/EddieChan1993/hat)
