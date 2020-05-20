@@ -3,4 +3,4 @@
 nohup.out
 /runtime
 main
-go.mod
+go.sum
