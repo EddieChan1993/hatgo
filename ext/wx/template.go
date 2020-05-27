@@ -2,9 +2,9 @@ package wx
 
 import (
 	"encoding/json"
+	"fmt"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
-	"fmt"
 	"time"
 )
 
@@ -47,7 +47,16 @@ func sendTemp(openid, fromId, templateId string, data interface{}) error {
 		return logs.SysErr(err)
 	}
 	//发送unified order请求.统一下单接口
-	body,err:=util.PostCurl(url,bytesReq,util.JSONHeader)
+	reqParams := new(util.ReqParams)
+	reqParams.Url = url
+	reqParams.Method = util.POST
+	reqParams.Header = util.JSONHeader
+	reqParams.Params = bytesReq
+	reqObj, err := reqParams.InitRequest()
+	if err != nil {
+		return logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return logs.SysErr(err)
 	}

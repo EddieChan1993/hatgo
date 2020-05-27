@@ -6,8 +6,8 @@ import (
 	"github.com/go-redis/redis"
 	"hatgo/ext"
 	"hatgo/pkg/e"
-	"hatgo/pkg/plugin"
 	"hatgo/pkg/logs"
+	"hatgo/pkg/plugin"
 	"hatgo/pkg/util"
 )
 
@@ -39,7 +39,16 @@ func XCXQRCode() (string, error) {
 			return "", logs.SysErr(err)
 		}
 		url := fmt.Sprintf("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", ak)
-		body, _ := util.PostCurl(url, bt, util.JSONHeader)
+		reqParams := new(util.ReqParams)
+		reqParams.Url = url
+		reqParams.Method = util.POST
+		reqParams.Header = util.JSONHeader
+		reqParams.Params = bt
+		reqObj, err := reqParams.InitRequest()
+		if err != nil {
+			return "", logs.SysErr(err)
+		}
+		body, _ := reqObj.Do()
 		res := new(ResQrCodeData)
 		err = json.Unmarshal(body, res)
 		if err != nil {

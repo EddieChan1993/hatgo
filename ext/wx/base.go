@@ -37,7 +37,15 @@ func authOpenid(code, appid string) (string, error) {
 	formUrl := "%s?appid=%s&secret=%s&js_code=%s&grant_type=uthorization_code"
 	url := fmt.Sprintf(formUrl, host, appid, appSecretXCX, code)
 	resOpenid := new(ResOpenId)
-	body, err := util.GetCurl(url)
+
+	reqParam := new(util.ReqParams)
+	reqParam.Url = url
+	reqParam.Method = util.GET
+	reqObj,err := reqParam.InitRequest()
+	if err != nil {
+		return "", logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	err = json.Unmarshal(body, resOpenid)
 	if err != nil {
 		return "", logs.SysErr(err)
@@ -88,7 +96,14 @@ func AccessTokenForComFlag() (string, error) {
 
 func getAk(appid, appsecret string) (string, error) {
 	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appid, appsecret)
-	body, err := util.GetCurl(url)
+	reqParam := new(util.ReqParams)
+	reqParam.Url = url
+	reqParam.Method = util.GET
+	reqObj,err := reqParam.InitRequest()
+	if err != nil {
+		return "", logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	respM := new(ResAccessToken)
 	err = json.Unmarshal(body, respM)
 	if err != nil {

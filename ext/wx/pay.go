@@ -4,9 +4,9 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/xml"
+	"fmt"
 	"hatgo/pkg/logs"
 	"hatgo/pkg/util"
-	"fmt"
 	"sort"
 	"strconv"
 	"strings"
@@ -110,7 +110,16 @@ func unifiedOrder(openId, appid, tradeType string, orderGoods *WxOrderGoods) (*R
 
 	//发送unified order请求.统一下单接口
 	url := "https://api.mch.weixin.qq.com/pay/unifiedorder"
-	body,err:=util.PostCurl(url,bytesReq,util.XMLHeader)
+	reqParams := new(util.ReqParams)
+	reqParams.Url = url
+	reqParams.Method = util.POST
+	reqParams.Header = util.XMLHeader
+	reqParams.Params = bytesReq
+	reqObj, err := reqParams.InitRequest()
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return nil, logs.SysErr(err)
 	}

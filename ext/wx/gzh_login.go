@@ -56,7 +56,14 @@ func GetCode(redirectUrl, state string) string {
 func GetAccessToken(code string) (*RespATByFlag, error) {
 	api := "https://api.weixin.qq.com/sns/oauth2/access_token"
 	url := fmt.Sprintf("%s?appid=%s&secret=%s&code=%s&grant_type=authorization_code", api, AppidFlag, AppSecretFlag, code)
-	body, err := util.GetCurl(url)
+	reqParam := new(util.ReqParams)
+	reqParam.Method = util.GET
+	reqParam.Url = url
+	reqObj, err := reqParam.InitRequest()
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return nil, logs.SysErr(err)
 	}
@@ -74,7 +81,14 @@ func GetAccessToken(code string) (*RespATByFlag, error) {
 //获取用户基本信息
 func GetUinfoByFlag(ak string) (*RespUinfoByFlag, error) {
 	url := fmt.Sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=OPENID&lang=zh_CN", ak)
-	body, err := util.GetCurl(url)
+	reqParam := new(util.ReqParams)
+	reqParam.Method = util.GET
+	reqParam.Url = url
+	reqObj, err := reqParam.InitRequest()
+	if err != nil {
+		return nil, logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return nil, logs.SysErr(err)
 	}

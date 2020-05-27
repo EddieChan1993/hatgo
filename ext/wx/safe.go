@@ -47,7 +47,16 @@ func MsgCheck(content []byte) error {
 	if err != nil {
 		return logs.SysErr(err)
 	}
-	body, err := util.PostCurl(url, bt, util.JSONHeader)
+	reqParams := new(util.ReqParams)
+	reqParams.Url = url
+	reqParams.Method = util.POST
+	reqParams.Header = util.JSONHeader
+	reqParams.Params = bt
+	reqObj, err := reqParams.InitRequest()
+	if err != nil {
+		return logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return logs.SysErr(err)
 	}
@@ -64,32 +73,3 @@ func MsgCheck(content []byte) error {
 	return nil
 }
 
-//图片检测
-func ImgCheck(media *multipart.FileHeader) error {
-	ak, err := AccessToken()
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	req := new(ReqImgCheck)
-	req.Media = media
-	url := fmt.Sprintf("https://api.weixin.qq.com/wxa/img_sec_check?access_token=%s", ak)
-	bt, err := json.Marshal(req)
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	body, err := util.PostCurl(url, bt, "application/octet-stream")
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	res := new(ResData)
-	err = json.Unmarshal(body, res)
-	if err != nil {
-		return logs.SysErr(err)
-	}
-	if res.Errcode == 87014 {
-		return logs.SysErr(fmt.Errorf(imgWarning))
-	}else if res.Errcode != 0 {
-		return logs.SysErr(fmt.Errorf(res.Errmsg))
-	}
-	return nil
-}

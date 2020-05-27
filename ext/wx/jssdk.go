@@ -91,7 +91,14 @@ func getTicket() (string, error) {
 	}
 
 	url := fmt.Sprintf("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi", ak)
-	body, err := util.GetCurl(url)
+	reqParam := new(util.ReqParams)
+	reqParam.Method = util.GET
+	reqParam.Url = url
+	reqObj, err := reqParam.InitRequest()
+	if err != nil {
+		return "", logs.SysErr(err)
+	}
+	body, err := reqObj.Do()
 	if err != nil {
 		return "", logs.SysErr(err)
 	}
