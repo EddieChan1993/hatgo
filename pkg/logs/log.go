@@ -43,8 +43,8 @@ func reqLog() {
 
 	logConf := LogConfT{
 		Filename: filePath,
-		MaxSize:  5 * mb,
-		Maxdays:  3,
+		MaxSize:  fileSize,
+		Maxdays:  fileDay,
 		Level:    6,
 	}
 	b, _ := json.Marshal(logConf)
@@ -59,8 +59,8 @@ func sqlLog() {
 
 	logConfSql := LogConfT{
 		Filename: filePathSql,
-		MaxSize:  5 * mb,
-		Maxdays:  3,
+		MaxSize:  fileSize,
+		Maxdays:  fileDay,
 		Level:    6,
 	}
 	bSql, _ := json.Marshal(logConfSql)
@@ -74,8 +74,8 @@ func errLog() {
 	filePathErr, _ = getLogFilePullPath("err", "err")
 	logConfErr := LogConfT{
 		Filename: filePathErr,
-		MaxSize:  5 * mb,
-		Maxdays:  3,
+		MaxSize:  fileSize,
+		Maxdays:  fileDay,
 		Level:    6,
 	}
 
@@ -111,8 +111,8 @@ func NewSelfLog(logPathName, logFileName string) *selfLog {
 
 	logConf := LogConfT{
 		Filename: filePathSql,
-		MaxSize:  5*mb,
-		Maxdays:  3,
+		MaxSize:  fileSize,
+		Maxdays:  fileDay,
 		Level:    6,
 	}
 	b, _ := json.Marshal(logConf)
