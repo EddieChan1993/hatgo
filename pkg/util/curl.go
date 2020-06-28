@@ -18,6 +18,11 @@ const (
 	GET  = "GET"
 )
 
+type Curl interface {
+	SetHeader(key, val string)//设置header头
+	Do() ([]byte, error)//执行请求
+}
+
 //请求对象
 type ReqParams struct {
 	Url    string //地址
@@ -31,7 +36,7 @@ type reqObj struct {
 }
 
 //初始请求参数
-func (p *ReqParams) InitRequest() (req *reqObj, err error) {
+func (p *ReqParams) InitRequest() (req Curl, err error) {
 	var reqParams *bytes.Reader
 	if p.Params != nil {
 		reqParams = bytes.NewReader(p.Params)
